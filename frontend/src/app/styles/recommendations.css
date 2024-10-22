@@ -1,0 +1,28 @@
+@media (max-width: 480px) {
+  .recommendations-title {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 991px) {
+  .recommendations {
+    padding: 22px 20px 100px;
+  }
+}
+
+.recommendations {
+  margin-top: 61px;
+  padding: 22px 80px 125px;
+}
+
+.recommendations-title {
+  color: #1c62b5;
+  font: 600 32px Montserrat, sans-serif;
+  text-transform: uppercase;
+}
+.recommendations-subtitle {
+  color: #1c62b5;
+  font: 600 18px Montserrat, sans-serif;
+  text-transform: uppercase;
+  margin-top: 43px;
+}

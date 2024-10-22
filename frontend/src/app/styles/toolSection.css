@@ -1,0 +1,41 @@
+/* Telas pequenas de até 480px (smartphones) */
+@media (max-width: 480px) {
+  .tool-grid {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 768px) {
+  .tool-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 991px) {
+  .tool-grid {
+    justify-content: center;
+  }
+}
+
+.tool-section {
+  margin-top: 55px;
+}
+
+.tool-section-title {
+  color: #1c62b5;
+  font: 600 18px Montserrat, sans-serif;
+  text-transform: uppercase;
+}
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.tool-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 17px;
+}
