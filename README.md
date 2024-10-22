@@ -1,1 +1,1 @@
-# Softare de recomendação
+# Software de recomendação
