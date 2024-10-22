@@ -1,3 +1,158 @@
+@import "./header.css";
+
+/* Responsivo para telas grandes acima de 1200px */
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
+
+  .hero-title {
+    font-size: 48px;
+  }
+}
+
+/* Telas grandes de até 1200px (laptops) */
+@media (max-width: 1200px) {
+  .hero-title {
+    font-size: 40px;
+  }
+
+  .cta-button {
+    font-size: 22px;
+  }
+}
+
+/* Telas médias de até 768px (tablets) */
+@media (max-width: 768px) {
+  .hero {
+    padding: 30px 10px;
+  }
+
+  .hero-title {
+    font-size: 32px;
+  }
+
+  .cta-button {
+    font-size: 20px;
+    padding: 20px;
+  }
+
+  .categories-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+/* Telas pequenas de até 480px (smartphones) */
+@media (max-width: 480px) {
+  .header {
+    padding: 10px 15px;
+  }
+
+  .main-nav {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .hero-title {
+    font-size: 24px;
+  }
+
+  .cta-button {
+    font-size: 18px;
+    padding: 15px;
+  }
+
+  .tool-grid {
+    flex-direction: column;
+  }
+}
+
+.hero-title {
+  font-size: 2.5rem; /* Escala automaticamente conforme o tamanho do texto base */
+}
+
+.cta-button {
+  padding: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.header {
+  padding: 1.5rem;
+}
+
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 1200px) {
+  .hero {
+    padding: 40px 20px;
+  }
+
+  .hero-title {
+    font-size: 36px;
+  }
+
+  .categories-container {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 30px 15px;
+  }
+
+  .hero-title {
+    font-size: 30px;
+  }
+
+  .cta-button {
+    padding: 20px;
+  }
+
+  .categories-container {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .category-card {
+    max-width: 100%;
+  }
+
+  .tool-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .header {
+    padding: 15px;
+  }
+
+  .hero-title {
+    font-size: 24px;
+  }
+
+  .cta-button {
+    padding: 15px;
+    font-size: 16px;
+  }
+
+  .categories-title,
+  .recommendations-title {
+    font-size: 24px;
+  }
+}
+
 .home-page {
   background-color: #fff;
   display: flex;
