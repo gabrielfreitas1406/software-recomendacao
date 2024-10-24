@@ -16,11 +16,13 @@ const Hero: React.FC = () => {
           alt=""
           className="hero-image"
         />
-        <img
-          src="https://cdn.builder.io/api/v1/image/assets/TEMP/d3a4a888d2d984600bc5aed8ab8103bf2858f0290409fc9e0ba442e7491a9547?placeholderIfAbsent=true&apiKey=83976f5dcdaa41408687cac3bc676028"
-          alt=""
-          className="hero-image-overlay"
-        />
+        {
+          <img
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/d3a4a888d2d984600bc5aed8ab8103bf2858f0290409fc9e0ba442e7491a9547?placeholderIfAbsent=true&apiKey=83976f5dcdaa41408687cac3bc676028"
+            alt=""
+            className="hero-image-overlay"
+          />
+        }
       </div>
     </section>
   );
