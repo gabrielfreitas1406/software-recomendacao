@@ -3,11 +3,7 @@ import Layout from "./layout";
 import HomePage from "./components/HomePage";
 
 const Home: React.FC = () => {
-  return (
-    <Layout>
-      <HomePage />
-    </Layout>
-  );
+  return <HomePage />;
 };
 
 export default Home;
