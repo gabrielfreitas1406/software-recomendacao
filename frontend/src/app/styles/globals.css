@@ -6,6 +6,10 @@
 @import "./toolCard.css";
 @import "./toolSection.css";
 
+body {
+  margin: 0px;
+}
+
 /* Responsivo para telas grandes acima de 1200px */
 @media (min-width: 1200px) {
   .container {
