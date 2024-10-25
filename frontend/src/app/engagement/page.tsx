@@ -1,44 +1,10 @@
 import * as React from "react";
 import { EngagementButton } from "../components/engagement/EngagementButton";
-import { NavigationLink } from "../components/engagement/NavigationLink";
-import { HeaderActionButtons } from "../components/HeaderActionButtons";
+import { Engagementkeywords } from "../types/engagementTypes";
 
 const EngagementPage: React.FC = () => {
-  const navLinks = ["aaaaa", "aaaa", "aaaaa"];
-
   return (
     <div className="page-container">
-      {/*
-      <header className="main-header">
-        <div className="brand">
-          <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/d0e794bf66420096e920bd50e32de1115938e28c4c8628a18e959cf647782974?placeholderIfAbsent=true&apiKey=83976f5dcdaa41408687cac3bc676028"
-            alt="Company Logo"
-            className="brand-logo"
-          />
-          <h1 className="brand-name">NAME NAME</h1>
-        </div>
-
-        <nav className="main-nav">
-          {navLinks.map((text, index) => (
-            <NavigationLink key={index} text={text} />
-          ))}
-        </nav>
-
-        <div className="search-container">
-          <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/c69ed815b6be9bae5bef4073f1b1e0e843a6f946e06aa6450788588d87373cd5?placeholderIfAbsent=true&apiKey=83976f5dcdaa41408687cac3bc676028"
-            alt="Search Icon"
-            className="search-icon"
-          />
-        </div>
-
-        <div className="header-actions">
-          <HeaderActionButtons text="Cadastro" variant="secondary" />
-          <HeaderActionButtons text="Login" variant="primary" />
-        </div>
-      </header>*/}
-
       <main className="engagement-content">
         <section className="engagement-section">
           <h2 className="section-title">ENGAJAMENTO</h2>
@@ -47,19 +13,20 @@ const EngagementPage: React.FC = () => {
           </p>
 
           <div className="engagement-grid">
-            <div className="button-group">
-              <EngagementButton width={126} />
-              <EngagementButton />
-            </div>
+            {Engagementkeywords.map((keyWords) => (
+              <EngagementButton key={keyWords} text={keyWords} />
+            ))}
+            {/* */}
 
-            <div className="button-group">
+            {/* <div className="button-group">
               <EngagementButton />
               <EngagementButton />
               <EngagementButton />
-            </div>
+            </div>*/}
           </div>
-
-          <div className="engagement-options">
+          {/*
+          
+                    <div className="engagement-options">
             <div className="option-group">
               <EngagementButton width={109} />
               <span className="option-label">Instantâneo</span>
@@ -73,6 +40,7 @@ const EngagementPage: React.FC = () => {
               <EngagementButton />
             </div>
           </div>
+          */}
         </section>
       </main>
     </div>
