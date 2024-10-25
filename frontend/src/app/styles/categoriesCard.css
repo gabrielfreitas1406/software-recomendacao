@@ -1,5 +1,5 @@
 .category-card {
-  background-color: #fff;
+  background-color: #e0eaf5;
   border-radius: 25px;
   box-shadow: 0 9px 7px -2px rgba(0, 0, 0, 0.25);
   padding: 15px 21px;
@@ -7,7 +7,7 @@
 }
 
 .category-image-container {
-  background-color: #fff;
+  background-color: #e0eaf5;
   border-radius: 25px;
 }
 

@@ -69,6 +69,7 @@
   background-color: #fff;
   border-radius: 6px;
   padding: 4px;
+  width: 60vh;
 }
 
 .search-icon {
@@ -82,7 +83,7 @@
   gap: 14px;
 }
 
-.register {
+/*.register {
   background-color: #fff;
   color: #0d58b1;
 }
@@ -90,4 +91,28 @@
 .login {
   background-color: #4a90e2;
   color: #fff;
+}*/
+
+.header-actions {
+  display: flex;
+  gap: 14px;
+}
+
+.header-action {
+  border-radius: 6px;
+  padding: 7px 14px;
+  font: 500 12px Montserrat, sans-serif;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+}
+
+.header-action.primary {
+  background-color: #4a90e2;
+  color: #fff;
+}
+
+.header-action.secondary {
+  background-color: #fff;
+  color: #0d58b1;
 }
