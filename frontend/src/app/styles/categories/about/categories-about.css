@@ -1,8 +1,128 @@
-.card-categories-about {
+/*.card-categories-about {
   border-radius: 33px;
   background-color: rgba(255, 255, 255, 0.2);
   box-shadow: 0 0 70px -22px rgba(0, 0, 0, 0.25);
   display: flex;
   min-height: 630px;
   max-width: 895px;
+  margin: 35px auto;
+}
+*/
+.title-card {
+  font: 700 40px Montserrat, sans-serif;
+  margin-bottom: 55px;
+}
+
+/*==============================*/
+
+.btn {
+  border-radius: 6px;
+  padding: 7px 14px;
+}
+
+.btn-outline {
+  background-color: #fff;
+  color: rgb(13, 88, 177);
+}
+
+.btn-primary {
+  background-color: rgb(74, 144, 226);
+  color: #fff;
+  padding: 7px 29px;
+}
+
+.card-categories-about {
+  border-radius: 33px;
+  background-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 70px -22px rgba(0, 0, 0, 0.25);
+  margin: 71px auto;
+  max-width: 895px;
+  padding: 186px 27px 81px 62px;
+}
+
+.content-wrapper-categories-card {
+  display: flex;
+  gap: 20px;
+}
+
+.content-left-categories-card {
+  width: 68%;
+}
+
+.content-right-categories-card {
+  width: 32%;
+}
+
+.description-card {
+  font: 400 18px Montserrat, sans-serif;
+  text-align: justify;
+}
+
+.categories-card-button {
+  border-radius: 6px;
+  background-color: rgb(74, 144, 226);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  color: #fff;
+  font: 600 18px Montserrat, sans-serif;
+  margin-top: 186px;
+  padding: 13px 54px;
+  text-align: center;
+  text-transform: uppercase;
+  width: 178px;
+}
+
+@media (max-width: 991px) {
+  .header {
+    padding: 0 20px;
+  }
+
+  .nav-links {
+    white-space: initial;
+  }
+
+  .search-box {
+    padding-left: 20px;
+  }
+
+  .btn-primary {
+    padding: 0 20px;
+  }
+
+  .main-content {
+    margin-top: 40px;
+    padding: 100px 20px 0;
+  }
+
+  .content-wrapper-categories-card {
+    flex-direction: column;
+  }
+
+  .content-left-categories-card,
+  .content-right-categories-card {
+    width: 100%;
+  }
+
+  .title {
+    margin-top: 40px;
+  }
+
+  .description {
+    margin-top: 40px;
+  }
+
+  .categories-card-button {
+    margin-top: 40px;
+    padding: 0 20px;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }

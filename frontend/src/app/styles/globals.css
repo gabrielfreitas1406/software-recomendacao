@@ -9,6 +9,7 @@
 
 @import "./categories/categories.css";
 @import "./categories/recommendations/categories-recommendations.css";
+@import "./categories/about/categories-about.css";
 
 body {
   margin: 0px;

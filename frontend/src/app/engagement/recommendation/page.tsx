@@ -1,5 +1,5 @@
 import * as React from "react";
-import { EngagementButton } from "../../components/engagement/EngagementButton";
+import EngagementButton from "../../components/engagement/EngagementButton";
 import { Engagementkeywords } from "../../types/engagementTypes";
 
 const EngagementRecommendationPage: React.FC = () => {
