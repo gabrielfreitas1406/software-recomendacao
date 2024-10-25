@@ -1,13 +1,14 @@
 @import "./header.css";
-@import "./categories.css";
-@import "./categoriesCard.css";
-@import "./hero.css";
-@import "./recommendations.css";
-@import "./toolCard.css";
-@import "./toolSection.css";
-
-@import "./categories-recommendations/categories-recommendations.css";
 @import "./card/card.css";
+
+@import "./home/categoriesCard.css";
+@import "./home/hero.css";
+@import "./home/recommendations.css";
+@import "./home/toolCard.css";
+@import "./home/toolSection.css";
+
+@import "./categories/categories.css";
+@import "./categories/recommendations/categories-recommendations.css";
 
 body {
   margin: 0px;
