@@ -2,12 +2,12 @@
   max-width: none;
 }
 
-.engagement-content {
+.categories-recommendations-content {
   background-color: #cfe5f7;
   padding-bottom: 40px;
 }
 
-.engagement-section {
+.categories-recommendations-section {
   background-color: #e0eaf5;
   border-radius: 10px;
   box-shadow: 0 0 9px rgba(0, 0, 0, 0.25);
@@ -29,7 +29,7 @@
   margin-top: 19px;
 }
 
-.engagement-grid {
+.categories-recommendations-grid {
   display: flex;
   gap: 30px;
   margin-top: 20px;
@@ -42,7 +42,7 @@
   flex-wrap: wrap;
 }
 
-.engagement-button {
+.categories-recommendations-button {
   border-radius: 6px;
   border: 1px solid #4a90e2;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
@@ -54,7 +54,7 @@
   cursor: pointer;
 }
 
-.engagement-options {
+.categories-recommendations-options {
   margin-top: 12px;
 }
 
@@ -77,7 +77,7 @@
 }
 
 @media (max-width: 991px) {
-  .engagement-section {
+  .categories-recommendations-section {
     padding: 0 20px 100px;
   }
 

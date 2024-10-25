@@ -1,18 +1,18 @@
 import * as React from "react";
-import { EngagementButton } from "../components/engagement/EngagementButton";
-import { Engagementkeywords } from "../types/engagementTypes";
+import { EngagementButton } from "../../components/engagement/EngagementButton";
+import { Engagementkeywords } from "../../types/engagementTypes";
 
-const EngagementPage: React.FC = () => {
+const EngagementRecommendationPage: React.FC = () => {
   return (
     <div className="page-container">
-      <main className="engagement-content">
-        <section className="engagement-section">
+      <main className="categories-recommendations-content">
+        <section className="categories-recommendations-section">
           <h2 className="section-title">ENGAJAMENTO</h2>
           <p className="section-description">
             Selecione os tipos de engajamento desejado
           </p>
 
-          <div className="engagement-grid">
+          <div className="categories-recommendations-grid">
             {Engagementkeywords.map((keyWords) => (
               <EngagementButton key={keyWords} text={keyWords} />
             ))}
@@ -47,4 +47,4 @@ const EngagementPage: React.FC = () => {
   );
 };
 
-export default EngagementPage;
+export default EngagementRecommendationPage;
