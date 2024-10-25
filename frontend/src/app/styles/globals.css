@@ -7,6 +7,7 @@
 @import "./toolSection.css";
 
 @import "./engagement/engagement.css";
+@import "./card/card.css";
 
 body {
   margin: 0px;
@@ -41,7 +42,7 @@ body {
 }
 /*=========================== ESTILO DAS PÁGINAS ===========================*/
 .style-page {
-  background-color: #fff;
+  background-color: #cfe5f7;
   display: flex;
   flex-direction: column;
   overflow: hidden;

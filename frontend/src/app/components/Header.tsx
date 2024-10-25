@@ -1,4 +1,5 @@
 import React from "react";
+import { HeaderActionButtons } from "./HeaderActionButtons";
 
 interface HeaderProps {
   logo: string;
@@ -27,8 +28,10 @@ const Header: React.FC<HeaderProps> = ({ logo, navItems }) => {
         />
       </div>
       <div className="auth-buttons">
-        <button className="auth-button register">Cadastro</button>
-        <button className="auth-button login">Login</button>
+        {/*<button className="auth-button register">Cadastro</button>
+        <button className="auth-button login">Login</button>*/}
+        <HeaderActionButtons text="Cadastro" variant="secondary" />
+        <HeaderActionButtons text="Login" variant="primary" />
       </div>
     </header>
   );

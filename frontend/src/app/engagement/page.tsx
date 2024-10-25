@@ -1,13 +1,14 @@
 import * as React from "react";
 import { EngagementButton } from "../components/engagement/EngagementButton";
 import { NavigationLink } from "../components/engagement/NavigationLink";
-import { HeaderAction } from "../components/engagement/HeaderAction";
+import { HeaderActionButtons } from "../components/HeaderActionButtons";
 
 const EngagementPage: React.FC = () => {
   const navLinks = ["aaaaa", "aaaa", "aaaaa"];
 
   return (
     <div className="page-container">
+      {/*
       <header className="main-header">
         <div className="brand">
           <img
@@ -33,10 +34,10 @@ const EngagementPage: React.FC = () => {
         </div>
 
         <div className="header-actions">
-          <HeaderAction text="Cadastro" variant="secondary" />
-          <HeaderAction text="Login" variant="primary" />
+          <HeaderActionButtons text="Cadastro" variant="secondary" />
+          <HeaderActionButtons text="Login" variant="primary" />
         </div>
-      </header>
+      </header>*/}
 
       <main className="engagement-content">
         <section className="engagement-section">

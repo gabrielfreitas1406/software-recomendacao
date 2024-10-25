@@ -89,6 +89,8 @@
   margin: 35px auto;
   max-width: 1058px;
   padding: 49px 80px;
+
+  height: 100vh;
 }
 
 .section-title {
