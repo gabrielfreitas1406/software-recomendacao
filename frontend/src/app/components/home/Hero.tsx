@@ -1,4 +1,5 @@
 import React from "react";
+import InitRecommendationButton from "../buttons/InitRecommendationButton";
 
 const Hero: React.FC = () => {
   return (
@@ -8,7 +9,7 @@ const Hero: React.FC = () => {
         <p className="hero-subtitle">
           DESCUBRA A FERRAMENTA IDEAL PARA SUAS ATIVIDADES
         </p>
-        <button className="cta-button">iniciar recomendação</button>
+        <InitRecommendationButton />
       </div>
       <div className="hero-images">
         <img

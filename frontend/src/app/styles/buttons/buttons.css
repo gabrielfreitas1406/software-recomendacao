@@ -28,3 +28,18 @@
   text-transform: uppercase;
   width: 178px;
 }
+
+.init-recommendation-button {
+  padding: 1.5rem;
+  font-size: 1.5rem;
+}
+.init-recommendation-button {
+  background-color: #fff;
+  border-radius: 47px;
+  color: #1c62b5;
+  font: 600 24px Montserrat, sans-serif;
+  text-transform: uppercase;
+  padding: 30px;
+  margin-top: 29px;
+  cursor: pointer;
+}
