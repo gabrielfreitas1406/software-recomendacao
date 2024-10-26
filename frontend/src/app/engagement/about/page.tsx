@@ -6,7 +6,7 @@ const EngagementAboutPage: React.FC = () => {
     <div className="page-container">
       <AboutCard
         title="ENGAJAMENTO"
-        description="O engajamento representa a profundidade do envolvimento emocional, cognitivo e comportamental que o público experimenta durante uma interação. Compreender os diferentes tipos de engajamento é essencial para criar atividades que realmente motivem e envolvam seus alunos.\n\n"
+        description="O engajamento representa a profundidade do envolvimento emocional, cognitivo e comportamental que o público experimenta durante uma interação. Compreender os diferentes tipos de engajamento é essencial para criar atividades que realmente motivem e envolvam seus alunos. Nesta seção, iremos descobrir qual o tipo de engajamento que você deseja proporcionar à sua turma."
         imageTitle="Imagem com design aprimorado"
         buttonLabel="Próxima"
       />

@@ -15,6 +15,8 @@ const AboutCard: React.FC<AboutCardProps> = ({
 }) => {
   {
   }
+  const isNextButton = buttonLabel === "Próxima";
+
   return (
     <div className="card-categories-about">
       <div className="content-wrapper-categories-card">
@@ -25,7 +27,9 @@ const AboutCard: React.FC<AboutCardProps> = ({
 
         <div className="content-right-categories-card">
           <h2 className="title-card">{imageTitle}</h2>
-          <button className="categories-card-button">{buttonLabel}</button>
+          <button className={isNextButton ? "next-button" : "init-button"}>
+            {buttonLabel}
+          </button>
         </div>
       </div>
     </div>

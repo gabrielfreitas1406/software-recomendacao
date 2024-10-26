@@ -3,7 +3,13 @@
 }
 
 .categories-recommendations-content {
-  background-color: #cfe5f7;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(161, 206, 238, 1) 100%
+  );
   padding-bottom: 40px;
 }
 

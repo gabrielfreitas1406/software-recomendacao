@@ -1,5 +1,6 @@
 @import "./header.css";
 @import "./card/card.css";
+@import "./buttons/buttons.css";
 
 @import "./home/categoriesCard.css";
 @import "./home/hero.css";
@@ -44,7 +45,13 @@ body {
 }
 /*=========================== ESTILO DAS PÁGINAS ===========================*/
 .style-page {
-  background-color: #cfe5f7;
+  background: rgb(2, 0, 36);
+  background: linear-gradient(
+    90deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(161, 206, 238, 1) 100%
+  );
   display: flex;
   flex-direction: column;
   overflow: hidden;
