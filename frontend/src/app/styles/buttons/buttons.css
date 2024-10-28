@@ -43,3 +43,20 @@
   margin-top: 29px;
   cursor: pointer;
 }
+/*============= BOTÕES DE NAVEGAÇÃO DAS QUESTÕES ===============*/
+.navigation-questions-button {
+  border: none;
+  border-radius: 6px;
+  background: #4a90e2;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  color: #fff;
+  text-transform: uppercase;
+  font: 600 18px Montserrat, sans-serif;
+  padding: 16px 47px;
+  cursor: pointer;
+}
+@media (max-width: 991px) {
+  .navigation-questions-button {
+    padding: 16px 20px;
+  }
+}

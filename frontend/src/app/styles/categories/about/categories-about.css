@@ -31,16 +31,6 @@
   padding: 7px 29px;
 }
 
-.card-categories-about {
-  border-radius: 33px;
-  background-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 0 70px -22px rgba(0, 0, 0, 0.25);
-  margin: 71px auto;
-  max-width: 895px;
-
-  padding: 120px 27px 41px 62px;
-}
-
 .content-wrapper-categories-card {
   display: flex;
   gap: 50px;

@@ -1,5 +1,8 @@
 import * as React from "react";
 import QuestionBox from "../questions/QuestionsBox";
+import BackButton from "../buttons/BackButton";
+import NextButton from "../buttons/NextButton";
+import StartRecommendationButton from "../buttons/StartRecommendationButton";
 
 interface CardProps {
   isInitCard: Boolean;
@@ -30,9 +33,7 @@ const Card: React.FC<CardProps> = ({
 
           <div className="content-right-categories-card">
             <h2 className="title-card">{imageTitle}</h2>
-            <button className={isNextButton ? "next-button" : "init-button"}>
-              {buttonLabel}
-            </button>
+            <StartRecommendationButton />
           </div>
         </div>
       </div>
@@ -40,8 +41,22 @@ const Card: React.FC<CardProps> = ({
   } else {
     return (
       <>
-        <div className="card-categories-about">
+        <div className="card-questions">
+          <h1 className="quiz-title">
+            Como você gostaria que os participantes se engajassem durante a
+            atividade?
+          </h1>
           <QuestionBox />
+          <img
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/9eedec58608ae459b4f7f13c08439da952cb567d021ccfefb2762918b9dbdfc6?placeholderIfAbsent=true&apiKey=83976f5dcdaa41408687cac3bc676028"
+            alt="Quiz illustration"
+            className="quiz-image"
+            loading="lazy"
+          />
+          <nav className="navigation-questions">
+            <BackButton />
+            <NextButton />
+          </nav>
         </div>
       </>
     );
