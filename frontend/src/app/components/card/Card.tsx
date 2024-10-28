@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import QuestionBox from "../questions/QuestionsBox";
 import BackButton from "../buttons/BackButton";

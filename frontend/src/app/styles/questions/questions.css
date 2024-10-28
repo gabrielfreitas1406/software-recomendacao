@@ -27,7 +27,40 @@
   margin-top: 58px;
 }
 
-.option-container {
+/*=================  QUESTÃO SELECIONADA ==================*/
+.option-container-selected {
+  border-radius: 6px;
+  background-color: rgba(74, 144, 226, 1);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  display: flex;
+  min-height: 71px;
+  width: 100%;
+  align-items: center;
+  gap: 23px;
+  padding: 7px 16px;
+  margin-top: 11px;
+}
+
+.option-letter-selected {
+  background-color: #fff;
+  border-radius: 50%;
+  width: 39px;
+  height: 39px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #2b6cb0;
+  font: 900 32px Roboto, sans-serif;
+}
+.option-text-selected {
+  color: #fff;
+  align-self: stretch;
+  flex: 1;
+  margin: auto 0;
+  font: 700 18px Poppins, sans-serif;
+}
+/*================= QUESTÃO NÃO SELECIONADA ==================*/
+.option-container-no-selected {
   border-radius: 6px;
   background-color: #fff;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
@@ -40,7 +73,8 @@
   margin-top: 11px;
 }
 
-.option-container:first-child {
+.option-container-no-selected:first-child,
+.option-container-selected:first-child {
   margin-top: 0;
 }
 
@@ -53,7 +87,7 @@
   margin: auto 0;
 }
 
-.option-letter {
+.option-letter-no-selected {
   background-color: #2b6cb0;
   border-radius: 50%;
   width: 39px;
@@ -65,7 +99,7 @@
   font: 900 32px Roboto, sans-serif;
 }
 
-.option-text {
+.option-text-no-selected {
   color: #1e1e1e;
   align-self: stretch;
   flex: 1;
