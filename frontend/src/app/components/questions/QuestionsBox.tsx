@@ -13,7 +13,7 @@ const options: Option[] = [
   { letter: "D", text: "Edite" },
 ];
 
-export const QuestionOptions: React.FC = () => {
+const QuestionBox: React.FC = () => {
   return (
     <section className="question-options">
       {options.map((option) => (
@@ -26,3 +26,5 @@ export const QuestionOptions: React.FC = () => {
     </section>
   );
 };
+
+export default QuestionBox;

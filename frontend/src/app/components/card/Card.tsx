@@ -1,4 +1,5 @@
 import * as React from "react";
+import QuestionBox from "../questions/QuestionsBox";
 
 interface CardProps {
   isInitCard: Boolean;
@@ -37,7 +38,13 @@ const Card: React.FC<CardProps> = ({
       </div>
     );
   } else {
-    return <></>;
+    return (
+      <>
+        <div className="card-categories-about">
+          <QuestionBox />
+        </div>
+      </>
+    );
   }
 };
 
