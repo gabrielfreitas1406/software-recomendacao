@@ -12,6 +12,8 @@
 @import "./categories/recommendations/categories-recommendations.css";
 @import "./categories/about/categories-about.css";
 
+@import "./questions/questions.css";
+
 body {
   margin: 0px;
 }
@@ -55,6 +57,10 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+}
+
+main {
+  min-height: 100vh;
 }
 
 .company-name {

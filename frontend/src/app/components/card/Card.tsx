@@ -1,24 +1,44 @@
 import * as React from "react";
 
 interface CardProps {
-  children?: React.ReactNode;
+  isInitCard: Boolean;
+  title?: string;
+  description?: string;
+  buttonLabel?: string;
+  imageTitle?: string;
 }
 
-const Card: React.FC<CardProps> = ({}) => {
-  return (
-    <>
-      <section className="card"></section>
-      {/*<style jsx>{`
-        .card {
-          border-radius: 10px;
-          background-color: rgba(224, 233, 245, 1);
-          box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-          display: flex;
-          min-height: 355px;
-        }
-      `}</style>*/}
-    </>
-  );
+const Card: React.FC<CardProps> = ({
+  isInitCard,
+  title,
+  description,
+  buttonLabel,
+  imageTitle,
+}) => {
+  {
+  }
+  if (isInitCard) {
+    const isNextButton = buttonLabel === "Próxima";
+    return (
+      <div className="card-categories-about">
+        <div className="content-wrapper-categories-card">
+          <div className="content-left-categories-card">
+            <h1 className="title-card">{title}</h1>
+            <p className="description-card">{description}</p>
+          </div>
+
+          <div className="content-right-categories-card">
+            <h2 className="title-card">{imageTitle}</h2>
+            <button className={isNextButton ? "next-button" : "init-button"}>
+              {buttonLabel}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  } else {
+    return <></>;
+  }
 };
 
 export default Card;

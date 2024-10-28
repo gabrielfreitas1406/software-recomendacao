@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 const InitRecommendationButton: React.FC = () => {
   const router = useRouter();
   const handleClick = () => {
-    router.push("/init/recommendation");
+    router.push("/recommendation/init");
   };
 
   return (
