@@ -47,7 +47,9 @@ const Card: React.FC<CardProps> = ({
             atividade?
           </h1>
           <QuestionBox />
+
           <img
+            style={{ marginTop: "40px" }}
             src="https://cdn.builder.io/api/v1/image/assets/TEMP/9eedec58608ae459b4f7f13c08439da952cb567d021ccfefb2762918b9dbdfc6?placeholderIfAbsent=true&apiKey=83976f5dcdaa41408687cac3bc676028"
             alt="Quiz illustration"
             className="quiz-image"
