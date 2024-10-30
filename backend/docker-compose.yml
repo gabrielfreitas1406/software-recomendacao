@@ -1,0 +1,30 @@
+services:
+  mysql:
+    container_name: dbrecommendation
+    image: mysql:latest
+    #volumes:
+    #  - mysql_data:/var/lib/mysql
+    ports:
+      - ${MYSQL_PORT}:3306
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    networks:
+      - recommendation-network
+
+  phpmyadmin:
+    container_name: phpoptihire
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_HOST=${PMA_HOST}
+      - PMA_PORT=${PMA_PORT}
+      - PMA_USER=${PMA_USER}
+      - PMA_PASSWORD=${PMA_PASSWORD}
+    ports:
+      - ${PHPMYADMIN_PORT}:80
+    networks:
+      - recommendation-network
+
+networks:
+  recommendation-network:
+    driver: bridge
