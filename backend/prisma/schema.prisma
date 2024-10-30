@@ -12,3 +12,41 @@ datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model Conceito {
+  id        Int       @id @default(autoincrement())
+  nome      String    @db.VarChar(100)
+  descricao String    @db.VarChar(600)
+  IdPai     Int
+  recursos  ConceitoRecurso[]
+  // Associação com a própria tabela (opcionalmente implementada como FK)
+  parent    Conceito? @relation("Parent", fields: [IdPai], references: [id])
+  children  Conceito[] @relation("Parent")
+}
+
+model ConceitoRecurso {
+  idConceito Int
+  idRecurso  Int
+
+  conceito   Conceito @relation(fields: [idConceito], references: [id])
+  recurso    Recurso  @relation(fields: [idRecurso], references: [id])
+
+  @@id([idConceito, idRecurso])
+}
+
+model Ferramentas {
+  id        Int      @id @default(autoincrement())
+  nome      String   @db.VarChar(80)
+  descricao String   @db.VarChar(160)
+  link      String   @db.VarChar(160)
+  recursos  Recurso[]
+}
+
+model Recurso {
+  id          Int              @id @default(autoincrement())
+  nome        String           @db.VarChar(80)
+  descricao   String           @db.VarChar(300)
+  idFerramenta Int
+  ferramentas Ferramentas      @relation(fields: [idFerramenta], references: [id])
+  conceitos   ConceitoRecurso[]
+}
