@@ -1,38 +1,33 @@
 "use client";
 
 import * as React from "react";
-import { useState } from "react";
 
 interface QuestionOptionProps {
   letter: string;
   text: string;
+  isSelected: boolean;
+  onSelect: () => void;
 }
 
 export const QuestionOption: React.FC<QuestionOptionProps> = ({
   letter,
   text,
+  isSelected,
+  onSelect,
 }) => {
-  const [isSelectedQuestionColor, setIsSelectedQuestionColor] = useState(false);
-
-  const handleClick = () => {
-    setIsSelectedQuestionColor((prevSelected) => !prevSelected);
-  };
-
   return (
     <article
       className={
-        isSelectedQuestionColor
+        isSelected
           ? "option-container-selected"
           : "option-container-no-selected"
       }
-      onClick={handleClick}
+      onClick={onSelect} // Chama onSelect para atualizar a seleção no pai
     >
       <div className="option-letter-wrapper">
         <div
           className={
-            isSelectedQuestionColor
-              ? "option-letter-selected"
-              : "option-letter-no-selected"
+            isSelected ? "option-letter-selected" : "option-letter-no-selected"
           }
           role="text"
           aria-label={`Option ${letter}`}
@@ -42,9 +37,7 @@ export const QuestionOption: React.FC<QuestionOptionProps> = ({
       </div>
       <p
         className={
-          isSelectedQuestionColor
-            ? "option-text-selected"
-            : "option-text-no-selected"
+          isSelected ? "option-text-selected" : "option-text-no-selected"
         }
       >
         {text}

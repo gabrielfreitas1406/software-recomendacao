@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useState } from "react";
 import { QuestionOption } from "./QuestionOption";
 
 interface Option {
@@ -16,6 +17,8 @@ const options: Option[] = [
 ];
 
 const QuestionBox: React.FC = () => {
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+
   return (
     <section className="question-options">
       {options.map((option) => (
@@ -23,6 +26,8 @@ const QuestionBox: React.FC = () => {
           key={option.letter}
           letter={option.letter}
           text={option.text}
+          isSelected={selectedOption === option.letter}
+          onSelect={() => setSelectedOption(option.letter)}
         />
       ))}
     </section>
