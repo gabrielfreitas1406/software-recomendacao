@@ -1,6 +1,6 @@
 services:
   mysql:
-    container_name: dbrecommendation
+    container_name: dbRecommendation
     image: mysql:latest
     #volumes:
     #  - mysql_data:/var/lib/mysql
@@ -13,7 +13,7 @@ services:
       - recommendation-network
 
   phpmyadmin:
-    container_name: phpoptihire
+    container_name: phpRecommendation
     image: phpmyadmin/phpmyadmin
     environment:
       - PMA_HOST=${PMA_HOST}
