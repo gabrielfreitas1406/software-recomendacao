@@ -17,7 +17,7 @@ model Conceito {
   id        Int       @id @default(autoincrement())
   nome      String    @db.VarChar(100)
   descricao String    @db.VarChar(600)
-  IdPai     Int
+  IdPai     Int?
   recursos  ConceitoRecurso[]
   // Associação com a própria tabela (opcionalmente implementada como FK)
   parent    Conceito? @relation("Parent", fields: [IdPai], references: [id])

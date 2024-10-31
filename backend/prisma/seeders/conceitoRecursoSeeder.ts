@@ -61,7 +61,7 @@ export const conceitoRecursoSeeder = async () => {
       { idConceito: 8, idRecurso: 15 },
       { idConceito: 9, idRecurso: 4 },
       { idConceito: 9, idRecurso: 6 },
-      { idConceito: 10, idRecurso: 0 },
+      { idConceito: 10, idRecurso: 1 },
       { idConceito: 10, idRecurso: 3 },
       { idConceito: 10, idRecurso: 4 },
       { idConceito: 10, idRecurso: 5 },

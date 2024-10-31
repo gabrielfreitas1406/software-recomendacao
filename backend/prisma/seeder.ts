@@ -8,11 +8,13 @@ const prisma = new PrismaClient();
 
 async function main() {
   await prisma.$connect();
+  console.log("Seeder!");
 
   await conceitoSeeder();
-  await conceitoRecursoSeeder();
   await ferramentasSeeder();
   await recursoSeeder();
+
+  await conceitoRecursoSeeder();
 }
 
 main()
