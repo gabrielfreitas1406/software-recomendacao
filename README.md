@@ -11,3 +11,5 @@ Observe que os prefixos abaixo foram personalizados com base no artigo do link a
 - :recycle: [REFACTOR]: Refatoração do código que não adiciona uma funcionalidade nem corrige um bug.
 - :art: [STYLE]: Mudanças no código que não afetam seu significado (espaço em branco, formatação, ponto e vírgula, etc).
 - :rocket: [IMPROVEMENT]: Melhoria em algo já existente, seja de performance, escrita, layout, etc.
+- :floppy_disk: [PRISMA]: Alterações relacionadas ao Prisma, como mudanças no esquema ou nas migrações.
+- :hammer_and_wrench: [DEVOPS]: Configuração ou mudanças relacionadas ao DevOps, como CI/CD, dockerização, scripts de deploy, etc.
