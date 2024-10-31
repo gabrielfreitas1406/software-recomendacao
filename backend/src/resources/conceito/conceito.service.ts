@@ -3,13 +3,13 @@ import { ConceitoDTO, ConceitoDTOSemId } from "./conceito.types";
 
 const prisma = new PrismaClient();
 
-export const obterTodosConceitos = async (): Promise<Conceito[]> => {
+export const obterTodosConceitos = async (): Promise<ConceitoDTO[]> => {
   return await prisma.conceito.findMany();
 };
 
 export const obterConceitoPorId = async (
   id: number
-): Promise<Conceito | null> => {
+): Promise<ConceitoDTO | null> => {
   return await prisma.conceito.findUnique({
     where: { id: id },
   });
@@ -17,7 +17,7 @@ export const obterConceitoPorId = async (
 
 export const obterConceitoPorNome = async (
   nome: string
-): Promise<Conceito[] | null> => {
+): Promise<ConceitoDTO[] | null> => {
   return await prisma.conceito.findMany({
     where: { nome: nome },
   });
