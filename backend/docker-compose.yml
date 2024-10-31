@@ -2,8 +2,8 @@ services:
   mysql:
     container_name: DBTechEventsRecommender
     image: mysql:latest
-    #volumes:
-    #  - mysql_data:/var/lib/mysql
+    volumes:
+      - mysql_data:/var/lib/mysql
     ports:
       - ${MYSQL_PORT}:3306
     environment:
@@ -25,6 +25,40 @@ services:
     networks:
       - recommendation-network
 
+  backend:
+    container_name: backend_recommendation
+    build:
+      context: ../backend # Ajuste aqui para apontar para a pasta do backend
+      dockerfile: Dockerfile
+      args:
+        - VERSION=v1
+    volumes:
+      - ../backend/:/app/ # Ajuste o caminho para o volume
+      - /app/node_modules
+    ports:
+      - ${BACKEND_PORT}:${BACKEND_PORT}
+    networks:
+      - recommendation-network
+
+  frontend:
+    container_name: frontend_recommentation
+    build:
+      context: ../frontend # Ajuste aqui para apontar para a pasta do frontend
+      dockerfile: Dockerfile
+      args:
+        - VERSION=v1
+    ports:
+      - ${FRONTEND_PORT}:${FRONTEND_PORT}
+    volumes:
+      - ../frontend/:/app/ # Ajuste o caminho para o volume
+      - /app/node_modules
+      - /app/.next
+    networks:
+      - recommendation-network
+
 networks:
   recommendation-network:
     driver: bridge
+volumes:
+  mysql_data:
+  mysql_config:

@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "npx nodemon --watch src src/index.ts",
     "start": "nodemon src/index.ts",
     "build": "npx tsc",
     "start:prod": "node build/index.js",
@@ -27,6 +28,6 @@
     "typescript": "^5.6.3"
   },
   "prisma": {
-    "seed": "ts-node ./prisma/seeders/seed.ts"
+    "seed": "ts-node ./prisma/seeder.ts"
   }
 }
