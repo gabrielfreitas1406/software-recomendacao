@@ -28,8 +28,8 @@ const obterPorId = async (req: Request, res: Response) => {
 const obterPorNome = async (req: Request, res: Response) => {
   try {
     const { nome } = req.params;
-    const ferramenta = await obterRecursoPorNome(nome);
-    res.status(StatusCodes.OK).json(ferramenta);
+    const recurso = await obterRecursoPorNome(nome);
+    res.status(StatusCodes.OK).json(recurso);
   } catch (erro) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(erro);
   }
