@@ -1,4 +1,4 @@
-import { PrismaClient, Ferramentas } from "@prisma/client";
+import { PrismaClient, Recurso } from "@prisma/client";
 import { RecursoDTO, RecursoDTOsemID } from "./recurso.types";
 const prisma = new PrismaClient();
 
