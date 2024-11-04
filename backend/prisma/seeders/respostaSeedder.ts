@@ -1,14 +1,7 @@
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
-
-export const QuestaoSeeder = async () => {
-  // Bloco 1 - Engajamento
-  await prisma.questao.create({
-    data: {
-      id: 1,
-      enunciado:
-        "Como você gostaria que os participantes se engajassem durante a atividade?",
-      respostas: {
+/**
+ * 
+ * Para a primeira Questão:
+ *  respostas: {
         create: [
           {
             conteudo: "Interação social entre os participantes",
@@ -29,15 +22,11 @@ export const QuestaoSeeder = async () => {
           },
         ],
       },
-    },
-  });
-
-  await prisma.questao.create({
-    data: {
-      id: 2,
-      enunciado:
-        "Que aspectos emocionais e dinâmicos você gostaria de ver durante a atividade?",
-      respostas: {
+ * 
+ * 
+ * 
+ * Para a segunda questão:
+ * respostas: {
         create: [
           {
             conteudo:
@@ -61,15 +50,9 @@ export const QuestaoSeeder = async () => {
           },
         ],
       },
-    },
-  });
+ * 
 
-  // Bloco 2 - Participation
-  await prisma.questao.create({
-    data: {
-      id: 3,
-      enunciado:
-        "Como você gostaria que o tempo fosse gerenciado durante a atividade?",
+      Para a terceira questão
       respostas: {
         create: [
           {
@@ -90,14 +73,9 @@ export const QuestaoSeeder = async () => {
           { conteudo: "Nenhuma preferência" },
         ],
       },
-    },
-  });
 
-  await prisma.questao.create({
-    data: {
-      id: 4,
-      enunciado:
-        "Como você gostaria que o espaço fosse utilizado na atividade?",
+
+      Para a quarta questão:
       respostas: {
         create: [
           {
@@ -117,14 +95,8 @@ export const QuestaoSeeder = async () => {
           { conteudo: "Nenhuma preferência" },
         ],
       },
-    },
-  });
-  // Qualities
-  await prisma.questao.create({
-    data: {
-      id: 5,
-      enunciado:
-        "Qual abordagem você gostaria que a atividade promovesse em relação ao conteúdo e ao conhecimento?",
+
+      Para a quinta questão:
       respostas: {
         create: [
           {
@@ -145,13 +117,8 @@ export const QuestaoSeeder = async () => {
           { conteudo: "Nenhuma preferência" },
         ],
       },
-    },
-  });
 
-  await prisma.questao.create({
-    data: {
-      id: 6,
-      enunciado: "Qual abordagem motivacional você prefere para a atividade?",
+      Para a sexta questão:
       respostas: {
         create: [
           {
@@ -171,15 +138,9 @@ export const QuestaoSeeder = async () => {
           { conteudo: "Nenhuma preferência" },
         ],
       },
-    },
-  });
 
-  // Bloco 3 - Liveness
-  await prisma.questao.create({
-    data: {
-      id: 7,
-      enunciado:
-        "Qual tipo de conexão social você gostaria de promover durante a atividade?",
+
+      Para a sétima questão:
       respostas: {
         create: [
           {
@@ -200,14 +161,8 @@ export const QuestaoSeeder = async () => {
           { conteudo: "Nenhuma preferência" },
         ],
       },
-    },
-  });
 
-  await prisma.questao.create({
-    data: {
-      id: 8,
-      enunciado:
-        "Qual tipo de presença social você considera mais importante para a atividade?",
+      Para a oitava questão:
       respostas: {
         create: [
           {
@@ -228,8 +183,4 @@ export const QuestaoSeeder = async () => {
           { conteudo: "Nenhuma preferência" },
         ],
       },
-    },
-  });
-
-  console.log("Questões e respostas inseridas com sucesso!");
-};
+ */
