@@ -22,6 +22,8 @@ model Conceito {
   // Associação com a própria tabela (opcionalmente implementada como FK)
   parent    Conceito? @relation("Parent", fields: [IdPai], references: [id])
   children  Conceito[] @relation("Parent")
+
+  Resposta Resposta[]
 }
 
 model ConceitoRecurso {
@@ -49,4 +51,23 @@ model Recurso {
   idFerramenta Int
   ferramentas Ferramentas      @relation(fields: [idFerramenta], references: [id])
   conceitos   ConceitoRecurso[]
+}
+
+model Questao {
+  id        Int        @id @default(autoincrement())
+  enunciado String     @db.Text
+  respostas Resposta[] // Relacionamento com Resposta
+
+   //@@map("questoes") // Define o nome da tabela
+}
+
+model Resposta {
+  id          Int      @id @default(autoincrement())
+  conteudo    String   @db.Text
+  idConceito  Int?
+  idQuestao   Int
+  conceito    Conceito? @relation(fields: [idConceito], references: [id])
+  questao     Questao   @relation(fields: [idQuestao], references: [id])
+
+  //@@map("respostas") 
 }
