@@ -5,14 +5,17 @@ import conceitoRecursoController from "./conceitoRecurso.controller";
 const router = Router();
 
 router.get("/", conceitoRecursoController.obterTodos);
-router.get("/:idConceito/:idRecurso", conceitoRecursoController.obterPorId);
 router.get(
-  "/idRecurso/:idRecurso",
+  "/IDconceito/:idConceito",
+  conceitoRecursoController.obterPorIdConceito
+);
+router.get(
+  "/IDrecurso/:idRecurso",
   conceitoRecursoController.obterPorIdRecurso
 );
 router.get(
-  "/idConceito/:idConceito",
-  conceitoRecursoController.obterPorIdConceito
+  "/:idConceito/:idRecurso",
+  conceitoRecursoController.obterPorIdConceitoIdRecurso
 );
 
 export default router;
