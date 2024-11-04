@@ -3,6 +3,7 @@ import { conceitoSeeder } from "./seeders/conceitoSeeder";
 import { conceitoRecursoSeeder } from "./seeders/conceitoRecursoSeeder";
 import { ferramentasSeeder } from "./seeders/ferramentasSeeder";
 import { recursoSeeder } from "./seeders/recursoSeeder";
+import { QuestaoRespostaSeeder } from "./seeders/questaoRespostaSeeder";
 
 const prisma = new PrismaClient();
 
@@ -15,6 +16,7 @@ async function main() {
   await recursoSeeder();
 
   await conceitoRecursoSeeder();
+  await QuestaoRespostaSeeder();
 }
 
 main()

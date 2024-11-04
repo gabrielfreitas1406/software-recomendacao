@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { StatusCodes, ReasonPhrases } from "http-status-codes";
 import {
   obterRecursoPorId,
+  obterRecursoPorIdFerramenta,
   obterRecursoPorNome,
   obterTodosRecursos,
 } from "./recurso.service";
@@ -35,4 +36,14 @@ const obterPorNome = async (req: Request, res: Response) => {
   }
 };
 
-export default { obterTodos, obterPorId, obterPorNome };
+const obterPorIdFerramenta = async (req: Request, res: Response) => {
+  try {
+    const { idFerramenta } = req.params;
+    const recursos = await obterRecursoPorIdFerramenta(Number(idFerramenta));
+    res.status(StatusCodes.OK).json(recursos);
+  } catch (erro) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(erro);
+  }
+};
+
+export default { obterTodos, obterPorId, obterPorNome, obterPorIdFerramenta };

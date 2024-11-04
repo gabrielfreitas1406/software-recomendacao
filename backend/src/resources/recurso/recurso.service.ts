@@ -21,3 +21,11 @@ export const obterRecursoPorNome = async (
     where: { nome: nome },
   });
 };
+
+export const obterRecursoPorIdFerramenta = async (
+  idFerramenta: number
+): Promise<RecursoDTO[] | null> => {
+  return await prisma.recurso.findMany({
+    where: { idFerramenta: idFerramenta },
+  });
+};
