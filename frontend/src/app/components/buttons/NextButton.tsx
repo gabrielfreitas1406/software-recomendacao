@@ -2,15 +2,17 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 
-const NextButton: React.FC = () => {
+import { NextButtonProps } from "@/app/types/buttonTypes";
+
+const NextButton: React.FC<NextButtonProps> = ({ onClick }) => {
   const router = useRouter();
-  const handleClick = () => {
-    //router.push("/recommendation/init");
-  };
+  //const handleClick = () => {
+  //router.push("/recommendation/init");
+  //};
 
   return (
     <>
-      <button className="navigation-questions-button" onClick={handleClick}>
+      <button className="navigation-questions-button" onClick={onClick}>
         Próximo
       </button>
     </>

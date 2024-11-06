@@ -5,6 +5,9 @@ import QuestionBox from "../questions/QuestionsBox";
 import BackButton from "../buttons/BackButton";
 import NextButton from "../buttons/NextButton";
 import StartRecommendationButton from "../buttons/StartRecommendationButton";
+import api from "@/app/sevices/api";
+
+import { Questao, Resposta } from "@/app/types/QuestionTypes";
 
 interface CardProps {
   isInitCard: Boolean;
@@ -23,6 +26,53 @@ const Card: React.FC<CardProps> = ({
 }) => {
   {
   }
+
+  //const [questoes, setQuestoes] = React.useState<Questao[] | []>([]);
+  //const [respostas, setRespostas] = React.useState<Resposta[] | []>([]);
+
+  const [idQuestaoAtual, setidQuestaoAtual] = React.useState<number>(1);
+  const [questaoAtual, setQuestaoAtual] = React.useState<Questao | null>(null);
+  const [respostasQuestaoAtual, setRespostasQuestaoAtual] = React.useState<
+    Resposta[] | []
+  >([]);
+
+  const fetchData = async (id: number) => {
+    try {
+      const questaoAtualResponse = await api.get(`/questao/${id}`);
+      const respostaQuestaoAtualResponse = await api.get(
+        `/resposta/idQuestao/${id}`
+      );
+
+      const questaoAtualData = questaoAtualResponse.data as Questao;
+      const respostaQuestaoAtualData =
+        respostaQuestaoAtualResponse.data as Resposta[];
+
+      setQuestaoAtual(questaoAtualData);
+      setRespostasQuestaoAtual(respostaQuestaoAtualData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchData(idQuestaoAtual);
+  }, [idQuestaoAtual]);
+
+  const handleNextQuestion = () => {
+    setidQuestaoAtual((prevId) => prevId + 1);
+  };
+
+  const handlePreviousQuestion = () => {
+    setidQuestaoAtual((prevId) => Math.max(1, prevId - 1)); // Evita voltar para ID menor que 1
+  };
+
+  //console.log(questoes);
+  //console.log(respostas);
+
+  console.log(questaoAtual);
+  console.log(respostasQuestaoAtual);
+  console.log(idQuestaoAtual);
+
   if (isInitCard) {
     const isNextButton = buttonLabel === "Próxima";
     return (
@@ -44,11 +94,8 @@ const Card: React.FC<CardProps> = ({
     return (
       <>
         <div className="card-questions">
-          <h1 className="quiz-title">
-            Como você gostaria que os participantes se engajassem durante a
-            atividade?
-          </h1>
-          <QuestionBox />
+          <h1 className="quiz-title">{questaoAtual?.enunciado}</h1>
+          <QuestionBox respostas={respostasQuestaoAtual} />
 
           <img
             style={{ marginTop: "40px" }}
@@ -58,8 +105,8 @@ const Card: React.FC<CardProps> = ({
             loading="lazy"
           />
           <nav className="navigation-questions">
-            <BackButton />
-            <NextButton />
+            <BackButton onClick={handlePreviousQuestion} />
+            <NextButton onClick={handleNextQuestion} />
           </nav>
         </div>
       </>

@@ -1,16 +1,17 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
+import { BackButtonProps } from "@/app/types/buttonTypes";
 
-const BackButton: React.FC = () => {
+const BackButton: React.FC<BackButtonProps> = ({ onClick }) => {
   const router = useRouter();
-  const handleClick = () => {
+  /*const handleClick = () => {
     router.push("/recommendation/init");
-  };
+  };*/
 
   return (
     <>
-      <button className="navigation-questions-button" onClick={handleClick}>
+      <button className="navigation-questions-button" onClick={onclick}>
         Voltar
       </button>
     </>
