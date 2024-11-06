@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
-
 import { NextButtonProps } from "@/app/types/buttonTypes";
 
 const NextButton: React.FC<NextButtonProps> = ({ onClick }) => {

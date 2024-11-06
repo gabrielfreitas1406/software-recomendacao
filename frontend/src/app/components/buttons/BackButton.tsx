@@ -11,7 +11,7 @@ const BackButton: React.FC<BackButtonProps> = ({ onClick }) => {
 
   return (
     <>
-      <button className="navigation-questions-button" onClick={onclick}>
+      <button className="navigation-questions-button" onClick={onClick}>
         Voltar
       </button>
     </>
