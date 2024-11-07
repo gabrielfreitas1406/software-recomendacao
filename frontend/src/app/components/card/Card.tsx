@@ -8,7 +8,7 @@ import StartRecommendationButton from "../buttons/StartRecommendationButton";
 import api from "@/app/sevices/api";
 
 import { Questao, Resposta } from "@/app/types/QuestionTypes";
-
+import { QuestaoRespostaSelecionada } from "@/app/types/recommendationTypes";
 interface CardProps {
   isInitCard: Boolean;
   title?: string;
@@ -34,6 +34,10 @@ const Card: React.FC<CardProps> = ({
   const [questaoAtual, setQuestaoAtual] = React.useState<Questao | null>(null);
   const [respostasQuestaoAtual, setRespostasQuestaoAtual] = React.useState<
     Resposta[] | []
+  >([]);
+
+  const [respostaDoUsuario, setRespostaDoUsuario] = React.useState<
+    QuestaoRespostaSelecionada[] | []
   >([]);
 
   const fetchData = async (id: number) => {
