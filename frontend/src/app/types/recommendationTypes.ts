@@ -1,6 +1,13 @@
-export interface QuestaoRespostaSelecionada {
-  idQuestao: number;
+interface DictionaryNumber<T> {
+  [key: number]: T;
+}
+
+interface RespostaSelecionada {
   idResposta: number;
   alternativa: string;
-  conceito: string;
+  idConceito: string;
 }
+
+//onde o key é o id da questão e o T é o RespostaSelecionada
+export const QuestaoRespostaSelecionada: DictionaryNumber<RespostaSelecionada> =
+  {};

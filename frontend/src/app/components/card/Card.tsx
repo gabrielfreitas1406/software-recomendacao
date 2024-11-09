@@ -36,21 +36,23 @@ const Card: React.FC<CardProps> = ({
     Resposta[] | []
   >([]);
 
-  const [respostaDoUsuario, setRespostaDoUsuario] = React.useState<
-    QuestaoRespostaSelecionada[] | []
-  >([]);
+  const [respostaDoUsuario, setRespostaDoUsuario] =
+    React.useState<typeof QuestaoRespostaSelecionada>();
 
   const fetchData = async (id: number) => {
     try {
+      //Pega a requisição pelo axios
       const questaoAtualResponse = await api.get(`/questao/${id}`);
       const respostaQuestaoAtualResponse = await api.get(
         `/resposta/idQuestao/${id}`
       );
 
+      //Converte o dado das requisições em tipos do sistema
       const questaoAtualData = questaoAtualResponse.data as Questao;
       const respostaQuestaoAtualData =
         respostaQuestaoAtualResponse.data as Resposta[];
 
+      //atribui as veriáveis de estado
       setQuestaoAtual(questaoAtualData);
       setRespostasQuestaoAtual(respostaQuestaoAtualData);
     } catch (error) {
@@ -77,6 +79,7 @@ const Card: React.FC<CardProps> = ({
   console.log(respostasQuestaoAtual);
   console.log(idQuestaoAtual);
 
+  //============================= Tela para começar a recomendação =============================
   if (isInitCard) {
     const isNextButton = buttonLabel === "Próxima";
     return (
@@ -95,11 +98,15 @@ const Card: React.FC<CardProps> = ({
       </div>
     );
   } else {
+    //============================= Tela para responder as perguntas ========================================
     return (
       <>
         <div className="card-questions">
           <h1 className="quiz-title">{questaoAtual?.enunciado}</h1>
-          <QuestionBox respostas={respostasQuestaoAtual} />
+          <QuestionBox
+            respostas={respostasQuestaoAtual}
+            //respostaSelecionada={respostaDoUsuario}
+          />
 
           <img
             style={{ marginTop: "40px" }}
