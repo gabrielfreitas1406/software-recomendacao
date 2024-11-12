@@ -4,4 +4,5 @@ export interface BackButtonProps {
 
 export interface NextButtonProps {
   onClick: () => void;
+  disabled: boolean;
 }

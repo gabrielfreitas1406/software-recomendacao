@@ -12,25 +12,28 @@ interface QuestionBoxProps {
 
 interface QuestionBoxProps {
   respostas: Resposta[];
+  idSelectedOption: number | null;
   onRespostaSelect: (
     idResposta: number,
     alternativa: string,
-    idConceito: number
+    idConceito: number,
+    idSelectedOption: number
   ) => void;
 }
 
 const QuestionBox: React.FC<QuestionBoxProps> = ({
   respostas,
+  idSelectedOption,
   onRespostaSelect,
 }) => {
   //Verifica qual opção foi selecionada
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [idSelectedOption, setIdSelectedOption] = useState<number | null>(null);
+  //const [idSelectedOption, setIdSelectedOption] = useState<number | null>(null);
   //const [conceitoRespostaSeleciona, setConceitoRespostaSelecionada] =
   //  useState<RespostaSelecionada | null>(null);
 
   console.log(selectedOption);
-  console.log("id da quetão selecionada", idSelectedOption);
+  console.log("id da resposta selecionada pelo user", idSelectedOption);
   return (
     <section className="question-options">
       {respostas.map((resposta, index) => (
@@ -41,11 +44,11 @@ const QuestionBox: React.FC<QuestionBoxProps> = ({
           isSelected={selectedOption === String.fromCharCode(65 + index)}
           onSelect={() => {
             setSelectedOption(String.fromCharCode(65 + index));
-            setIdSelectedOption(resposta.id);
             onRespostaSelect(
               resposta.id,
               String.fromCharCode(65 + index),
-              resposta.idConceito
+              resposta.idConceito,
+              resposta.id
             );
           }}
         />

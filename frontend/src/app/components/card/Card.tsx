@@ -35,6 +35,9 @@ const Card: React.FC<CardProps> = ({
   const [respostasQuestaoAtual, setRespostasQuestaoAtual] = React.useState<
     Resposta[] | []
   >([]);
+  const [idSelectedOption, setIdSelectedOption] = React.useState<number | null>(
+    null
+  ); // para verificar se o usuário respondeu a questão
 
   const [respostasDoUsuario, setRespostaDoUsuario] =
     React.useState<typeof QuestaoRespostaSelecionada>();
@@ -65,18 +68,23 @@ const Card: React.FC<CardProps> = ({
   }, [idQuestaoAtual]);
 
   const handleNextQuestion = () => {
-    setidQuestaoAtual((prevId) => prevId + 1);
+    if (idSelectedOption !== null) {
+      setidQuestaoAtual((prevId) => prevId + 1);
+      setIdSelectedOption(null); // Reinicia a seleção ao passar para a próxima questão
+    }
   };
 
   const handleSetRespostaDoUsuario = (
     idResposta: number,
     alternativa: string,
-    idConceito: number
+    idConceito: number,
+    idSelectedOption: number
   ) => {
     setRespostaDoUsuario((prevState) => ({
       ...prevState,
       [idQuestaoAtual]: { idResposta, alternativa, idConceito },
     }));
+    setIdSelectedOption(idSelectedOption);
   };
 
   const handlePreviousQuestion = () => {
@@ -86,10 +94,11 @@ const Card: React.FC<CardProps> = ({
   //console.log(questoes);
   //console.log(respostas);
 
-  console.log(questaoAtual);
-  console.log(respostasQuestaoAtual);
-  console.log(idQuestaoAtual);
+  //console.log(questaoAtual);
+  //console.log("Respostas Questão atual", respostasQuestaoAtual);
+  //console.log("ID da questão atual: ", idQuestaoAtual);
   console.log("Respostas do usuário: ", respostasDoUsuario);
+  console.log("Id da resposta atual:", idSelectedOption); //tá dando como null
 
   //============================= Tela para começar a recomendação =============================
   if (isInitCard) {
@@ -117,6 +126,7 @@ const Card: React.FC<CardProps> = ({
           <h1 className="quiz-title">{questaoAtual?.enunciado}</h1>
           <QuestionBox
             respostas={respostasQuestaoAtual}
+            idSelectedOption={idSelectedOption}
             onRespostaSelect={handleSetRespostaDoUsuario}
           />
 
@@ -129,7 +139,10 @@ const Card: React.FC<CardProps> = ({
           />
           <nav className="navigation-questions">
             <BackButton onClick={handlePreviousQuestion} />
-            <NextButton onClick={handleNextQuestion} />
+            <NextButton
+              onClick={handleNextQuestion}
+              disabled={idSelectedOption === null}
+            />
           </nav>
         </div>
       </>
