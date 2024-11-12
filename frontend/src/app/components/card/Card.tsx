@@ -95,6 +95,7 @@ const Card: React.FC<CardProps> = ({
   console.log("Respostas do usuário: ", respostasDoUsuario);
   console.log("ID da resposta atual:", idSelectedOption); //tá dando como null
 
+  //muda para a página de resultado quando terminar de responder todas as oito questões
   React.useEffect(() => {
     if (idQuestaoAtual > 8) {
       router.push("/recommendation/result");
