@@ -36,7 +36,7 @@ const Card: React.FC<CardProps> = ({
     Resposta[] | []
   >([]);
 
-  const [respostaDoUsuario, setRespostaDoUsuario] =
+  const [respostasDoUsuario, setRespostaDoUsuario] =
     React.useState<typeof QuestaoRespostaSelecionada>();
 
   const fetchData = async (id: number) => {
@@ -68,6 +68,17 @@ const Card: React.FC<CardProps> = ({
     setidQuestaoAtual((prevId) => prevId + 1);
   };
 
+  const handleSetRespostaDoUsuario = (
+    idResposta: number,
+    alternativa: string,
+    idConceito: number
+  ) => {
+    setRespostaDoUsuario((prevState) => ({
+      ...prevState,
+      [idQuestaoAtual]: { idResposta, alternativa, idConceito },
+    }));
+  };
+
   const handlePreviousQuestion = () => {
     setidQuestaoAtual((prevId) => Math.max(1, prevId - 1)); // Evita voltar para ID menor que 1
   };
@@ -78,6 +89,7 @@ const Card: React.FC<CardProps> = ({
   console.log(questaoAtual);
   console.log(respostasQuestaoAtual);
   console.log(idQuestaoAtual);
+  console.log("Respostas do usuário: ", respostasDoUsuario);
 
   //============================= Tela para começar a recomendação =============================
   if (isInitCard) {
@@ -105,7 +117,7 @@ const Card: React.FC<CardProps> = ({
           <h1 className="quiz-title">{questaoAtual?.enunciado}</h1>
           <QuestionBox
             respostas={respostasQuestaoAtual}
-            //respostaSelecionada={respostaDoUsuario}
+            onRespostaSelect={handleSetRespostaDoUsuario}
           />
 
           <img

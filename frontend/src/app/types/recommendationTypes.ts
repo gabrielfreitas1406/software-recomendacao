@@ -2,10 +2,10 @@ interface DictionaryNumber<T> {
   [key: number]: T;
 }
 
-interface RespostaSelecionada {
+export interface RespostaSelecionada {
   idResposta: number;
   alternativa: string;
-  idConceito: string;
+  idConceito: number;
 }
 
 //onde o key é o id da questão e o T é o RespostaSelecionada
