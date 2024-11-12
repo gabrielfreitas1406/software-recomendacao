@@ -3,12 +3,14 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import { NextButtonProps } from "@/app/types/buttonTypes";
 
-const NextButton: React.FC<NextButtonProps> = ({ onClick, disabled }) => {
+const NextButton: React.FC<NextButtonProps> = ({
+  onClick,
+  disabled,
+  idQuestaoAtual,
+}) => {
   const router = useRouter();
-  //const handleClick = () => {
-  //router.push("/recommendation/init");
-  //};
 
+  console.log("idQuestaoAtual dentro do NextButton: ", idQuestaoAtual);
   console.log("disabled: ", disabled);
   return (
     <>
@@ -17,7 +19,8 @@ const NextButton: React.FC<NextButtonProps> = ({ onClick, disabled }) => {
         onClick={!disabled ? onClick : undefined}
         disabled={disabled}
       >
-        Próximo
+        {" "}
+        {idQuestaoAtual === 8 ? "Finalizar" : "Próximo"}
       </button>
     </>
   );

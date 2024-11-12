@@ -96,9 +96,9 @@ const Card: React.FC<CardProps> = ({
 
   //console.log(questaoAtual);
   //console.log("Respostas Questão atual", respostasQuestaoAtual);
-  //console.log("ID da questão atual: ", idQuestaoAtual);
+  console.log("ID da questão atual: ", idQuestaoAtual);
   console.log("Respostas do usuário: ", respostasDoUsuario);
-  console.log("Id da resposta atual:", idSelectedOption); //tá dando como null
+  console.log("ID da resposta atual:", idSelectedOption); //tá dando como null
 
   //============================= Tela para começar a recomendação =============================
   if (isInitCard) {
@@ -142,6 +142,7 @@ const Card: React.FC<CardProps> = ({
             <NextButton
               onClick={handleNextQuestion}
               disabled={idSelectedOption === null}
+              idQuestaoAtual={idQuestaoAtual}
             />
           </nav>
         </div>
