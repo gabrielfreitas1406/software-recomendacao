@@ -5,6 +5,7 @@ import QuestionBox from "../questions/QuestionsBox";
 import BackButton from "../buttons/BackButton";
 import NextButton from "../buttons/NextButton";
 import StartRecommendationButton from "../buttons/StartRecommendationButton";
+import { useRouter } from "next/navigation";
 import api from "@/app/sevices/api";
 
 import { Questao, Resposta } from "@/app/types/QuestionTypes";
@@ -20,9 +21,9 @@ const Card: React.FC<CardProps> = ({
 }) => {
   {
   }
-
   //const [questoes, setQuestoes] = React.useState<Questao[] | []>([]);
   //const [respostas, setRespostas] = React.useState<Resposta[] | []>([]);
+  const router = useRouter();
 
   const [idQuestaoAtual, setidQuestaoAtual] = React.useState<number>(1);
   const [questaoAtual, setQuestaoAtual] = React.useState<Questao | null>(null);
@@ -93,6 +94,12 @@ const Card: React.FC<CardProps> = ({
   console.log("ID da questão atual: ", idQuestaoAtual);
   console.log("Respostas do usuário: ", respostasDoUsuario);
   console.log("ID da resposta atual:", idSelectedOption); //tá dando como null
+
+  React.useEffect(() => {
+    if (idQuestaoAtual > 8) {
+      router.push("/recommendation/result");
+    }
+  }, [idQuestaoAtual, router]);
 
   //============================= Tela para começar a recomendação =============================
   if (isInitCard) {

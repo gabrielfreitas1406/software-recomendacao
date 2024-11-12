@@ -8,7 +8,7 @@ const NextButton: React.FC<NextButtonProps> = ({
   disabled,
   idQuestaoAtual,
 }) => {
-  const router = useRouter();
+  //const router = useRouter();
 
   console.log("idQuestaoAtual dentro do NextButton: ", idQuestaoAtual);
   console.log("disabled: ", disabled);
