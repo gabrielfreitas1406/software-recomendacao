@@ -9,13 +9,7 @@ import api from "@/app/sevices/api";
 
 import { Questao, Resposta } from "@/app/types/QuestionTypes";
 import { QuestaoRespostaSelecionada } from "@/app/types/recommendationTypes";
-interface CardProps {
-  isInitCard: Boolean;
-  title?: string;
-  description?: string;
-  buttonLabel?: string;
-  imageTitle?: string;
-}
+import { CardProps } from "@/app/types/cardTypes";
 
 const Card: React.FC<CardProps> = ({
   isInitCard,
