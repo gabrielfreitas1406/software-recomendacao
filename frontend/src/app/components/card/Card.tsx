@@ -9,7 +9,10 @@ import { useRouter } from "next/navigation";
 import api from "@/app/sevices/api";
 
 import { Questao, Resposta } from "@/app/types/QuestionTypes";
-import { QuestaoRespostaSelecionada } from "@/app/types/recommendationTypes";
+import {
+  QuestaoRespostaSelecionada,
+  Conceito,
+} from "@/app/types/recommendationTypes";
 import { CardProps } from "@/app/types/cardTypes";
 
 const Card: React.FC<CardProps> = ({
@@ -33,6 +36,7 @@ const Card: React.FC<CardProps> = ({
   const [idSelectedOption, setIdSelectedOption] = React.useState<number | null>(
     null
   ); // para verificar se o usuário respondeu a questão
+  const [conceitos, setConceitos] = React.useState<Conceito[] | []>([]);
 
   const [respostasDoUsuario, setRespostaDoUsuario] =
     React.useState<typeof QuestaoRespostaSelecionada>();
@@ -49,6 +53,25 @@ const Card: React.FC<CardProps> = ({
       const questaoAtualData = questaoAtualResponse.data as Questao;
       const respostaQuestaoAtualData =
         respostaQuestaoAtualResponse.data as Resposta[];
+
+      /* 
+      for (let key in respostasDoUsuario) {
+        const keyNumber = Number(key);
+        const respostaQuestao = respostasDoUsuario[keyNumber];
+        //console.log("Haha! ", respostaQuestao);
+        const conceito = await api.get(
+          `/conceito/${respostaQuestao.idConceito}`
+        );
+        //console.log("CONCEITO RETORNADO: ", conceito.data);
+
+        setConceitos((prevConceitos) => {
+          //salva os conceitos na variável de estado dos conceitos.
+          const newConceitos = [...prevConceitos];
+          newConceitos.push(conceito.data);
+          return newConceitos;
+        });
+      }
+      */
 
       //atribui as veriáveis de estado
       setQuestaoAtual(questaoAtualData);
@@ -94,6 +117,7 @@ const Card: React.FC<CardProps> = ({
   console.log("ID da questão atual: ", idQuestaoAtual);
   console.log("Respostas do usuário: ", respostasDoUsuario);
   console.log("ID da resposta atual:", idSelectedOption); //tá dando como null
+  console.log("conceitos: ", conceitos);
 
   //muda para a página de resultado quando terminar de responder todas as oito questões
   React.useEffect(() => {
