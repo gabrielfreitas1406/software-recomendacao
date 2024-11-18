@@ -15,6 +15,18 @@ export interface Conceito {
   idPai: number | null;
 }
 
+export interface ConceitoRecurso {
+  idConceito: number;
+  idRecurso: number;
+}
+
+export interface Recurso {
+  id: number;
+  nome: String;
+  descricao: String;
+  idFerramenta: number;
+}
+
 //onde o key é o id da questão e o T é o RespostaSelecionada
 export const QuestaoRespostaSelecionada: DictionaryNumber<RespostaSelecionada> =
   {};

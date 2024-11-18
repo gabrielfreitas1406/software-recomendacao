@@ -12,8 +12,17 @@ import { Questao, Resposta } from "@/app/types/QuestionTypes";
 import {
   QuestaoRespostaSelecionada,
   Conceito,
+  ConceitoRecurso,
+  Recurso,
 } from "@/app/types/recommendationTypes";
 import { CardProps } from "@/app/types/cardTypes";
+
+const verificaSeConceitoJaExisteNaRespostaDoUsuario = (
+  conceitoAVerificar: Conceito,
+  conceitos: Conceito[]
+) => {
+  return conceitos.some((conceito) => conceito.id === conceitoAVerificar.id);
+};
 
 const Card: React.FC<CardProps> = ({
   isInitCard,
@@ -37,6 +46,11 @@ const Card: React.FC<CardProps> = ({
     null
   ); // para verificar se o usuário respondeu a questão
   const [conceitos, setConceitos] = React.useState<Conceito[] | []>([]);
+  const [conceitosRecursos, setConceitosRecursos] = React.useState<
+    ConceitoRecurso[] | []
+  >([]);
+
+  const [recursos, setRecursos] = React.useState<Recurso[] | []>([]);
 
   const [respostasDoUsuario, setRespostaDoUsuario] =
     React.useState<typeof QuestaoRespostaSelecionada>();
@@ -54,24 +68,33 @@ const Card: React.FC<CardProps> = ({
       const respostaQuestaoAtualData =
         respostaQuestaoAtualResponse.data as Resposta[];
 
-      /* 
+      //Pega os conceitos das respostas
       for (let key in respostasDoUsuario) {
         const keyNumber = Number(key);
         const respostaQuestao = respostasDoUsuario[keyNumber];
-        //console.log("Haha! ", respostaQuestao);
-        const conceito = await api.get(
-          `/conceito/${respostaQuestao.idConceito}`
-        );
-        //console.log("CONCEITO RETORNADO: ", conceito.data);
 
-        setConceitos((prevConceitos) => {
-          //salva os conceitos na variável de estado dos conceitos.
-          const newConceitos = [...prevConceitos];
-          newConceitos.push(conceito.data);
-          return newConceitos;
-        });
+        //Só pega o conceito se ele não for nulo
+        if (respostaQuestao.idConceito !== null) {
+          const conceito = await api.get(
+            `/conceito/${respostaQuestao.idConceito}`
+          );
+
+          //Verifica se o conceigto já foi inserido na lista de conceitos das respostas
+          if (
+            !verificaSeConceitoJaExisteNaRespostaDoUsuario(
+              conceito.data,
+              conceitos
+            )
+          ) {
+            setConceitos((prevConceitos) => {
+              //salva os conceitos na variável de estado dos conceitos.
+              const newConceitos = [...prevConceitos];
+              newConceitos.push(conceito.data);
+              return newConceitos;
+            });
+          }
+        }
       }
-      */
 
       //atribui as veriáveis de estado
       setQuestaoAtual(questaoAtualData);
