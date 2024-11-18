@@ -33,6 +33,8 @@ const Card: React.FC<CardProps> = ({
 }) => {
   {
   }
+
+  /*=============================================== Variáveis de Estado ===============================================*/
   //const [questoes, setQuestoes] = React.useState<Questao[] | []>([]);
   //const [respostas, setRespostas] = React.useState<Resposta[] | []>([]);
   const router = useRouter();
@@ -45,16 +47,22 @@ const Card: React.FC<CardProps> = ({
   const [idSelectedOption, setIdSelectedOption] = React.useState<number | null>(
     null
   ); // para verificar se o usuário respondeu a questão
+
+  //Conceitos, Recursos
   const [conceitos, setConceitos] = React.useState<Conceito[] | []>([]);
   const [conceitosRecursos, setConceitosRecursos] = React.useState<
     ConceitoRecurso[] | []
   >([]);
-
   const [recursos, setRecursos] = React.useState<Recurso[] | []>([]);
 
+  //Todas as respostas do usuário
   const [respostasDoUsuario, setRespostaDoUsuario] =
     React.useState<typeof QuestaoRespostaSelecionada>();
 
+  //Para  verificar se o usuário terminou de responder todas as questões
+  const [isFinished, setIsFinished] = React.useState(false);
+
+  /*============================================= Funções das requisições ======================================= */
   const fetchData = async (id: number) => {
     try {
       //Pega a requisição pelo axios
@@ -104,10 +112,51 @@ const Card: React.FC<CardProps> = ({
     }
   };
 
+  /* ============================================= UseEffects =============================================*/
   React.useEffect(() => {
     fetchData(idQuestaoAtual);
   }, [idQuestaoAtual]);
 
+  //muda para a página de resultado quando terminar de responder todas as oito questões
+  React.useEffect(() => {
+    if (idQuestaoAtual > 8) {
+      setIsFinished(true);
+      router.push("/recommendation/result");
+    }
+  }, [idQuestaoAtual, router]);
+  React.useEffect(() => {
+    if (isFinished) {
+      const fetchConceitosRecursos = async () => {
+        for (const conceitoDaVez of conceitos) {
+          try {
+            const conceitoRecursosResponse = await api.get(
+              `/conceitoRecurso/IDconceito/${conceitoDaVez.id}`
+            );
+            const conceitoRecursoArray =
+              conceitoRecursosResponse.data as ConceitoRecurso[];
+
+            conceitoRecursoArray.forEach(
+              (conceitoRecursoIndividual: ConceitoRecurso) => {
+                setConceitosRecursos((prevConceitosRecursos) => [
+                  ...prevConceitosRecursos,
+                  conceitoRecursoIndividual,
+                ]);
+              }
+            );
+          } catch (error) {
+            console.error(
+              `Erro ao buscar recursos para o conceito ${conceitoDaVez.id}:`,
+              error
+            );
+          }
+        }
+      };
+
+      fetchConceitosRecursos();
+    }
+  }, [isFinished, conceitos]);
+
+  /* ============================================= Funções dos botões =============================================*/
   const handleNextQuestion = () => {
     if (idSelectedOption !== null) {
       setidQuestaoAtual((prevId) => prevId + 1);
@@ -132,6 +181,7 @@ const Card: React.FC<CardProps> = ({
     setidQuestaoAtual((prevId) => Math.max(1, prevId - 1)); // Evita voltar para ID menor que 1
   };
 
+  /* ============================================= Debug ============================================= */
   //console.log(questoes);
   //console.log(respostas);
 
@@ -141,13 +191,7 @@ const Card: React.FC<CardProps> = ({
   console.log("Respostas do usuário: ", respostasDoUsuario);
   console.log("ID da resposta atual:", idSelectedOption); //tá dando como null
   console.log("conceitos: ", conceitos);
-
-  //muda para a página de resultado quando terminar de responder todas as oito questões
-  React.useEffect(() => {
-    if (idQuestaoAtual > 8) {
-      router.push("/recommendation/result");
-    }
-  }, [idQuestaoAtual, router]);
+  console.log("ConceitosRecursos", conceitosRecursos);
 
   //============================= Tela para começar a recomendação =============================
   if (isInitCard) {
