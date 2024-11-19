@@ -64,12 +64,10 @@ const Card: React.FC<CardProps> = ({
   const [isFinished, setIsFinished] = React.useState(false);
 
   //Para contar os recursos para recomendar a ferramenta.
-  const [contagemRecurso, setContagemRecurso] = React.useState<
-    typeof ContagemRecurso
-  >({});
-  const [contagemFerramenta, setContagemFerramenta] = React.useState<
-    typeof ContagemFerramenta
-  >({});
+  const [contagemRecurso, setContagemRecurso] =
+    React.useState<typeof ContagemRecurso>();
+  const [contagemFerramenta, setContagemFerramenta] =
+    React.useState<typeof ContagemFerramenta>();
   const [limiar, setLimiar] = React.useState(3);
 
   /*============================================= Funções das requisições ======================================= */
