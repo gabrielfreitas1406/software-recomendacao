@@ -64,10 +64,28 @@ const Card: React.FC<CardProps> = ({
   const [isFinished, setIsFinished] = React.useState(false);
 
   //Para contar os recursos para recomendar a ferramenta.
-  const [contagemRecurso, setContagemRecurso] =
-    React.useState<typeof ContagemRecurso>();
-  const [contagemFerramenta, setContagemFerramenta] =
-    React.useState<typeof ContagemFerramenta>();
+  const [contagemRecurso, setContagemRecurso] = React.useState<
+    typeof ContagemRecurso
+  >({
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+    6: 0,
+    7: 0,
+    8: 0,
+    9: 0,
+    10: 0,
+    11: 0,
+    12: 0,
+    13: 0,
+    14: 0,
+    15: 0,
+  });
+  const [contagemFerramenta, setContagemFerramenta] = React.useState<
+    typeof ContagemFerramenta
+  >({ 1: 0, 2: 0, 3: 0, 4: 0 });
   const [limiar, setLimiar] = React.useState(3);
 
   /*============================================= Funções das requisições ======================================= */
@@ -127,7 +145,6 @@ const Card: React.FC<CardProps> = ({
   }, [idQuestaoAtual]);
 
   //muda para a página de resultado quando terminar de responder todas as oito questões
-
   React.useEffect(() => {
     if (idQuestaoAtual > 8) {
       setIsFinished(true);
@@ -163,8 +180,18 @@ const Card: React.FC<CardProps> = ({
           }
         }
       };
+      const fetchContagem = async () => {
+        try {
+          conceitosRecursos.forEach(async (conceitoRecurso) => {
+            contagemRecurso[conceitoRecurso.idRecurso] += 1;
+          });
+        } catch (error) {
+          console.log("Erro ao fazer a contagem dos recursos: ", error);
+        }
+      };
 
       fetchConceitosRecursos();
+      fetchContagem();
     }
   }, [isFinished, conceitos]);
 
@@ -200,10 +227,12 @@ const Card: React.FC<CardProps> = ({
   //console.log(questaoAtual);
   //console.log("Respostas Questão atual", respostasQuestaoAtual);
   console.log("ID da questão atual: ", idQuestaoAtual);
-  console.log("Respostas do usuário: ", respostasDoUsuario);
-  console.log("ID da resposta atual:", idSelectedOption); //tá dando como null
-  console.log("conceitos: ", conceitos);
+  //console.log("Respostas do usuário: ", respostasDoUsuario);
+  //console.log("ID da resposta atual:", idSelectedOption); //tá dando como null
+  //console.log("conceitos: ", conceitos);
   console.log("ConceitosRecursos", conceitosRecursos);
+  console.log("Contagem Recurso: ", contagemRecurso);
+  console.log("Contagem Ferramenta: ", contagemFerramenta);
 
   //============================= Tela para começar a recomendação =============================
   if (isInitCard) {
