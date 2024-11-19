@@ -30,3 +30,8 @@ export interface Recurso {
 //onde o key é o id da questão e o T é o RespostaSelecionada
 export const QuestaoRespostaSelecionada: DictionaryNumber<RespostaSelecionada> =
   {};
+
+//Interface para contar os recursos e as ferramentas
+export const ContagemRecurso: DictionaryNumber<number> = {};
+
+export const ContagemFerramenta: DictionaryNumber<number> = {};
