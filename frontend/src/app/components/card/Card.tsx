@@ -14,6 +14,8 @@ import {
   Conceito,
   ConceitoRecurso,
   Recurso,
+  ContagemRecurso,
+  ContagemFerramenta,
 } from "@/app/types/recommendationTypes";
 import { CardProps } from "@/app/types/cardTypes";
 
@@ -35,10 +37,9 @@ const Card: React.FC<CardProps> = ({
   }
 
   /*=============================================== Variáveis de Estado ===============================================*/
-  //const [questoes, setQuestoes] = React.useState<Questao[] | []>([]);
-  //const [respostas, setRespostas] = React.useState<Resposta[] | []>([]);
   const router = useRouter();
 
+  //Para gerenciar as questões
   const [idQuestaoAtual, setidQuestaoAtual] = React.useState<number>(1);
   const [questaoAtual, setQuestaoAtual] = React.useState<Questao | null>(null);
   const [respostasQuestaoAtual, setRespostasQuestaoAtual] = React.useState<
@@ -61,6 +62,15 @@ const Card: React.FC<CardProps> = ({
 
   //Para  verificar se o usuário terminou de responder todas as questões
   const [isFinished, setIsFinished] = React.useState(false);
+
+  //Para contar os recursos para recomendar a ferramenta.
+  const [contagemRecurso, setContagemRecurso] = React.useState<
+    typeof ContagemRecurso
+  >({});
+  const [contagemFerramenta, setContagemFerramenta] = React.useState<
+    typeof ContagemFerramenta
+  >({});
+  const [limiar, setLimiar] = React.useState(3);
 
   /*============================================= Funções das requisições ======================================= */
   const fetchData = async (id: number) => {
@@ -113,17 +123,21 @@ const Card: React.FC<CardProps> = ({
   };
 
   /* ============================================= UseEffects =============================================*/
+  //Feito a cada interação com as questões.
   React.useEffect(() => {
     fetchData(idQuestaoAtual);
   }, [idQuestaoAtual]);
 
   //muda para a página de resultado quando terminar de responder todas as oito questões
+
   React.useEffect(() => {
     if (idQuestaoAtual > 8) {
       setIsFinished(true);
       router.push("/recommendation/result");
     }
   }, [idQuestaoAtual, router]);
+
+  //calcula a recomendação só no final
   React.useEffect(() => {
     if (isFinished) {
       const fetchConceitosRecursos = async () => {
