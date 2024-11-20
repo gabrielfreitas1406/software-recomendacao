@@ -8,7 +8,7 @@ import respostaRouter from "../resources/resposta/resposta.router";
 const router = Router();
 
 router.use("/conceito", conceitoRouter);
-router.use("/ferramentas", ferramentaRouter);
+router.use("/ferramenta", ferramentaRouter);
 router.use("/recurso", recursoRouter);
 router.use("/conceitoRecurso", conceitoRecursoRouter);
 router.use("/questao", questaoRouter);

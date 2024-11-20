@@ -14,6 +14,7 @@ import {
   Conceito,
   ConceitoRecurso,
   Recurso,
+  Ferramenta,
   ContagemRecurso,
   ContagemFerramenta,
 } from "@/app/types/recommendationTypes";
@@ -180,20 +181,33 @@ const Card: React.FC<CardProps> = ({
           }
         }
       };
-      const fetchContagem = async () => {
-        try {
-          conceitosRecursos.forEach(async (conceitoRecurso) => {
-            contagemRecurso[conceitoRecurso.idRecurso] += 1;
-          });
-        } catch (error) {
-          console.log("Erro ao fazer a contagem dos recursos: ", error);
-        }
-      };
 
       fetchConceitosRecursos();
-      fetchContagem();
     }
   }, [isFinished, conceitos]);
+
+  React.useEffect(() => {
+    const fetchContagem = async () => {
+      try {
+        // Crie uma cópia local de contagemRecurso para manipular os dados
+        const novaContagemRecurso = { ...contagemRecurso };
+
+        conceitosRecursos.forEach((conceitoRecurso) => {
+          // Incrementa o contador para o idRecurso
+          novaContagemRecurso[conceitoRecurso.idRecurso] =
+            (novaContagemRecurso[conceitoRecurso.idRecurso] || 0) + 1;
+        });
+
+        // Atualiza o estado com a nova contagem
+        setContagemRecurso(novaContagemRecurso);
+      } catch (error) {
+        console.log("Erro ao fazer a contagem dos recursos: ", error);
+      }
+    };
+    if (isFinished && conceitosRecursos.length > 0) {
+      fetchContagem();
+    }
+  }, [isFinished, conceitosRecursos]);
 
   /* ============================================= Funções dos botões =============================================*/
   const handleNextQuestion = () => {

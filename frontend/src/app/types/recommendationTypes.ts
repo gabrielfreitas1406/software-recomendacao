@@ -27,6 +27,13 @@ export interface Recurso {
   idFerramenta: number;
 }
 
+export interface Ferramenta {
+  id: number;
+  nome: String;
+  descricao: String;
+  link: String;
+}
+
 //onde o key é o id da questão e o T é o RespostaSelecionada
 export const QuestaoRespostaSelecionada: DictionaryNumber<RespostaSelecionada> =
   {};
