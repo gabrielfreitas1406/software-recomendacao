@@ -189,17 +189,46 @@ const Card: React.FC<CardProps> = ({
   React.useEffect(() => {
     const fetchContagem = async () => {
       try {
-        // Crie uma cópia local de contagemRecurso para manipular os dados
+        // Cópia local de contagemRecurso para manipular os dados
         const novaContagemRecurso = { ...contagemRecurso };
+        const novaContagemFerramenta: Record<string, number> = {};
 
         conceitosRecursos.forEach((conceitoRecurso) => {
           // Incrementa o contador para o idRecurso
           novaContagemRecurso[conceitoRecurso.idRecurso] =
             (novaContagemRecurso[conceitoRecurso.idRecurso] || 0) + 1;
         });
-
         // Atualiza o estado com a nova contagem
         setContagemRecurso(novaContagemRecurso);
+
+        // Itera sobre os recursos para buscar ferramentas relacionadas
+        for (const [idRecurso, contagem] of Object.entries(
+          novaContagemRecurso
+        )) {
+          console.log("idResurso: ", idRecurso);
+          if (contagem > limiar) {
+            try {
+              // Busca a ferramenta associada ao recurso
+              const ferramentaResponse = await api.get(
+                `/ferramenta/${idRecurso}/`
+              );
+              const ferramenta = ferramentaResponse.data as Ferramenta;
+
+              // Incrementa a contagem da ferramenta
+              const idFerramenta = ferramenta.id;
+              novaContagemFerramenta[idFerramenta] =
+                (novaContagemFerramenta[idFerramenta] || 0) + 1;
+            } catch (error) {
+              console.error(
+                `Erro ao buscar ferramenta para o recurso ${idRecurso}:`,
+                error
+              );
+            }
+          }
+        }
+
+        // Atualiza o estado com a contagem das ferramentas
+        setContagemFerramenta(novaContagemFerramenta);
       } catch (error) {
         console.log("Erro ao fazer a contagem dos recursos: ", error);
       }
