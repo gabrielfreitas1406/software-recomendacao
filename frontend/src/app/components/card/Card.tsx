@@ -201,34 +201,27 @@ const Card: React.FC<CardProps> = ({
         // Atualiza o estado com a nova contagem
         setContagemRecurso(novaContagemRecurso);
 
-        // Itera sobre os recursos para buscar ferramentas relacionadas
-        for (const [idRecurso, contagem] of Object.entries(
-          novaContagemRecurso
+        //=========== Agora conta as ferramentas que possuem mais recursos que o limiar ===========
+        const contagemFerramentaProvisoria = {
+          ...contagemFerramenta,
+        };
+        for (const [keyIdRecurso, contagem] of Object.entries(
+          contagemRecurso
         )) {
-          console.log("idResurso: ", idRecurso);
+          const contagemFerramentaProvisoria = { ...contagemFerramenta };
           if (contagem > limiar) {
-            try {
-              // Busca a ferramenta associada ao recurso
-              const ferramentaResponse = await api.get(
-                `/ferramenta/${idRecurso}/`
-              );
-              const ferramenta = ferramentaResponse.data as Ferramenta;
+            //Pega o recurso
+            const recursoResponse = await api.get(`/recurso/${keyIdRecurso}/`);
+            const recurso = recursoResponse.data as Recurso;
 
-              // Incrementa a contagem da ferramenta
-              const idFerramenta = ferramenta.id;
-              novaContagemFerramenta[idFerramenta] =
-                (novaContagemFerramenta[idFerramenta] || 0) + 1;
-            } catch (error) {
-              console.error(
-                `Erro ao buscar ferramenta para o recurso ${idRecurso}:`,
-                error
-              );
-            }
+            //Pega o id da ferramenta mencionada no recurso
+            const idFerramentaNoRecurso = recurso.idFerramenta;
+
+            contagemFerramentaProvisoria[idFerramentaNoRecurso] =
+              (contagemFerramentaProvisoria[idFerramentaNoRecurso] || 0) + 1;
           }
         }
-
-        // Atualiza o estado com a contagem das ferramentas
-        setContagemFerramenta(novaContagemFerramenta);
+        setContagemFerramenta(contagemFerramentaProvisoria);
       } catch (error) {
         console.log("Erro ao fazer a contagem dos recursos: ", error);
       }
