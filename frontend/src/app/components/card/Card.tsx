@@ -208,7 +208,7 @@ const Card: React.FC<CardProps> = ({
         for (const [keyIdRecurso, contagem] of Object.entries(
           contagemRecurso
         )) {
-          const contagemFerramentaProvisoria = { ...contagemFerramenta };
+          //console.log("É maior que o limiar? ", contagem > limiar);
           if (contagem > limiar) {
             //Pega o recurso
             const recursoResponse = await api.get(`/recurso/${keyIdRecurso}/`);
@@ -221,7 +221,14 @@ const Card: React.FC<CardProps> = ({
               (contagemFerramentaProvisoria[idFerramentaNoRecurso] || 0) + 1;
           }
         }
-        setContagemFerramenta(contagemFerramentaProvisoria);
+        console.log(
+          "Contagem da ferramenta provisória: ",
+          contagemFerramentaProvisoria
+        );
+        setContagemFerramenta((prevContagemFerramenta) => ({
+          ...prevContagemFerramenta,
+          ...contagemFerramentaProvisoria,
+        }));
       } catch (error) {
         console.log("Erro ao fazer a contagem dos recursos: ", error);
       }
