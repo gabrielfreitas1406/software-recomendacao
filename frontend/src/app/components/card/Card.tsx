@@ -87,7 +87,14 @@ const Card: React.FC<CardProps> = ({
   const [contagemFerramenta, setContagemFerramenta] = React.useState<
     typeof ContagemFerramenta
   >({ 1: 0, 2: 0, 3: 0, 4: 0 });
+
   const [limiar, setLimiar] = React.useState(3);
+
+  const [idFerramentaSelecionada, setIdFerramentaSelecionada] = React.useState<
+    number | null
+  >(null);
+  const [ferramentaSelecionada, setFerramentaSelecionada] =
+    React.useState<Ferramenta | null>(null);
 
   /*============================================= Funções das requisições ======================================= */
   const fetchData = async (id: number) => {
@@ -225,10 +232,6 @@ const Card: React.FC<CardProps> = ({
           "Contagem da ferramenta provisória: ",
           contagemFerramentaProvisoria
         );
-        setContagemFerramenta((prevContagemFerramenta) => ({
-          ...prevContagemFerramenta,
-          ...contagemFerramentaProvisoria,
-        }));
       } catch (error) {
         console.log("Erro ao fazer a contagem dos recursos: ", error);
       }
@@ -276,6 +279,7 @@ const Card: React.FC<CardProps> = ({
   console.log("ConceitosRecursos", conceitosRecursos);
   console.log("Contagem Recurso: ", contagemRecurso);
   console.log("Contagem Ferramenta: ", contagemFerramenta);
+  console.log("Ferramenta Selecionada ID FINAL:", idFerramentaSelecionada);
 
   //============================= Tela para começar a recomendação =============================
   if (isInitCard) {
