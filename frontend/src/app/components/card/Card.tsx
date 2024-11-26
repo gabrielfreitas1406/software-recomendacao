@@ -160,7 +160,8 @@ const Card: React.FC<CardProps> = ({
     }
   }, [idQuestaoAtual, router]);
 
-  //calcula a recomendação só no final
+  //================================== CALCULA A RECOMENDAÇÃO SÓ NO FINAL ==================================
+  //1 encontra os recursos que estão relacionados com os conceitos
   React.useEffect(() => {
     if (isFinished) {
       const fetchConceitosRecursos = async () => {
@@ -193,12 +194,13 @@ const Card: React.FC<CardProps> = ({
     }
   }, [isFinished, conceitos]);
 
+  //2 Faz a contagem dos recursos
   React.useEffect(() => {
     const fetchContagemRecurso = async () => {
       try {
         // Cópia local de contagemRecurso para manipular os dados
         const contagemRecursoProvisoria = { ...contagemRecurso };
-        const novaContagemFerramenta: Record<string, number> = {};
+        //const novaContagemFerramenta: Record<string, number> = {};
 
         conceitosRecursos.forEach((conceitoRecurso) => {
           // Incrementa o contador para o idRecurso
@@ -216,18 +218,24 @@ const Card: React.FC<CardProps> = ({
     }
   }, [isFinished, conceitosRecursos]);
 
+  //3 Faz a contagem das ferramentas (PROBLEMA ⚠️)
   React.useEffect(() => {
     const fetchContagemFerramenta = async () => {
       try {
         //=========== Contagem das ferramentas que possuem mais recursos que o limiar ===========
+        console.log("Entrou no fetch das ferramentas!");
         const contagemFerramentaProvisoria = {
           ...contagemFerramenta,
         };
         for (const [keyIdRecurso, contagem] of Object.entries(
           contagemRecurso
         )) {
-          //console.log("É maior que o limiar? ", contagem > limiar);
+          console.log(
+            "Dentro do for para comparar com o limiar: ",
+            contagem > limiar
+          );
           if (contagem > limiar) {
+            console.log("A contagem é maior que o limiar");
             //Pega o recurso
             const recursoResponse = await api.get(`/recurso/${keyIdRecurso}/`);
             const recurso = recursoResponse.data as Recurso;
@@ -251,6 +259,7 @@ const Card: React.FC<CardProps> = ({
     fetchContagemFerramenta();
   }, [contagemRecurso]);
 
+  // 4 Seleciona a ferramenta com a maior contagem
   React.useEffect(() => {
     console.log("Vai atualizar a ferramenta ou não? ", contagemFerramenta);
     //pega a ferramenta cuja contagem for maior
@@ -266,13 +275,17 @@ const Card: React.FC<CardProps> = ({
           }
         );
         //id da ferramenta com maior contagem
-        console.log("Chave com o maior valor:", chaveMaiorValor);
+        console.log(
+          "Chave com o maior valor (Ferramenta com maior contagem):",
+          chaveMaiorValor
+        );
       } catch (error) {
         console.log("Erro ao buscar a ferramenta: ", error);
       }
     };
     fetchFerramenta();
   }, [contagemFerramenta]);
+
   /* ============================================= Funções dos botões =============================================*/
   const handleNextQuestion = () => {
     if (idSelectedOption !== null) {
