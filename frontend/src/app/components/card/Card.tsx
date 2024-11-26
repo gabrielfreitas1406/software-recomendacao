@@ -218,74 +218,6 @@ const Card: React.FC<CardProps> = ({
     }
   }, [isFinished, conceitosRecursos]);
 
-  //3 Faz a contagem das ferramentas (PROBLEMA ⚠️)
-  React.useEffect(() => {
-    const fetchContagemFerramenta = async () => {
-      try {
-        //=========== Contagem das ferramentas que possuem mais recursos que o limiar ===========
-        console.log("Entrou no fetch das ferramentas!");
-        const contagemFerramentaProvisoria = {
-          ...contagemFerramenta,
-        };
-        for (const [keyIdRecurso, contagem] of Object.entries(
-          contagemRecurso
-        )) {
-          console.log(
-            "Dentro do for para comparar com o limiar: ",
-            contagem > limiar
-          );
-          if (contagem > limiar) {
-            console.log("A contagem é maior que o limiar");
-            //Pega o recurso
-            const recursoResponse = await api.get(`/recurso/${keyIdRecurso}/`);
-            const recurso = recursoResponse.data as Recurso;
-
-            //Pega o id da ferramenta mencionada no recurso
-            const idFerramentaNoRecurso = recurso.idFerramenta;
-
-            contagemFerramentaProvisoria[idFerramentaNoRecurso] =
-              (contagemFerramentaProvisoria[idFerramentaNoRecurso] || 0) + 1;
-          }
-        }
-        console.log(
-          "Contagem da ferramenta provisória: ",
-          contagemFerramentaProvisoria
-        );
-        setContagemFerramenta(contagemFerramentaProvisoria);
-      } catch (error) {
-        console.log("Erro ao fazer a contagem da ferramenta: ", error);
-      }
-    };
-    fetchContagemFerramenta();
-  }, [contagemRecurso]);
-
-  // 4 Seleciona a ferramenta com a maior contagem
-  React.useEffect(() => {
-    console.log("Vai atualizar a ferramenta ou não? ", contagemFerramenta);
-    //pega a ferramenta cuja contagem for maior
-    const fetchFerramenta = async () => {
-      try {
-        // Obtém a chave com o maior valor
-        const chaveMaiorValor = Object.keys(contagemFerramenta).reduce(
-          (chaveMaior, chaveAtual) => {
-            return contagemFerramenta[Number(chaveAtual)] >
-              contagemFerramenta[Number(chaveMaior)]
-              ? chaveAtual
-              : chaveMaior;
-          }
-        );
-        //id da ferramenta com maior contagem
-        console.log(
-          "Chave com o maior valor (Ferramenta com maior contagem):",
-          chaveMaiorValor
-        );
-      } catch (error) {
-        console.log("Erro ao buscar a ferramenta: ", error);
-      }
-    };
-    fetchFerramenta();
-  }, [contagemFerramenta]);
-
   /* ============================================= Funções dos botões =============================================*/
   const handleNextQuestion = () => {
     if (idSelectedOption !== null) {
@@ -312,17 +244,12 @@ const Card: React.FC<CardProps> = ({
   };
 
   /* ============================================= Debug ============================================= */
-  //console.log(questoes);
-  //console.log(respostas);
-
-  //console.log(questaoAtual);
-  //console.log("Respostas Questão atual", respostasQuestaoAtual);
   console.log("ID da questão atual: ", idQuestaoAtual);
   //console.log("Respostas do usuário: ", respostasDoUsuario);
   //console.log("ID da resposta atual:", idSelectedOption); //tá dando como null
   //console.log("conceitos: ", conceitos);
   //console.log("ConceitosRecursos", conceitosRecursos);
-  console.log("Contagem Recurso: ", contagemRecurso);
+  console.log("Contagem Recurso GERAL: ", contagemRecurso);
   console.log("Contagem Ferramenta GERAL: ", contagemFerramenta);
   //console.log("Ferramenta Selecionada ID FINAL:", idFerramentaSelecionada);
 
