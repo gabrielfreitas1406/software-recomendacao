@@ -194,7 +194,7 @@ const Card: React.FC<CardProps> = ({
   }, [isFinished, conceitos]);
 
   React.useEffect(() => {
-    const fetchContagem = async () => {
+    const fetchContagemRecurso = async () => {
       try {
         // Cópia local de contagemRecurso para manipular os dados
         const novaContagemRecurso = { ...contagemRecurso };
@@ -207,8 +207,19 @@ const Card: React.FC<CardProps> = ({
         });
         // Atualiza o estado com a nova contagem
         setContagemRecurso(novaContagemRecurso);
+      } catch (error) {
+        console.log("Erro ao fazer a contagem dos recursos: ", error);
+      }
+    };
+    if (isFinished && conceitosRecursos.length > 0) {
+      fetchContagemRecurso();
+    }
+  }, [isFinished, conceitosRecursos]);
 
-        //=========== Agora conta as ferramentas que possuem mais recursos que o limiar ===========
+  React.useEffect(() => {
+    const fetchContagemFerramenta = async () => {
+      try {
+        //=========== Contagem das ferramentas que possuem mais recursos que o limiar ===========
         const contagemFerramentaProvisoria = {
           ...contagemFerramenta,
         };
@@ -232,15 +243,17 @@ const Card: React.FC<CardProps> = ({
           "Contagem da ferramenta provisória: ",
           contagemFerramentaProvisoria
         );
+        setContagemFerramenta(contagemFerramentaProvisoria);
       } catch (error) {
-        console.log("Erro ao fazer a contagem dos recursos: ", error);
+        console.log("Erro ao fazer a contagem da ferramenta: ", error);
       }
     };
-    if (isFinished && conceitosRecursos.length > 0) {
-      fetchContagem();
-    }
-  }, [isFinished, conceitosRecursos]);
+    fetchContagemFerramenta();
+  }, [contagemRecurso]);
 
+  React.useEffect(() => {
+    console.log("Vai atualizar a ferramenta ou não? ", contagemFerramenta);
+  }, [contagemFerramenta]);
   /* ============================================= Funções dos botões =============================================*/
   const handleNextQuestion = () => {
     if (idSelectedOption !== null) {
@@ -276,10 +289,10 @@ const Card: React.FC<CardProps> = ({
   //console.log("Respostas do usuário: ", respostasDoUsuario);
   //console.log("ID da resposta atual:", idSelectedOption); //tá dando como null
   //console.log("conceitos: ", conceitos);
-  console.log("ConceitosRecursos", conceitosRecursos);
+  //console.log("ConceitosRecursos", conceitosRecursos);
   console.log("Contagem Recurso: ", contagemRecurso);
-  console.log("Contagem Ferramenta: ", contagemFerramenta);
-  console.log("Ferramenta Selecionada ID FINAL:", idFerramentaSelecionada);
+  console.log("Contagem Ferramenta GERAL: ", contagemFerramenta);
+  //console.log("Ferramenta Selecionada ID FINAL:", idFerramentaSelecionada);
 
   //============================= Tela para começar a recomendação =============================
   if (isInitCard) {
