@@ -197,16 +197,16 @@ const Card: React.FC<CardProps> = ({
     const fetchContagemRecurso = async () => {
       try {
         // Cópia local de contagemRecurso para manipular os dados
-        const novaContagemRecurso = { ...contagemRecurso };
+        const contagemRecursoProvisoria = { ...contagemRecurso };
         const novaContagemFerramenta: Record<string, number> = {};
 
         conceitosRecursos.forEach((conceitoRecurso) => {
           // Incrementa o contador para o idRecurso
-          novaContagemRecurso[conceitoRecurso.idRecurso] =
-            (novaContagemRecurso[conceitoRecurso.idRecurso] || 0) + 1;
+          contagemRecursoProvisoria[conceitoRecurso.idRecurso] =
+            (contagemRecursoProvisoria[conceitoRecurso.idRecurso] || 0) + 1;
         });
         // Atualiza o estado com a nova contagem
-        setContagemRecurso(novaContagemRecurso);
+        setContagemRecurso(contagemRecursoProvisoria);
       } catch (error) {
         console.log("Erro ao fazer a contagem dos recursos: ", error);
       }
@@ -253,6 +253,25 @@ const Card: React.FC<CardProps> = ({
 
   React.useEffect(() => {
     console.log("Vai atualizar a ferramenta ou não? ", contagemFerramenta);
+    //pega a ferramenta cuja contagem for maior
+    const fetchFerramenta = async () => {
+      try {
+        // Obtém a chave com o maior valor
+        const chaveMaiorValor = Object.keys(contagemFerramenta).reduce(
+          (chaveMaior, chaveAtual) => {
+            return contagemFerramenta[Number(chaveAtual)] >
+              contagemFerramenta[Number(chaveMaior)]
+              ? chaveAtual
+              : chaveMaior;
+          }
+        );
+        //id da ferramenta com maior contagem
+        console.log("Chave com o maior valor:", chaveMaiorValor);
+      } catch (error) {
+        console.log("Erro ao buscar a ferramenta: ", error);
+      }
+    };
+    fetchFerramenta();
   }, [contagemFerramenta]);
   /* ============================================= Funções dos botões =============================================*/
   const handleNextQuestion = () => {
