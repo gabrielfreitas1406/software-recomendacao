@@ -14,9 +14,7 @@ import {
   Conceito,
   ConceitoRecurso,
   Recurso,
-  Ferramenta,
-  ContagemRecurso,
-  ContagemFerramenta,
+  matrizRecomendacao,
 } from "@/app/types/recommendationTypes";
 import { CardProps } from "@/app/types/cardTypes";
 
@@ -52,6 +50,7 @@ const Card: React.FC<CardProps> = ({
 
   //Conceitos, Recursos
   const [conceitos, setConceitos] = React.useState<Conceito[] | []>([]);
+
   const [conceitosRecursos, setConceitosRecursos] = React.useState<
     ConceitoRecurso[] | []
   >([]);

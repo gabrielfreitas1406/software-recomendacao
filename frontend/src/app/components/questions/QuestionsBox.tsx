@@ -32,7 +32,7 @@ const QuestionBox: React.FC<QuestionBoxProps> = ({
   //const [conceitoRespostaSeleciona, setConceitoRespostaSelecionada] =
   //  useState<RespostaSelecionada | null>(null);
 
-  console.log("Opção selecionada QuestionBox: ", selectedOption);
+  //console.log("Opção selecionada QuestionBox: ", selectedOption);
   //console.log("id da resposta selecionada pelo user", idSelectedOption);
   return (
     <section className="question-options">
