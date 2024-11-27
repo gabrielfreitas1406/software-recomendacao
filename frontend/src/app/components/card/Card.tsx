@@ -25,6 +25,12 @@ const verificaSeConceitoJaExisteNaRespostaDoUsuario = (
   return conceitos.some((conceito) => conceito.id === conceitoAVerificar.id);
 };
 
+//================================ FUNÇÃO PARA CALCULAR A RECOMENDAÇÃO ===========================
+const calculaRecomendacao = (porcentagemTotalFerramentas: number[]): number => {
+  for (let i = 0; i < matrizRecomendacao.length; i++) {}
+  return 0;
+};
+
 const Card: React.FC<CardProps> = ({
   isInitCard,
   title,
@@ -62,6 +68,10 @@ const Card: React.FC<CardProps> = ({
 
   //Para  verificar se o usuário terminou de responder todas as questões
   const [isFinished, setIsFinished] = React.useState(false);
+
+  //Para verificar o somatório da porcentagem de cada ferramenta
+  const [porcentagemTotalFerramentas, setPorcentagemTotalFerramentas] =
+    React.useState<number[]>([0.0, 0.0, 0.0, 0.0]); //Primeiro valor é a porcentagem do Mentimeter, segundo do Meet, terceiro do Jamboard e quarto do Google Slides
 
   /*============================================= Funções das requisições ======================================= */
   const fetchData = async (id: number) => {
@@ -127,6 +137,8 @@ const Card: React.FC<CardProps> = ({
     }
   }, [idQuestaoAtual, router]);
 
+  React.useEffect(() => {}, [isFinished]);
+
   /* ============================================= Funções dos botões =============================================*/
   const handleNextQuestion = () => {
     if (idSelectedOption !== null) {
@@ -157,6 +169,7 @@ const Card: React.FC<CardProps> = ({
   //console.log("Respostas do usuário: ", respostasDoUsuario);
   //console.log("ID da resposta atual:", idSelectedOption); //tá dando como null
   console.log("conceitos: ", conceitos);
+  console.log("matriz de recomendação:", matrizRecomendacao);
   //console.log("ConceitosRecursos", conceitosRecursos);
   //console.log("Contagem Recurso GERAL: ", contagemRecurso);
   //console.log("Contagem Ferramenta GERAL: ", contagemFerramenta);
