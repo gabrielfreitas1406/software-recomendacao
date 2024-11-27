@@ -64,42 +64,10 @@ const Card: React.FC<CardProps> = ({
   //Para  verificar se o usuário terminou de responder todas as questões
   const [isFinished, setIsFinished] = React.useState(false);
 
-  //Para contar os recursos para recomendar a ferramenta.
-  const [contagemRecurso, setContagemRecurso] = React.useState<
-    typeof ContagemRecurso
-  >({
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0,
-    5: 0,
-    6: 0,
-    7: 0,
-    8: 0,
-    9: 0,
-    10: 0,
-    11: 0,
-    12: 0,
-    13: 0,
-    14: 0,
-    15: 0,
-  });
-  const [contagemFerramenta, setContagemFerramenta] = React.useState<
-    typeof ContagemFerramenta
-  >({ 1: 0, 2: 0, 3: 0, 4: 0 });
-
-  const [limiar, setLimiar] = React.useState(3);
-
-  const [idFerramentaSelecionada, setIdFerramentaSelecionada] = React.useState<
-    number | null
-  >(null);
-  const [ferramentaSelecionada, setFerramentaSelecionada] =
-    React.useState<Ferramenta | null>(null);
-
   /*============================================= Funções das requisições ======================================= */
   const fetchData = async (id: number) => {
     try {
-      //Pega a requisição pelo axios
+      //Pega a requisição da questão atual pelo axios
       const questaoAtualResponse = await api.get(`/questao/${id}`);
       const respostaQuestaoAtualResponse = await api.get(
         `/resposta/idQuestao/${id}`
@@ -121,7 +89,7 @@ const Card: React.FC<CardProps> = ({
             `/conceito/${respostaQuestao.idConceito}`
           );
 
-          //Verifica se o conceigto já foi inserido na lista de conceitos das respostas
+          //Verifica se o conceito já foi inserido na lista de conceitos das respostas
           if (
             !verificaSeConceitoJaExisteNaRespostaDoUsuario(
               conceito.data,
@@ -160,64 +128,6 @@ const Card: React.FC<CardProps> = ({
     }
   }, [idQuestaoAtual, router]);
 
-  //================================== CALCULA A RECOMENDAÇÃO SÓ NO FINAL ==================================
-  //1 encontra os recursos que estão relacionados com os conceitos
-  React.useEffect(() => {
-    if (isFinished) {
-      const fetchConceitosRecursos = async () => {
-        for (const conceitoDaVez of conceitos) {
-          try {
-            const conceitoRecursosResponse = await api.get(
-              `/conceitoRecurso/IDconceito/${conceitoDaVez.id}`
-            );
-            const conceitoRecursoArray =
-              conceitoRecursosResponse.data as ConceitoRecurso[];
-
-            conceitoRecursoArray.forEach(
-              (conceitoRecursoIndividual: ConceitoRecurso) => {
-                setConceitosRecursos((prevConceitosRecursos) => [
-                  ...prevConceitosRecursos,
-                  conceitoRecursoIndividual,
-                ]);
-              }
-            );
-          } catch (error) {
-            console.error(
-              `Erro ao buscar recursos para o conceito ${conceitoDaVez.id}:`,
-              error
-            );
-          }
-        }
-      };
-
-      fetchConceitosRecursos();
-    }
-  }, [isFinished, conceitos]);
-
-  //2 Faz a contagem dos recursos
-  React.useEffect(() => {
-    const fetchContagemRecurso = async () => {
-      try {
-        // Cópia local de contagemRecurso para manipular os dados
-        const contagemRecursoProvisoria = { ...contagemRecurso };
-        //const novaContagemFerramenta: Record<string, number> = {};
-
-        conceitosRecursos.forEach((conceitoRecurso) => {
-          // Incrementa o contador para o idRecurso
-          contagemRecursoProvisoria[conceitoRecurso.idRecurso] =
-            (contagemRecursoProvisoria[conceitoRecurso.idRecurso] || 0) + 1;
-        });
-        // Atualiza o estado com a nova contagem
-        setContagemRecurso(contagemRecursoProvisoria);
-      } catch (error) {
-        console.log("Erro ao fazer a contagem dos recursos: ", error);
-      }
-    };
-    if (isFinished && conceitosRecursos.length > 0) {
-      fetchContagemRecurso();
-    }
-  }, [isFinished, conceitosRecursos]);
-
   /* ============================================= Funções dos botões =============================================*/
   const handleNextQuestion = () => {
     if (idSelectedOption !== null) {
@@ -247,10 +157,10 @@ const Card: React.FC<CardProps> = ({
   console.log("ID da questão atual: ", idQuestaoAtual);
   //console.log("Respostas do usuário: ", respostasDoUsuario);
   //console.log("ID da resposta atual:", idSelectedOption); //tá dando como null
-  //console.log("conceitos: ", conceitos);
+  console.log("conceitos: ", conceitos);
   //console.log("ConceitosRecursos", conceitosRecursos);
-  console.log("Contagem Recurso GERAL: ", contagemRecurso);
-  console.log("Contagem Ferramenta GERAL: ", contagemFerramenta);
+  //console.log("Contagem Recurso GERAL: ", contagemRecurso);
+  //console.log("Contagem Ferramenta GERAL: ", contagemFerramenta);
   //console.log("Ferramenta Selecionada ID FINAL:", idFerramentaSelecionada);
 
   //============================= Tela para começar a recomendação =============================
