@@ -26,9 +26,23 @@ const verificaSeConceitoJaExisteNaRespostaDoUsuario = (
 };
 
 //================================ FUNÇÃO PARA CALCULAR A RECOMENDAÇÃO ===========================
-const calculaRecomendacao = (porcentagemTotalFerramentas: number[]): number => {
-  for (let i = 0; i < matrizRecomendacao.length; i++) {}
-  return 0;
+const calculaRecomendacao = (
+  porcentagemTotalFerramentas: number[],
+  conceitos: Conceito[]
+): number[] => {
+  let porcentagemFinal = [0.0, 0.0, 0.0, 0.0];
+  for (let i = 0; i < conceitos.length; i++) {
+    const idConceito = conceitos[i].id;
+
+    // Soma acumulativa em cada índice
+    porcentagemFinal = porcentagemFinal.map(
+      (value, index) =>
+        value +
+        porcentagemTotalFerramentas[index] +
+        matrizRecomendacao[idConceito - 1][index]
+    );
+  }
+  return porcentagemFinal;
 };
 
 const Card: React.FC<CardProps> = ({
@@ -70,7 +84,7 @@ const Card: React.FC<CardProps> = ({
   const [isFinished, setIsFinished] = React.useState(false);
 
   //Para verificar o somatório da porcentagem de cada ferramenta
-  const [porcentagemTotalFerramentas, setPorcentagemTotalFerramentas] =
+  const [porcentagemFinalFerramentas, setPorcentagemFinalFerramentas] =
     React.useState<number[]>([0.0, 0.0, 0.0, 0.0]); //Primeiro valor é a porcentagem do Mentimeter, segundo do Meet, terceiro do Jamboard e quarto do Google Slides
 
   /*============================================= Funções das requisições ======================================= */
@@ -133,11 +147,16 @@ const Card: React.FC<CardProps> = ({
   React.useEffect(() => {
     if (idQuestaoAtual > 8) {
       setIsFinished(true);
+
       router.push("/recommendation/result");
     }
   }, [idQuestaoAtual, router]);
 
-  React.useEffect(() => {}, [isFinished]);
+  React.useEffect(() => {
+    setPorcentagemFinalFerramentas(
+      calculaRecomendacao(porcentagemFinalFerramentas, conceitos)
+    );
+  }, [isFinished]);
 
   /* ============================================= Funções dos botões =============================================*/
   const handleNextQuestion = () => {
@@ -172,6 +191,9 @@ const Card: React.FC<CardProps> = ({
   console.log("matriz de recomendação:", matrizRecomendacao);
   //console.log("ConceitosRecursos", conceitosRecursos);
   //console.log("Contagem Recurso GERAL: ", contagemRecurso);
+  if (isFinished) {
+    console.log("Contagem Final das ferramentas:", porcentagemFinalFerramentas);
+  }
   //console.log("Contagem Ferramenta GERAL: ", contagemFerramenta);
   //console.log("Ferramenta Selecionada ID FINAL:", idFerramentaSelecionada);
 
