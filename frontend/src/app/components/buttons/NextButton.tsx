@@ -10,8 +10,6 @@ const NextButton: React.FC<NextButtonProps> = ({
 }) => {
   //const router = useRouter();
 
-  console.log("idQuestaoAtual dentro do NextButton: ", idQuestaoAtual);
-  console.log("disabled: ", disabled);
   return (
     <>
       <button

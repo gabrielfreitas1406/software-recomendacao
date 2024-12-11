@@ -14,9 +14,7 @@ import {
   Conceito,
   ConceitoRecurso,
   Recurso,
-  Ferramenta,
-  ContagemRecurso,
-  ContagemFerramenta,
+  matrizRecomendacao,
 } from "@/app/types/recommendationTypes";
 import { CardProps } from "@/app/types/cardTypes";
 
@@ -25,6 +23,26 @@ const verificaSeConceitoJaExisteNaRespostaDoUsuario = (
   conceitos: Conceito[]
 ) => {
   return conceitos.some((conceito) => conceito.id === conceitoAVerificar.id);
+};
+
+//================================ FUNÇÃO PARA CALCULAR A RECOMENDAÇÃO ===========================
+const calculaRecomendacao = (
+  porcentagemTotalFerramentas: number[],
+  conceitos: Conceito[]
+): number[] => {
+  let porcentagemFinal = [0.0, 0.0, 0.0, 0.0];
+  for (let i = 0; i < conceitos.length; i++) {
+    const idConceito = conceitos[i].id;
+
+    // Soma acumulativa em cada índice
+    porcentagemFinal = porcentagemFinal.map(
+      (value, index) =>
+        value +
+        porcentagemTotalFerramentas[index] +
+        matrizRecomendacao[idConceito - 1][index]
+    );
+  }
+  return porcentagemFinal;
 };
 
 const Card: React.FC<CardProps> = ({
@@ -52,6 +70,7 @@ const Card: React.FC<CardProps> = ({
 
   //Conceitos, Recursos
   const [conceitos, setConceitos] = React.useState<Conceito[] | []>([]);
+
   const [conceitosRecursos, setConceitosRecursos] = React.useState<
     ConceitoRecurso[] | []
   >([]);
@@ -64,42 +83,14 @@ const Card: React.FC<CardProps> = ({
   //Para  verificar se o usuário terminou de responder todas as questões
   const [isFinished, setIsFinished] = React.useState(false);
 
-  //Para contar os recursos para recomendar a ferramenta.
-  const [contagemRecurso, setContagemRecurso] = React.useState<
-    typeof ContagemRecurso
-  >({
-    1: 0,
-    2: 0,
-    3: 0,
-    4: 0,
-    5: 0,
-    6: 0,
-    7: 0,
-    8: 0,
-    9: 0,
-    10: 0,
-    11: 0,
-    12: 0,
-    13: 0,
-    14: 0,
-    15: 0,
-  });
-  const [contagemFerramenta, setContagemFerramenta] = React.useState<
-    typeof ContagemFerramenta
-  >({ 1: 0, 2: 0, 3: 0, 4: 0 });
-
-  const [limiar, setLimiar] = React.useState(3);
-
-  const [idFerramentaSelecionada, setIdFerramentaSelecionada] = React.useState<
-    number | null
-  >(null);
-  const [ferramentaSelecionada, setFerramentaSelecionada] =
-    React.useState<Ferramenta | null>(null);
+  //Para verificar o somatório da porcentagem de cada ferramenta
+  const [porcentagemFinalFerramentas, setPorcentagemFinalFerramentas] =
+    React.useState<number[]>([0.0, 0.0, 0.0, 0.0]); //Primeiro valor é a porcentagem do Mentimeter, segundo do Meet, terceiro do Jamboard e quarto do Google Slides
 
   /*============================================= Funções das requisições ======================================= */
   const fetchData = async (id: number) => {
     try {
-      //Pega a requisição pelo axios
+      //Pega a requisição da questão atual pelo axios
       const questaoAtualResponse = await api.get(`/questao/${id}`);
       const respostaQuestaoAtualResponse = await api.get(
         `/resposta/idQuestao/${id}`
@@ -121,7 +112,7 @@ const Card: React.FC<CardProps> = ({
             `/conceito/${respostaQuestao.idConceito}`
           );
 
-          //Verifica se o conceigto já foi inserido na lista de conceitos das respostas
+          //Verifica se o conceito já foi inserido na lista de conceitos das respostas
           if (
             !verificaSeConceitoJaExisteNaRespostaDoUsuario(
               conceito.data,
@@ -156,135 +147,16 @@ const Card: React.FC<CardProps> = ({
   React.useEffect(() => {
     if (idQuestaoAtual > 8) {
       setIsFinished(true);
+
       router.push("/recommendation/result");
     }
   }, [idQuestaoAtual, router]);
 
-  //================================== CALCULA A RECOMENDAÇÃO SÓ NO FINAL ==================================
-  //1 encontra os recursos que estão relacionados com os conceitos
   React.useEffect(() => {
-    if (isFinished) {
-      const fetchConceitosRecursos = async () => {
-        for (const conceitoDaVez of conceitos) {
-          try {
-            const conceitoRecursosResponse = await api.get(
-              `/conceitoRecurso/IDconceito/${conceitoDaVez.id}`
-            );
-            const conceitoRecursoArray =
-              conceitoRecursosResponse.data as ConceitoRecurso[];
-
-            conceitoRecursoArray.forEach(
-              (conceitoRecursoIndividual: ConceitoRecurso) => {
-                setConceitosRecursos((prevConceitosRecursos) => [
-                  ...prevConceitosRecursos,
-                  conceitoRecursoIndividual,
-                ]);
-              }
-            );
-          } catch (error) {
-            console.error(
-              `Erro ao buscar recursos para o conceito ${conceitoDaVez.id}:`,
-              error
-            );
-          }
-        }
-      };
-
-      fetchConceitosRecursos();
-    }
-  }, [isFinished, conceitos]);
-
-  //2 Faz a contagem dos recursos
-  React.useEffect(() => {
-    const fetchContagemRecurso = async () => {
-      try {
-        // Cópia local de contagemRecurso para manipular os dados
-        const contagemRecursoProvisoria = { ...contagemRecurso };
-        //const novaContagemFerramenta: Record<string, number> = {};
-
-        conceitosRecursos.forEach((conceitoRecurso) => {
-          // Incrementa o contador para o idRecurso
-          contagemRecursoProvisoria[conceitoRecurso.idRecurso] =
-            (contagemRecursoProvisoria[conceitoRecurso.idRecurso] || 0) + 1;
-        });
-        // Atualiza o estado com a nova contagem
-        setContagemRecurso(contagemRecursoProvisoria);
-      } catch (error) {
-        console.log("Erro ao fazer a contagem dos recursos: ", error);
-      }
-    };
-    if (isFinished && conceitosRecursos.length > 0) {
-      fetchContagemRecurso();
-    }
-  }, [isFinished, conceitosRecursos]);
-
-  //3 Faz a contagem das ferramentas (PROBLEMA ⚠️)
-  React.useEffect(() => {
-    const fetchContagemFerramenta = async () => {
-      try {
-        //=========== Contagem das ferramentas que possuem mais recursos que o limiar ===========
-        console.log("Entrou no fetch das ferramentas!");
-        const contagemFerramentaProvisoria = {
-          ...contagemFerramenta,
-        };
-        for (const [keyIdRecurso, contagem] of Object.entries(
-          contagemRecurso
-        )) {
-          console.log(
-            "Dentro do for para comparar com o limiar: ",
-            contagem > limiar
-          );
-          if (contagem > limiar) {
-            console.log("A contagem é maior que o limiar");
-            //Pega o recurso
-            const recursoResponse = await api.get(`/recurso/${keyIdRecurso}/`);
-            const recurso = recursoResponse.data as Recurso;
-
-            //Pega o id da ferramenta mencionada no recurso
-            const idFerramentaNoRecurso = recurso.idFerramenta;
-
-            contagemFerramentaProvisoria[idFerramentaNoRecurso] =
-              (contagemFerramentaProvisoria[idFerramentaNoRecurso] || 0) + 1;
-          }
-        }
-        console.log(
-          "Contagem da ferramenta provisória: ",
-          contagemFerramentaProvisoria
-        );
-        setContagemFerramenta(contagemFerramentaProvisoria);
-      } catch (error) {
-        console.log("Erro ao fazer a contagem da ferramenta: ", error);
-      }
-    };
-    fetchContagemFerramenta();
-  }, [contagemRecurso]);
-
-  // 4 Seleciona a ferramenta com a maior contagem
-  React.useEffect(() => {
-    console.log("Vai atualizar a ferramenta ou não? ", contagemFerramenta);
-    //pega a ferramenta cuja contagem for maior
-    const fetchFerramenta = async () => {
-      try {
-        // Obtém a chave com o maior valor
-        const chaveMaiorValor = Object.keys(contagemFerramenta).reduce(
-          (chaveMaior, chaveAtual) => {
-            return contagemFerramenta[Number(chaveAtual)] >
-              contagemFerramenta[Number(chaveMaior)]
-              ? chaveAtual
-              : chaveMaior;
-          }
-        );
-        //id da ferramenta com maior contagem
-        console.log(
-          "Chave com o maior valor (Ferramenta com maior contagem):",
-          chaveMaiorValor
-        );
-      } catch (error) {
-        console.log("Erro ao buscar a ferramenta: ", error);
-      }
-    };
-    fetchFerramenta();
-  }, [contagemFerramenta]);
+    setPorcentagemFinalFerramentas(
+      calculaRecomendacao(porcentagemFinalFerramentas, conceitos)
+    );
+  }, [isFinished]);
 
   /* ============================================= Funções dos botões =============================================*/
   const handleNextQuestion = () => {
@@ -312,18 +184,17 @@ const Card: React.FC<CardProps> = ({
   };
 
   /* ============================================= Debug ============================================= */
-  //console.log(questoes);
-  //console.log(respostas);
-
-  //console.log(questaoAtual);
-  //console.log("Respostas Questão atual", respostasQuestaoAtual);
   console.log("ID da questão atual: ", idQuestaoAtual);
   //console.log("Respostas do usuário: ", respostasDoUsuario);
   //console.log("ID da resposta atual:", idSelectedOption); //tá dando como null
-  //console.log("conceitos: ", conceitos);
+  console.log("conceitos: ", conceitos);
+  console.log("matriz de recomendação:", matrizRecomendacao);
   //console.log("ConceitosRecursos", conceitosRecursos);
-  console.log("Contagem Recurso: ", contagemRecurso);
-  console.log("Contagem Ferramenta GERAL: ", contagemFerramenta);
+  //console.log("Contagem Recurso GERAL: ", contagemRecurso);
+  if (isFinished) {
+    console.log("Contagem Final das ferramentas:", porcentagemFinalFerramentas);
+  }
+  //console.log("Contagem Ferramenta GERAL: ", contagemFerramenta);
   //console.log("Ferramenta Selecionada ID FINAL:", idFerramentaSelecionada);
 
   //============================= Tela para começar a recomendação =============================
