@@ -15,6 +15,7 @@ import {
   ConceitoRecurso,
   Recurso,
   matrizRecomendacao,
+  Ferramenta,
 } from "@/app/types/recommendationTypes";
 import { CardProps } from "@/app/types/cardTypes";
 
@@ -80,13 +81,15 @@ const Card: React.FC<CardProps> = ({
   const [respostasDoUsuario, setRespostaDoUsuario] =
     React.useState<typeof QuestaoRespostaSelecionada>();
 
-  //Para  verificar se o usuário terminou de responder todas as questões
-  const [isFinished, setIsFinished] = React.useState(false);
+  //Para  verificar se o usuário terminou de responder todas as questões para começar a calcular a recomendação
+  const [startRecomendation, setStartRecomendation] = React.useState(false);
 
   //Para verificar o somatório da porcentagem de cada ferramenta
   const [porcentagemFinalFerramentas, setPorcentagemFinalFerramentas] =
     React.useState<number[]>([0.0, 0.0, 0.0, 0.0]); //Primeiro valor é a porcentagem do Mentimeter, segundo do Meet, terceiro do Jamboard e quarto do Google Slides
 
+  const [ferramentaFinal, setFerramentaFinal] =
+    React.useState<Ferramenta | null>(null);
   /*============================================= Funções das requisições ======================================= */
   const fetchData = async (id: number) => {
     try {
@@ -143,20 +146,44 @@ const Card: React.FC<CardProps> = ({
     fetchData(idQuestaoAtual);
   }, [idQuestaoAtual]);
 
-  //muda para a página de resultado quando terminar de responder todas as oito questões
+  //muda para a página de resultado quando terminar de responder todas as oito questões e inicia a recomendação
   React.useEffect(() => {
     if (idQuestaoAtual > 8) {
-      setIsFinished(true);
+      setStartRecomendation(true);
 
       router.push("/recommendation/result");
     }
   }, [idQuestaoAtual, router]);
 
+  //Calcula a recomendação
   React.useEffect(() => {
     setPorcentagemFinalFerramentas(
       calculaRecomendacao(porcentagemFinalFerramentas, conceitos)
     );
-  }, [isFinished]);
+  }, [startRecomendation]);
+
+  //Seta a ferramenta com o maior valor de probabilidade
+  React.useEffect(() => {
+    const fetchData = async () => {
+      if (startRecomendation) {
+        // Encontrar o maior valor
+        const maxValue = Math.max(...porcentagemFinalFerramentas);
+        // Encontrar o índice do maior valor
+        const maxIndex = porcentagemFinalFerramentas.indexOf(maxValue) + 1;
+        console.log(`Maior valor: ${maxValue}, Posição: ${maxIndex}`);
+
+        try {
+          const ferramentaResponse = await api.get(`/ferramenta/${maxIndex}`);
+          const ferramentaData = ferramentaResponse.data as Ferramenta;
+          setFerramentaFinal(ferramentaData);
+        } catch (error) {
+          console.error("Erro ao buscar ferramenta:", error);
+        }
+      }
+    };
+
+    fetchData();
+  }, [porcentagemFinalFerramentas]);
 
   /* ============================================= Funções dos botões =============================================*/
   const handleNextQuestion = () => {
@@ -187,13 +214,16 @@ const Card: React.FC<CardProps> = ({
   console.log("ID da questão atual: ", idQuestaoAtual);
   //console.log("Respostas do usuário: ", respostasDoUsuario);
   //console.log("ID da resposta atual:", idSelectedOption); //tá dando como null
-  console.log("conceitos: ", conceitos);
-  console.log("matriz de recomendação:", matrizRecomendacao);
+  //console.log("conceitos: ", conceitos);
+  //console.log("matriz de recomendação:", matrizRecomendacao);
   //console.log("ConceitosRecursos", conceitosRecursos);
   //console.log("Contagem Recurso GERAL: ", contagemRecurso);
-  if (isFinished) {
+  if (startRecomendation) {
     console.log("Contagem Final das ferramentas:", porcentagemFinalFerramentas);
   }
+
+  console.log("Ferramenta final", ferramentaFinal);
+
   //console.log("Contagem Ferramenta GERAL: ", contagemFerramenta);
   //console.log("Ferramenta Selecionada ID FINAL:", idFerramentaSelecionada);
 
