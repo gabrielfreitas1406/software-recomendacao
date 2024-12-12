@@ -1,5 +1,4 @@
 import React from "react";
-import AboutCard from "@/app/components/categories/about/AboutCard";
 import Card from "@/app/components/card/Card";
 
 const RecommendationPage: React.FC = () => {
