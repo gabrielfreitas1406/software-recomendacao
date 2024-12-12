@@ -48,6 +48,7 @@ const calculaRecomendacao = (
 
 const Card: React.FC<CardProps> = ({
   isInitCard,
+  isResultCard,
   title,
   description,
   buttonLabel,
@@ -267,6 +268,8 @@ const Card: React.FC<CardProps> = ({
         </div>
       </div>
     );
+  } else if (isResultCard) {
+    return <></>;
   } else {
     //============================= Tela para responder as perguntas ========================================
     return (
