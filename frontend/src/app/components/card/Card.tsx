@@ -90,6 +90,9 @@ const Card: React.FC<CardProps> = ({
 
   const [ferramentaFinal, setFerramentaFinal] =
     React.useState<Ferramenta | null>(null);
+
+  const [recursosDaFerramentaFinal, setRecursosDaFerramentaFinal] =
+    React.useState<Recurso[] | []>([]);
   /*============================================= Funções das requisições ======================================= */
   const fetchData = async (id: number) => {
     try {
@@ -185,6 +188,25 @@ const Card: React.FC<CardProps> = ({
     fetchData();
   }, [porcentagemFinalFerramentas]);
 
+  //Seta os recursos da Ferramenta final
+  React.useEffect(() => {
+    const fetchData = async () => {
+      if (startRecomendation) {
+        try {
+          const recursosDaFerramentaResponse = await api.get(
+            `/recurso/ferramenta/${ferramentaFinal?.id}`
+          );
+          const recursosDaFerramentaData =
+            recursosDaFerramentaResponse.data as Recurso[];
+          setRecursosDaFerramentaFinal(recursosDaFerramentaData);
+        } catch (error) {
+          console.error("Erro ao buscar ferramenta:", error);
+        }
+      }
+    };
+    fetchData();
+  }, [ferramentaFinal]);
+
   /* ============================================= Funções dos botões =============================================*/
   const handleNextQuestion = () => {
     if (idSelectedOption !== null) {
@@ -223,7 +245,7 @@ const Card: React.FC<CardProps> = ({
   }
 
   console.log("Ferramenta final", ferramentaFinal);
-
+  console.log("Recursos da ferramenta final", recursosDaFerramentaFinal);
   //console.log("Contagem Ferramenta GERAL: ", contagemFerramenta);
   //console.log("Ferramenta Selecionada ID FINAL:", idFerramentaSelecionada);
 
