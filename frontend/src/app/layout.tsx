@@ -1,5 +1,9 @@
 import "./styles/globals.css";
 import Header from "./components/Header";
+import {
+  useResultRecommendationContext,
+  ResultRecommendationContextProvider,
+} from "./hooks/contexts/resultRecommendationContext";
 
 export const metadata = {
   title: "Tool 4 You",
@@ -23,10 +27,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <div className="style-page">
-          <Header {...headerProps} />
-          <main>{children}</main>
-        </div>
+        <ResultRecommendationContextProvider>
+          <div className="style-page">
+            <Header {...headerProps} />
+            <main>{children}</main>
+          </div>
+        </ResultRecommendationContextProvider>
       </body>
     </html>
   );

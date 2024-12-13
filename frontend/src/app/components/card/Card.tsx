@@ -18,6 +18,7 @@ import {
   Ferramenta,
 } from "@/app/types/recommendationTypes";
 import { CardProps } from "@/app/types/cardTypes";
+import { useResultRecommendationContext } from "@/app/hooks/contexts/resultRecommendationContext";
 
 const verificaSeConceitoJaExisteNaRespostaDoUsuario = (
   conceitoAVerificar: Conceito,
@@ -60,6 +61,14 @@ const Card: React.FC<CardProps> = ({
   /*=============================================== Variáveis de Estado ===============================================*/
   const router = useRouter();
 
+  //uso do contexto para pegar a ferramenta que foi o resultado da recomendação e seus recursos
+  const {
+    ferramentaContext,
+    setFerramentaContext,
+    recursosContext,
+    setRecursosContext,
+  } = useResultRecommendationContext();
+
   //Para gerenciar as questões
   const [idQuestaoAtual, setidQuestaoAtual] = React.useState<number>(1);
   const [questaoAtual, setQuestaoAtual] = React.useState<Questao | null>(null);
@@ -84,6 +93,8 @@ const Card: React.FC<CardProps> = ({
 
   //Para  verificar se o usuário terminou de responder todas as questões para começar a calcular a recomendação
   const [startRecomendation, setStartRecomendation] = React.useState(false);
+  const [finishedRecomendation, setFinishedRecomendation] =
+    React.useState(false);
 
   //Para verificar o somatório da porcentagem de cada ferramenta
   const [porcentagemFinalFerramentas, setPorcentagemFinalFerramentas] =
@@ -154,8 +165,7 @@ const Card: React.FC<CardProps> = ({
   React.useEffect(() => {
     if (idQuestaoAtual > 8) {
       setStartRecomendation(true);
-
-      router.push("/recommendation/result");
+      //router.push("/recommendation/result");
     }
   }, [idQuestaoAtual, router]);
 
@@ -200,6 +210,7 @@ const Card: React.FC<CardProps> = ({
           const recursosDaFerramentaData =
             recursosDaFerramentaResponse.data as Recurso[];
           setRecursosDaFerramentaFinal(recursosDaFerramentaData);
+          setFinishedRecomendation(true);
         } catch (error) {
           console.error("Erro ao buscar ferramenta:", error);
         }
@@ -207,6 +218,15 @@ const Card: React.FC<CardProps> = ({
     };
     fetchData();
   }, [ferramentaFinal]);
+
+  //Após setar todos os dados da recomendação, atualiza o context para ir passar para a página de resultado da recomendação
+  React.useEffect(() => {
+    if (finishedRecomendation) {
+      setFerramentaContext(ferramentaFinal);
+      setRecursosContext(recursosDaFerramentaFinal);
+      router.push("/recommendation/result");
+    }
+  }, [finishedRecomendation]);
 
   /* ============================================= Funções dos botões =============================================*/
   const handleNextQuestion = () => {
@@ -249,6 +269,10 @@ const Card: React.FC<CardProps> = ({
   console.log("Recursos da ferramenta final", recursosDaFerramentaFinal);
   //console.log("Contagem Ferramenta GERAL: ", contagemFerramenta);
   //console.log("Ferramenta Selecionada ID FINAL:", idFerramentaSelecionada);
+  if (startRecomendation) {
+    console.log("CONTEXO DA FERRAMENTA!!! ", ferramentaContext);
+    console.log("CONTEXTO DOS RECURSOS!!!! ", recursosContext);
+  }
 
   //============================= Tela para começar a recomendação =============================
   if (isInitCard) {
@@ -269,7 +293,11 @@ const Card: React.FC<CardProps> = ({
       </div>
     );
   } else if (isResultCard) {
-    return <></>;
+    return (
+      <>
+        <div className="card-questions"></div>
+      </>
+    );
   } else {
     //============================= Tela para responder as perguntas ========================================
     return (

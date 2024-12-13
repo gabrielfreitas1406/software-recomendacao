@@ -1,5 +1,6 @@
 import React from "react";
 import Card from "@/app/components/card/Card";
+import { useResultRecommendationContext } from "@/app/hooks/contexts/resultRecommendationContext";
 
 const RecommendationResultPage: React.FC = () => {
   return (
