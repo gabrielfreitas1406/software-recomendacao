@@ -1,5 +1,5 @@
 import * as React from "react";
-import { FavoriteButtonProps } from "../../../types/favoriteButtonTypes";
+import { FavoriteButtonProps } from "../../../types/resultRecommenTypes";
 
 export const FavoriteToolButton: React.FC<FavoriteButtonProps> = ({
   onClick,
