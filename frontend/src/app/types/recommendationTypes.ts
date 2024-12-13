@@ -22,8 +22,8 @@ export interface ConceitoRecurso {
 
 export interface Recurso {
   id: number;
-  nome: String;
-  descricao: String;
+  nome: string;
+  descricao: string;
   idFerramenta: number;
 }
 

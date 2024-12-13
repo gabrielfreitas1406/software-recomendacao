@@ -66,8 +66,24 @@
   background: #3c7cd4;
 }
 
+.link-ferramenta-button {
+  background-color: rgba(74, 144, 226, 1);
+  color: white;
+  font: 600 24px Montserrat, sans-serif;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 17px 31px;
+  border-radius: 6px;
+  margin-top: 87px;
+  cursor: pointer;
+}
+
 @media (max-width: 991px) {
   .navigation-questions-button {
     padding: 16px 20px;
+  }
+  .link-ferramenta-button {
+    margin-top: 40px;
+    padding: 17px 20px;
   }
 }

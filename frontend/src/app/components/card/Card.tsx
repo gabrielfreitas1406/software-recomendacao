@@ -7,6 +7,7 @@ import NextButton from "../buttons/NextButton";
 import StartRecommendationButton from "../buttons/StartRecommendationButton";
 import { useRouter } from "next/navigation";
 import api from "@/app/sevices/api";
+import { FavoriteToolButton } from "./FavoriteTool/FavoriteToolButton";
 
 import { Questao, Resposta } from "@/app/types/QuestionTypes";
 import {
@@ -19,6 +20,7 @@ import {
 } from "@/app/types/recommendationTypes";
 import { CardProps } from "@/app/types/cardTypes";
 import { useResultRecommendationContext } from "@/app/hooks/contexts/resultRecommendationContext";
+import { ListRecursos } from "./ListRecursos/ListRecursos";
 
 const verificaSeConceitoJaExisteNaRespostaDoUsuario = (
   conceitoAVerificar: Conceito,
@@ -236,6 +238,10 @@ const Card: React.FC<CardProps> = ({
     }
   };
 
+  const handleFavoriteClick = () => {
+    // Favorite functionality implementation
+  };
+
   const handleSetRespostaDoUsuario = (
     idResposta: number,
     alternativa: string,
@@ -269,10 +275,6 @@ const Card: React.FC<CardProps> = ({
   console.log("Recursos da ferramenta final", recursosDaFerramentaFinal);
   //console.log("Contagem Ferramenta GERAL: ", contagemFerramenta);
   //console.log("Ferramenta Selecionada ID FINAL:", idFerramentaSelecionada);
-  if (startRecomendation) {
-    console.log("CONTEXO DA FERRAMENTA!!! ", ferramentaContext);
-    console.log("CONTEXTO DOS RECURSOS!!!! ", recursosContext);
-  }
 
   //============================= Tela para começar a recomendação =============================
   if (isInitCard) {
@@ -293,9 +295,54 @@ const Card: React.FC<CardProps> = ({
       </div>
     );
   } else if (isResultCard) {
+    //if (startRecomendation) {
+    console.log("CONTEXO DA FERRAMENTA!!! ", ferramentaContext);
+    console.log("CONTEXTO DOS RECURSOS!!!! ", recursosContext);
+    //}
     return (
       <>
-        <div className="card-questions"></div>
+        <div className="card-questions">
+          <div className="content-wrapper-categories-card">
+            <div className="product-info">
+              <div className="product-header">
+                <h1 className="product-title">{ferramentaContext?.nome}</h1>
+                <FavoriteToolButton onClick={handleFavoriteClick} />
+              </div>
+
+              <p className="product-description">
+                {ferramentaContext?.descricao}
+              </p>
+            </div>
+            <div className="tools-section">
+              <img
+                loading="lazy"
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/686d829b5a4a8fdf46f3d53ad0420ac3ea335d5c733211868a40cb3e446287ae?placeholderIfAbsent=true&apiKey=83976f5dcdaa41408687cac3bc676028"
+                alt="Tools illustration"
+                className="tools-image"
+              />
+              <h2 className="tools-title">Ferramentas</h2>
+            </div>
+
+            <img
+              loading="lazy"
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/abd9bf8174b4052f7d6008946f25787194009de90b6413651e7eb13134b91d0e?placeholderIfAbsent=true&apiKey=83976f5dcdaa41408687cac3bc676028"
+              alt="Product screenshot"
+              className="product-image"
+            />
+          </div>
+
+          <div className="features-section">
+            <div className="features-list">
+              {recursosContext.map((recurso, index) => (
+                <ListRecursos key={index} text={recurso.descricao} />
+              ))}
+            </div>
+          </div>
+
+          <div className="link-ferramenta-button" role="button" tabIndex={0}>
+            {"Acesse o site" /*+ ferramentaContext?.link*/}
+          </div>
+        </div>
       </>
     );
   } else {
