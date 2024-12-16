@@ -78,6 +78,10 @@
   cursor: pointer;
 }
 
+.link-ferramenta-button:hover {
+  background-color: #0056b3;
+}
+
 @media (max-width: 991px) {
   .navigation-questions-button {
     padding: 16px 20px;
