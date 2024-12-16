@@ -50,6 +50,18 @@
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
+.product-geral {
+  max-width: 650px;
+  /*max-height: 300px;*/
+}
+
+.product-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 37px;
+}
+
 @media (max-width: 991px) {
   .product-image {
     width: 100%;
@@ -64,7 +76,7 @@
   object-fit: contain;
 }
 
-.tools-title {
+.features-title {
   color: #000;
   font: 600 18px Montserrat, sans-serif;
   text-transform: uppercase;

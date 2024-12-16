@@ -29,9 +29,9 @@ export interface Recurso {
 
 export interface Ferramenta {
   id: number;
-  nome: String;
-  descricao: String;
-  link: String;
+  nome: string;
+  descricao: string;
+  link: string;
 }
 
 //onde o key é o id da questão e o T é o RespostaSelecionada

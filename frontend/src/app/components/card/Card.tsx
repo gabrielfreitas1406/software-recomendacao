@@ -21,6 +21,7 @@ import {
 import { CardProps } from "@/app/types/cardTypes";
 import { useResultRecommendationContext } from "@/app/hooks/contexts/resultRecommendationContext";
 import { ListRecursos } from "./ListRecursos/ListRecursos";
+import { imagensFerramentasDicionario } from "@/app/types/resultRecommenTypes";
 
 const verificaSeConceitoJaExisteNaRespostaDoUsuario = (
   conceitoAVerificar: Conceito,
@@ -107,6 +108,12 @@ const Card: React.FC<CardProps> = ({
 
   const [recursosDaFerramentaFinal, setRecursosDaFerramentaFinal] =
     React.useState<Recurso[] | []>([]);
+
+  //const [logoFerramentaSelecionada, setLogoFerramentaSelecionada] =
+  //  React.useState<string>("");
+
+  //const [printFerramentaSelecionada, setPrintFerramentaSelecionada] =
+  //  React.useState<string>("");
   /*============================================= Funções das requisições ======================================= */
   const fetchData = async (id: number) => {
     try {
@@ -301,48 +308,48 @@ const Card: React.FC<CardProps> = ({
     //}
     return (
       <>
-        <div className="card-questions">
-          <div className="content-wrapper-categories-card">
+        <main className="card-questions">
+          <div className="product-geral">
             <div className="product-info">
               <div className="product-header">
                 <h1 className="product-title">{ferramentaContext?.nome}</h1>
                 <FavoriteToolButton onClick={handleFavoriteClick} />
               </div>
-
-              <p className="product-description">
-                {ferramentaContext?.descricao}
-              </p>
             </div>
+            <p className="product-description">
+              {ferramentaContext?.descricao}
+            </p>
+
             <div className="tools-section">
               <img
                 loading="lazy"
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/686d829b5a4a8fdf46f3d53ad0420ac3ea335d5c733211868a40cb3e446287ae?placeholderIfAbsent=true&apiKey=83976f5dcdaa41408687cac3bc676028"
+                src={imagensFerramentasDicionario[ferramentaContext!.nome].logo}
                 alt="Tools illustration"
                 className="tools-image"
               />
-              <h2 className="tools-title">Ferramentas</h2>
             </div>
 
             <img
               loading="lazy"
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/abd9bf8174b4052f7d6008946f25787194009de90b6413651e7eb13134b91d0e?placeholderIfAbsent=true&apiKey=83976f5dcdaa41408687cac3bc676028"
+              src={imagensFerramentasDicionario[ferramentaContext!.nome].print}
               alt="Product screenshot"
               className="product-image"
             />
           </div>
 
           <div className="features-section">
+            <h2 className="features-title">Ferramentas</h2>
+
             <div className="features-list">
               {recursosContext.map((recurso, index) => (
                 <ListRecursos key={index} text={recurso.descricao} />
               ))}
             </div>
+            <div className="link-ferramenta-button" role="button" tabIndex={0}>
+              {"Acesse o site" /*+ ferramentaContext?.link*/}
+            </div>
           </div>
-
-          <div className="link-ferramenta-button" role="button" tabIndex={0}>
-            {"Acesse o site" /*+ ferramentaContext?.link*/}
-          </div>
-        </div>
+        </main>
       </>
     );
   } else {
