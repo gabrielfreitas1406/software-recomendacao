@@ -315,26 +315,21 @@ const Card: React.FC<CardProps> = ({
                 <h1 className="product-title">{ferramentaContext?.nome}</h1>
                 <FavoriteToolButton onClick={handleFavoriteClick} />
               </div>
-            </div>
-            <p className="product-description">
-              {ferramentaContext?.descricao}
-            </p>
+              <p className="product-description">
+                {ferramentaContext?.descricao}
+              </p>
 
-            <div className="tools-section">
-              <img
-                loading="lazy"
-                src={imagensFerramentasDicionario[ferramentaContext!.nome].logo}
-                alt="Tools illustration"
-                className="tools-image"
-              />
+              <div className="tools-section">
+                <img
+                  loading="lazy"
+                  src={
+                    imagensFerramentasDicionario[ferramentaContext!.nome].logo
+                  }
+                  alt="Tools illustration"
+                  className="tools-image"
+                />
+              </div>
             </div>
-
-            <img
-              loading="lazy"
-              src={imagensFerramentasDicionario[ferramentaContext!.nome].print}
-              alt="Product screenshot"
-              className="product-image"
-            />
           </div>
 
           <div className="features-section">
@@ -345,6 +340,12 @@ const Card: React.FC<CardProps> = ({
                 <ListRecursos key={index} text={recurso.descricao} />
               ))}
             </div>
+            <img
+              loading="lazy"
+              src={imagensFerramentasDicionario[ferramentaContext!.nome].print}
+              alt="Product screenshot"
+              className="product-image"
+            />
             <div className="link-ferramenta-button" role="button" tabIndex={0}>
               {"Acesse o site" /*+ ferramentaContext?.link*/}
             </div>
