@@ -8,14 +8,13 @@ import StartRecommendationButton from "../buttons/StartRecommendationButton";
 import { useRouter } from "next/navigation";
 import api from "@/app/sevices/api";
 import { FavoriteToolButton } from "./FavoriteTool/FavoriteToolButton";
-
+import { calculaRecomendacao } from "@/app/utils/CalculaRecomendacao";
 import { Questao, Resposta } from "@/app/types/QuestionTypes";
 import {
   QuestaoRespostaSelecionada,
   Conceito,
   ConceitoRecurso,
   Recurso,
-  matrizRecomendacao,
   Ferramenta,
 } from "@/app/types/recommendationTypes";
 import { CardProps } from "@/app/types/cardTypes";
@@ -28,26 +27,6 @@ const verificaSeConceitoJaExisteNaRespostaDoUsuario = (
   conceitos: Conceito[]
 ) => {
   return conceitos.some((conceito) => conceito.id === conceitoAVerificar.id);
-};
-
-//================================ FUNÇÃO PARA CALCULAR A RECOMENDAÇÃO ===========================
-const calculaRecomendacao = (
-  porcentagemTotalFerramentas: number[],
-  conceitos: Conceito[]
-): number[] => {
-  let porcentagemFinal = [0.0, 0.0, 0.0, 0.0];
-  for (let i = 0; i < conceitos.length; i++) {
-    const idConceito = conceitos[i].id;
-
-    // Soma acumulativa em cada índice
-    porcentagemFinal = porcentagemFinal.map(
-      (value, index) =>
-        value +
-        porcentagemTotalFerramentas[index] +
-        matrizRecomendacao[idConceito - 1][index]
-    );
-  }
-  return porcentagemFinal;
 };
 
 const Card: React.FC<CardProps> = ({
@@ -109,11 +88,6 @@ const Card: React.FC<CardProps> = ({
   const [recursosDaFerramentaFinal, setRecursosDaFerramentaFinal] =
     React.useState<Recurso[] | []>([]);
 
-  //const [logoFerramentaSelecionada, setLogoFerramentaSelecionada] =
-  //  React.useState<string>("");
-
-  //const [printFerramentaSelecionada, setPrintFerramentaSelecionada] =
-  //  React.useState<string>("");
   /*============================================= Funções das requisições ======================================= */
   const fetchData = async (id: number) => {
     try {
