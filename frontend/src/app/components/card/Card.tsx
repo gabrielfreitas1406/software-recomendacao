@@ -309,39 +309,34 @@ const Card: React.FC<CardProps> = ({
     return (
       <>
         <main className="card-questions">
-          <div className="product-geral">
-            <div className="product-info">
-              <div className="product-header">
-                <h1 className="product-title">{ferramentaContext?.nome}</h1>
-                <FavoriteToolButton onClick={handleFavoriteClick} />
+          <div className="product-info">
+            {ferramentaContext && (
+              <div className="tools-section">
+                <img
+                  loading="lazy"
+                  src={
+                    imagensFerramentasDicionario[ferramentaContext.nome].logo
+                  }
+                  alt="Tools illustration"
+                  className="tools-image"
+                />
               </div>
-              <p className="product-description">
-                {ferramentaContext?.descricao}
-              </p>
-
-              {ferramentaContext && (
-                <div className="tools-section">
-                  <img
-                    loading="lazy"
-                    src={
-                      imagensFerramentasDicionario[ferramentaContext.nome].logo
-                    }
-                    alt="Tools illustration"
-                    className="tools-image"
-                  />
-                </div>
-              )}
+            )}
+            <div className="product-header">
+              <h1 className="product-title">{ferramentaContext?.nome}</h1>
+              <FavoriteToolButton onClick={handleFavoriteClick} />
             </div>
           </div>
+          <p className="product-description">{ferramentaContext?.descricao}</p>
 
           <div className="features-section">
             <h2 className="features-title">Ferramentas</h2>
 
-            <div className="features-list">
+            <ul className="features-list">
               {recursosContext.map((recurso, index) => (
                 <ListRecursos key={index} text={recurso.descricao} />
               ))}
-            </div>
+            </ul>
 
             {ferramentaContext && (
               <img
