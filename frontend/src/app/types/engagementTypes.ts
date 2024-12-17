@@ -1,6 +1,7 @@
 export interface EngagementButtonProps {
   text?: string;
-  width?: number;
+  onClick: () => void;
+  isSelected: boolean;
 }
 
 export interface NavigationLinkProps {

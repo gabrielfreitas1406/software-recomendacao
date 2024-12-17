@@ -7,6 +7,9 @@ import api from "@/app/sevices/api";
 
 export const CardWords: React.FC = () => {
   const [conceitos, setConceitos] = React.useState<Conceito[] | []>([]);
+  const [selectedConceitos, setSelectedConceitos] = React.useState<string[]>(
+    []
+  );
 
   React.useEffect(() => {
     const fetchConceitos = async () => {
@@ -17,17 +20,32 @@ export const CardWords: React.FC = () => {
     fetchConceitos();
   }, []);
 
+  const handleEngagementClick = (nome: string) => {
+    setSelectedConceitos((prev) =>
+      prev.includes(nome)
+        ? prev.filter((item) => item !== nome)
+        : [...prev, nome]
+    );
+  };
+
+  console.log(selectedConceitos);
+
   return (
-    <main className="categories-recommendations-content">
-      <section className="categories-recommendations-section">
+    <main className="word-recommendations-content">
+      <section className="word-recommendations-section">
         <h2 className="section-title">ENGAJAMENTO</h2>
         <p className="section-description">
           Selecione os tipos de engajamento desejado
         </p>
 
-        <div className="categories-recommendations-grid">
+        <div className="word-recommendations-grid">
           {conceitos.map((conceito) => (
-            <EngagementButton key={conceito.id} text={conceito.nome} />
+            <EngagementButton
+              key={conceito.id}
+              text={conceito.nome}
+              isSelected={selectedConceitos.includes(conceito.nome)}
+              onClick={() => handleEngagementClick(conceito.nome)}
+            />
           ))}
         </div>
       </section>
