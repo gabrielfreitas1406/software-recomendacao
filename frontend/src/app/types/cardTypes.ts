@@ -5,4 +5,5 @@ export interface CardProps {
   description?: string;
   buttonLabel?: string;
   imageTitle?: string;
+  isCardWord?: boolean;
 }

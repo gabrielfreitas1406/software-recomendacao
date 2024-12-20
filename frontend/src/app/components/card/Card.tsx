@@ -36,6 +36,7 @@ const Card: React.FC<CardProps> = ({
   description,
   buttonLabel,
   imageTitle,
+  isCardWord,
 }) => {
   {
   }
@@ -204,7 +205,7 @@ const Card: React.FC<CardProps> = ({
 
   //Após setar todos os dados da recomendação, atualiza o context para ir passar para a página de resultado da recomendação
   React.useEffect(() => {
-    if (finishedRecomendation) {
+    if (finishedRecomendation && !isCardWord) {
       setFerramentaContext(ferramentaFinal);
       setRecursosContext(recursosDaFerramentaFinal);
       router.push("/recommendation/result");

@@ -6,6 +6,7 @@ export const calculaRecomendacao = (
   conceitos: Conceito[]
 ): number[] => {
   let porcentagemFinal = [0.0, 0.0, 0.0, 0.0];
+  //console.log("Conceitos dentro do calculo:", conceitos);
   for (let i = 0; i < conceitos.length; i++) {
     const idConceito = conceitos[i].id;
 
