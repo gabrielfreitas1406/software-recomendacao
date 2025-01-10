@@ -83,8 +83,9 @@ const Card: React.FC<CardProps> = ({
   const [porcentagemFinalFerramentas, setPorcentagemFinalFerramentas] =
     React.useState<number[]>([0.0, 0.0, 0.0, 0.0]); //Primeiro valor é a porcentagem do Mentimeter, segundo do Meet, terceiro do Jamboard e quarto do Google Slides
 
-  const [ferramentaFinal, setFerramentaFinal] =
-    React.useState<Ferramenta | null>(null);
+  const [ferramentaFinal, setFerramentaFinal] = React.useState<Ferramenta[]>(
+    []
+  );
 
   const [recursosDaFerramentaFinal, setRecursosDaFerramentaFinal] =
     React.useState<Recurso[] | []>([]);
@@ -160,19 +161,19 @@ const Card: React.FC<CardProps> = ({
     );
   }, [startRecomendation]);
 
-  //Seta a ferramenta com o maior valor de probabilidade
+  //Seta todas as ferramentas, na ordem da com maior probabilidade até a menor
   React.useEffect(() => {
     const fetchData = async () => {
       if (startRecomendation) {
         // Encontrar o maior valor
-        const maxValue = Math.max(...porcentagemFinalFerramentas);
+        //const maxValue = Math.max(...porcentagemFinalFerramentas);
         // Encontrar o índice do maior valor
-        const maxIndex = porcentagemFinalFerramentas.indexOf(maxValue) + 1;
-        console.log(`Maior valor: ${maxValue}, Posição: ${maxIndex}`);
+        //const maxIndex = porcentagemFinalFerramentas.indexOf(maxValue) + 1;
+        //console.log(`Maior valor: ${maxValue}, Posição: ${maxIndex}`);
 
         try {
-          const ferramentaResponse = await api.get(`/ferramenta/${maxIndex}`);
-          const ferramentaData = ferramentaResponse.data as Ferramenta;
+          const ferramentaResponse = await api.get(`/ferramenta/`);
+          const ferramentaData = ferramentaResponse.data as Ferramenta[];
           setFerramentaFinal(ferramentaData);
         } catch (error) {
           console.error("Erro ao buscar ferramenta:", error);
@@ -189,7 +190,7 @@ const Card: React.FC<CardProps> = ({
       if (startRecomendation) {
         try {
           const recursosDaFerramentaResponse = await api.get(
-            `/recurso/ferramenta/${ferramentaFinal?.id}`
+            `/recurso/ferramenta/${ferramentaFinal[0]?.id}`
           );
           const recursosDaFerramentaData =
             recursosDaFerramentaResponse.data as Recurso[];
@@ -284,51 +285,57 @@ const Card: React.FC<CardProps> = ({
     return (
       <>
         <main className="card-questions">
-          <div className="product-info">
-            {ferramentaContext && (
-              <div className="tools-section">
-                <img
-                  loading="lazy"
-                  src={
-                    imagensFerramentasDicionario[ferramentaContext.nome].logo
-                  }
-                  alt="Tools illustration"
-                  className="tools-image"
-                />
+          {ferramentaContext?.map((ferramenta, index) => (
+            <div className="product-info" key={index}>
+              {ferramenta && (
+                <div className="tools-section">
+                  <img
+                    loading="lazy"
+                    src={imagensFerramentasDicionario[ferramenta.nome].logo}
+                    alt="Tools illustration"
+                    className="tools-image"
+                  />
+                </div>
+              )}
+
+              <div className="product-header">
+                <h1 className="product-title">{ferramenta.nome}</h1>
+                <FavoriteToolButton onClick={handleFavoriteClick} />
               </div>
-            )}
-            <div className="product-header">
-              <h1 className="product-title">{ferramentaContext?.nome}</h1>
-              <FavoriteToolButton onClick={handleFavoriteClick} />
+
+              <p className="product-description">{ferramenta.descricao}</p>
+
+              <div className="features-section">
+                <h2 className="features-title">Ferramentas</h2>
+                <ul className="features-list">
+                  {recursosContext?.map((recurso, recursoIndex) => (
+                    <ListRecursos key={recursoIndex} text={recurso.descricao} />
+                  ))}
+                </ul>
+
+                {ferramenta && (
+                  <img
+                    loading="lazy"
+                    src={imagensFerramentasDicionario[ferramenta.nome].print}
+                    alt="Product screenshot"
+                    className="product-image"
+                  />
+                )}
+
+                <div
+                  className="link-ferramenta-button"
+                  role="button"
+                  tabIndex={0}
+                >
+                  {"Acesse o site" /*+ ferramentaContext?.link*/}
+                </div>
+              </div>
             </div>
-          </div>
-          <p className="product-description">{ferramentaContext?.descricao}</p>
-
-          <div className="features-section">
-            <h2 className="features-title">Ferramentas</h2>
-
-            <ul className="features-list">
-              {recursosContext.map((recurso, index) => (
-                <ListRecursos key={index} text={recurso.descricao} />
-              ))}
-            </ul>
-
-            {ferramentaContext && (
-              <img
-                loading="lazy"
-                src={imagensFerramentasDicionario[ferramentaContext.nome].print}
-                alt="Product screenshot"
-                className="product-image"
-              />
-            )}
-
-            <div className="link-ferramenta-button" role="button" tabIndex={0}>
-              {"Acesse o site" /*+ ferramentaContext?.link*/}
-            </div>
-          </div>
+          ))}
         </main>
       </>
     );
+
   } else {
     //============================= Tela para responder as perguntas ========================================
     return (
