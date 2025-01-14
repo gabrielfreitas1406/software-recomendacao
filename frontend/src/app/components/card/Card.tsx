@@ -161,20 +161,36 @@ const Card: React.FC<CardProps> = ({
     );
   }, [startRecomendation]);
 
-  //Seta todas as ferramentas, na ordem da com maior probabilidade até a menor
+  //Seta todas as ferramentas, na ordem da com maior probabilidade até a menor para o resultado da recomendação
   React.useEffect(() => {
     const fetchData = async () => {
       if (startRecomendation) {
+        /*        
         // Encontrar o maior valor
         const maxValue = Math.max(...porcentagemFinalFerramentas);
         //Encontrar o índice do maior valor
         const maxIndex = porcentagemFinalFerramentas.indexOf(maxValue) + 1;
         console.log(`Maior valor: ${maxValue}, Posição: ${maxIndex}`);
-
+        */
         try {
-          const ferramentaResponse = await api.get(`/ferramenta/`);
-          const ferramentaData = ferramentaResponse.data as Ferramenta[];
-          setFerramentaFinal(ferramentaData);
+          //Filtra a ordenação das ferramentas com maior probabilidade
+          const indiceFerramentasAux = porcentagemFinalFerramentas
+            .map((value, index) => ({ value, index }))
+            .sort((a, b) => b.value - a.value)
+            .map((item) => item.index);
+          //Incrementa mais 1 para pegar as chaves para o banco de dados
+          const indicesFerramentasOrdenadas = indiceFerramentasAux.map(value => value+1);
+
+          console.log("///////////////////INDICES FERRAMENTAS ORDENADAS: ", indicesFerramentasOrdenadas);
+
+          let ferramentasOrdenadas: Ferramenta[] = [];
+
+          for (const indice of indicesFerramentasOrdenadas) {
+            const ferramentaResponse = await api.get(`/ferramenta/${indice}`);
+            ferramentasOrdenadas.push(ferramentaResponse.data as Ferramenta);
+          }
+          setFerramentaFinal(ferramentasOrdenadas);
+
         } catch (error) {
           console.error("Erro ao buscar ferramenta:", error);
         }
