@@ -166,10 +166,10 @@ const Card: React.FC<CardProps> = ({
     const fetchData = async () => {
       if (startRecomendation) {
         // Encontrar o maior valor
-        //const maxValue = Math.max(...porcentagemFinalFerramentas);
-        // Encontrar o índice do maior valor
-        //const maxIndex = porcentagemFinalFerramentas.indexOf(maxValue) + 1;
-        //console.log(`Maior valor: ${maxValue}, Posição: ${maxIndex}`);
+        const maxValue = Math.max(...porcentagemFinalFerramentas);
+        //Encontrar o índice do maior valor
+        const maxIndex = porcentagemFinalFerramentas.indexOf(maxValue) + 1;
+        console.log(`Maior valor: ${maxValue}, Posição: ${maxIndex}`);
 
         try {
           const ferramentaResponse = await api.get(`/ferramenta/`);
@@ -335,7 +335,6 @@ const Card: React.FC<CardProps> = ({
         </main>
       </>
     );
-
   } else {
     //============================= Tela para responder as perguntas ========================================
     return (
