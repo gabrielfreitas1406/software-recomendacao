@@ -335,7 +335,10 @@ const Card: React.FC<CardProps> = ({
                 <h2 className="features-title">Ferramentas</h2>
                 <ul className="features-list">
                   {recursosContext?.map((recurso, recursoIndex) => (
-                    <ListRecursos key={recursoIndex} text={recurso.descricao} />
+                    <ListRecursos
+                      key={recursoIndex}
+                      text={recurso[0].descricao}
+                    />
                   ))}
                 </ul>
 
