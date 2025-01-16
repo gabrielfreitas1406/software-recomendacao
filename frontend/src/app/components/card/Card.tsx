@@ -88,7 +88,7 @@ const Card: React.FC<CardProps> = ({
   );
 
   const [recursosDaFerramentaFinal, setRecursosDaFerramentaFinal] =
-    React.useState<Recurso[] | []>([]);
+    React.useState<Recurso[][] | [][]>([]);
 
   /*============================================= Funções das requisições ======================================= */
   const fetchData = async (id: number) => {
@@ -179,9 +179,14 @@ const Card: React.FC<CardProps> = ({
             .sort((a, b) => b.value - a.value)
             .map((item) => item.index);
           //Incrementa mais 1 para pegar as chaves para o banco de dados
-          const indicesFerramentasOrdenadas = indiceFerramentasAux.map(value => value+1);
+          const indicesFerramentasOrdenadas = indiceFerramentasAux.map(
+            (value) => value + 1
+          );
 
-          console.log("///////////////////INDICES FERRAMENTAS ORDENADAS: ", indicesFerramentasOrdenadas);
+          console.log(
+            "///////////////////INDICES FERRAMENTAS ORDENADAS: ",
+            indicesFerramentasOrdenadas
+          );
 
           let ferramentasOrdenadas: Ferramenta[] = [];
 
@@ -190,7 +195,6 @@ const Card: React.FC<CardProps> = ({
             ferramentasOrdenadas.push(ferramentaResponse.data as Ferramenta);
           }
           setFerramentaFinal(ferramentasOrdenadas);
-
         } catch (error) {
           console.error("Erro ao buscar ferramenta:", error);
         }
@@ -205,12 +209,18 @@ const Card: React.FC<CardProps> = ({
     const fetchData = async () => {
       if (startRecomendation) {
         try {
-          const recursosDaFerramentaResponse = await api.get(
-            `/recurso/ferramenta/${ferramentaFinal[0]?.id}`
-          );
-          const recursosDaFerramentaData =
-            recursosDaFerramentaResponse.data as Recurso[];
-          setRecursosDaFerramentaFinal(recursosDaFerramentaData);
+          let recusosDeCadaFerramentaAux: Recurso[][] = [];
+
+          for (const ferramenta of ferramentaFinal) {
+            const recursosDaFerramentaResponse = await api.get(
+              `/recurso/ferramenta/${ferramenta.id}`
+            );
+            recusosDeCadaFerramentaAux.push(
+              recursosDaFerramentaResponse.data as Recurso[]
+            );
+          }
+
+          setRecursosDaFerramentaFinal(recusosDeCadaFerramentaAux);
           setFinishedRecomendation(true);
         } catch (error) {
           console.error("Erro ao buscar ferramenta:", error);
