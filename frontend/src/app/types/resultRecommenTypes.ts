@@ -35,7 +35,7 @@ export const imagensFerramentasDicionario: Dictionary<ImagensFerramena> = {
       "https://cdn.builder.io/api/v1/image/assets/TEMP/abd9bf8174b4052f7d6008946f25787194009de90b6413651e7eb13134b91d0e?placeholderIfAbsent=true&apiKey=83976f5dcdaa41408687cac3bc676028",
   },
   Jamboard: {
-    logo: "https://cdn.builder.io/api/v1/image/assets/TEMP/3d5b598cdd8c92fa30c9f8b6ae069594189a3f227cf87362984dcd82c4cdd70a?placeholderIfAbsent=true&apiKey=83976f5dcdaa41408687cac3bc676028",
+    logo: "https://cdn.builder.io/api/v1/image/assets/TEMP/8f9ad52bc608ef992b835d0387d232f5c6cbded982e465d3a244ce2459c50e25?placeholderIfAbsent=true&apiKey=83976f5dcdaa41408687cac3bc676028",
     print:
       "https://cdn.builder.io/api/v1/image/assets/TEMP/8f9ad52bc608ef992b835d0387d232f5c6cbded982e465d3a244ce2459c50e25?placeholderIfAbsent=true&apiKey=83976f5dcdaa41408687cac3bc676028",
   },
