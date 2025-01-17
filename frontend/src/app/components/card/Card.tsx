@@ -334,12 +334,14 @@ const Card: React.FC<CardProps> = ({
               <div className="features-section">
                 <h2 className="features-title">Ferramentas</h2>
                 <ul className="features-list">
-                  {recursosContext?.map((recurso, recursoIndex) => (
-                    <ListRecursos
-                      key={recursoIndex}
-                      text={recurso[0].descricao}
-                    />
-                  ))}
+                  {recursosContext?.map((listaRecurso, listaRecursoIndex) =>
+                    listaRecurso?.map((recurso, recursoIndex) => (
+                      <ListRecursos
+                        key={`${listaRecursoIndex}-${recursoIndex}`}
+                        text={recurso.descricao}
+                      />
+                    ))
+                  )}
                 </ul>
 
                 {ferramenta && (
