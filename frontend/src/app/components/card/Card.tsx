@@ -217,7 +217,7 @@ const Card: React.FC<CardProps> = ({
             );
             recusosDeCadaFerramentaAux.push(
               recursosDaFerramentaResponse.data as Recurso[]
-            );
+            ); //está inserindo cada lista de recursos de cada ferramenta na ordem da ferramenta final (resultado da recomendação)
           }
 
           setRecursosDaFerramentaFinal(recusosDeCadaFerramentaAux);
@@ -308,11 +308,13 @@ const Card: React.FC<CardProps> = ({
     console.log("CONTEXO DA FERRAMENTA!!! ", ferramentaContext);
     console.log("CONTEXTO DOS RECURSOS!!!! ", recursosContext);
     //}
+
+    //let contador = 1;
     return (
       <>
         <main className="card-questions">
-          {ferramentaContext?.map((ferramenta, index) => (
-            <div className="product-info" key={index}>
+          {ferramentaContext?.map((ferramenta, indexFerramenta) => (
+            <div className="product-info" key={indexFerramenta}>
               {ferramenta && (
                 <div className="tools-section">
                   <img
@@ -334,14 +336,23 @@ const Card: React.FC<CardProps> = ({
               <div className="features-section">
                 <h2 className="features-title">Ferramentas</h2>
                 <ul className="features-list">
-                  {recursosContext?.map((listaRecurso, listaRecursoIndex) =>
+                  {/*recursosContext?.map((listaRecurso, listaRecursoIndex) =>
                     listaRecurso?.map((recurso, recursoIndex) => (
                       <ListRecursos
                         key={`${listaRecursoIndex}-${recursoIndex}`}
                         text={recurso.descricao}
                       />
                     ))
-                  )}
+                  )*/}
+                  {/* Procura pelos recursos da ferramenta que está sendo renderizada */}
+                  {recursosContext
+                    .find(
+                      (_, indexListaRecurso) =>
+                        indexListaRecurso === indexFerramenta
+                    )
+                    ?.map((recurso, indexRecurso) => (
+                      <ListRecursos key={indexRecurso} text={recurso.nome} />
+                    ))}
                 </ul>
 
                 {ferramenta && (
