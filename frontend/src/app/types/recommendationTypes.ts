@@ -43,7 +43,7 @@ export const ContagemFerramenta: DictionaryNumber<number> = {};
 
 // 1: Mentimeter, 2: Meet, 3: Jamboard, 4: Google Slides, no qual a soma de cada linha deve ser = 1.0
 export const matrizRecomendacao: number[][] = [
-  [0.5, 0.5, 0.0, 0.0], //1 Mentimeter: 50%, Meet: 50%, Jamboard: 0%, Google Slides: 0%
+  [0.455, 0.545, 0.0, 0.0], //1 Mentimeter: 50%, Meet: 50%, Jamboard: 0%, Google Slides: 0%
   [0.4, 0.4, 0.1, 0.1], //2 Mentimeter: 40%, Meet: 40%, Jamboard: 10%, Google Slides: 10%
   [0.0, 0.0, 0.0, 0.0], //3 Mentimeter: 0%, Meet: 0%, Jamboard: 0%, Google Slides: 0%
   [0.6, 0.3, 0.1, 0.0], //4 Mentimeter: 60%, Meet: 30%, Jamboard: 10%, Google Slides: 0%
