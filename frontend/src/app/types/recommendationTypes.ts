@@ -1,4 +1,4 @@
-interface DictionaryNumber<T> {
+export interface DictionaryNumber<T> {
   [key: number]: T;
 }
 
@@ -64,7 +64,7 @@ export const matrizRecomendacaoFerramentas: number[][] = [
   [0.0, 0.0, 0.5, 0.5], //19 Mentimeter: 0%, Meet: 0%, Jamboard: 50%, Google Slides: 50%
   [0.0, 1.0, 0.0, 0.0], //20 Mentimeter: 0%, Meet: 100%, Jamboard: 0%, Google Slides: 0%
   [0.0, 1.0, 0.0, 0.0], //21 Mentimeter: 0%, Meet: 100%, Jamboard: 0%, Google Slides: 0%
-  [0.333, 0.333, 0.0, 0.333], //22 Mentimeter: 33.3%, Meet: 33.3%, Jamboard: 0%, Google Slides: 33.3%
+  [0.333, 0.0, 0.333, 0.333], //22 Mentimeter: 33.3%, Meet: 0%, Jamboard: 33.3%, Google Slides: 33.3%
 ]; //no qual cada linha será um id de conceito e cada coluna um id de recurso
 
 //Dados para relacionar os conceitos com os recursos para apoiar durante o calculo da recomendação dos recursos.
