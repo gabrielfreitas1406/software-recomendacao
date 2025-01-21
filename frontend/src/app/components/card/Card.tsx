@@ -90,6 +90,10 @@ const Card: React.FC<CardProps> = ({
   const [recursosDaFerramentaFinal, setRecursosDaFerramentaFinal] =
     React.useState<Recurso[][] | [][]>([]);
 
+  const [listaDeContagemRecursos, setListaContagemRecursos] = React.useState<
+    Record<number, number>
+  >({});
+
   /*============================================= Funções das requisições ======================================= */
   const fetchData = async (id: number) => {
     try {
@@ -156,9 +160,13 @@ const Card: React.FC<CardProps> = ({
 
   //Calcula a recomendação (ALTERAR PARA INCLUIR OS RECURSOS MAIS PROXIMOS DO RESULTADO DA RECOMENDAÇÃO DE CADA FERRAMENTA)
   React.useEffect(() => {
-    setPorcentagemFinalFerramentas(
-      calculaRecomendacao(porcentagemFinalFerramentas, conceitos)
+    const resultadoRecomendacao = calculaRecomendacao(
+      porcentagemFinalFerramentas,
+      conceitos
     );
+
+    setPorcentagemFinalFerramentas(resultadoRecomendacao[0]);
+    setListaContagemRecursos(resultadoRecomendacao[1]);
   }, [startRecomendation]);
 
   //Seta todas as ferramentas, na ordem da com maior probabilidade até a menor para o resultado da recomendação
@@ -297,12 +305,13 @@ const Card: React.FC<CardProps> = ({
       </div>
     );
   } else if (isResultCard) {
-    //if (startRecomendation) {
-    console.log("CONTEXO DA FERRAMENTA!!! ", ferramentaContext);
-    console.log("CONTEXTO DOS RECURSOS!!!! ", recursosContext);
-    //}
+    /* ================== Vai exibir o resultado da recomendação ============ */
 
-    //let contador = 1;
+    console.log("CONTEXO DA FERRAMENTA: ", ferramentaContext);
+    console.log("CONTEXTO DOS RECURSOS: ", recursosContext);
+
+    console.log("Resultado dos recursos:  ", listaDeContagemRecursos);
+
     return (
       <>
         <main className="card-questions">

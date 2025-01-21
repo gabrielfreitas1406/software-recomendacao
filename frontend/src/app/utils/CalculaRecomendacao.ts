@@ -1,4 +1,5 @@
 import {
+  DictionaryNumber,
   Conceito,
   matrizRecomendacaoFerramentas,
   relacionamentoConceitoRecurso,
@@ -7,9 +8,9 @@ import {
 //================================ FUNÇÃO PARA CALCULAR A RECOMENDAÇÃO ===========================
 
 export const calculaRecomendacao = (
-  porcentagemTotalFerramentas: number[],
+  porcentagemTotalFerramentasVindaDoCard: number[],
   conceitos: Conceito[]
-): number[] => {
+): [number[], DictionaryNumber<number>] => {
   let porcentagemFinalFerramentas = [0.0, 0.0, 0.0, 0.0];
   let contagemFinalRecomendacaoRecursos = contagemRecomendacaoRecursos;
 
@@ -21,7 +22,7 @@ export const calculaRecomendacao = (
     porcentagemFinalFerramentas = porcentagemFinalFerramentas.map(
       (value, index) =>
         value +
-        porcentagemTotalFerramentas[index] +
+        porcentagemTotalFerramentasVindaDoCard[index] +
         matrizRecomendacaoFerramentas[idConceito - 1][index]
     );
     //Posição no relacionamento de conceito recurso
@@ -32,5 +33,5 @@ export const calculaRecomendacao = (
     }
   }
 
-  return porcentagemFinalFerramentas;
+  return [porcentagemFinalFerramentas, contagemFinalRecomendacaoRecursos];
 };
