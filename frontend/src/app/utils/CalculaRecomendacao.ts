@@ -1,4 +1,7 @@
-import { Conceito, matrizRecomendacao } from "../types/recommendationTypes";
+import {
+  Conceito,
+  matrizRecomendacaoFerramentas,
+} from "../types/recommendationTypes";
 //================================ FUNÇÃO PARA CALCULAR A RECOMENDAÇÃO ===========================
 
 export const calculaRecomendacao = (
@@ -15,7 +18,7 @@ export const calculaRecomendacao = (
       (value, index) =>
         value +
         porcentagemTotalFerramentas[index] +
-        matrizRecomendacao[idConceito - 1][index]
+        matrizRecomendacaoFerramentas[idConceito - 1][index]
     );
   }
   return porcentagemFinal;

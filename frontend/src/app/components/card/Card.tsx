@@ -154,7 +154,7 @@ const Card: React.FC<CardProps> = ({
     }
   }, [idQuestaoAtual, router]);
 
-  //Calcula a recomendação
+  //Calcula a recomendação (ALTERAR PARA INCLUIR OS RECURSOS MAIS PROXIMOS DO RESULTADO DA RECOMENDAÇÃO DE CADA FERRAMENTA)
   React.useEffect(() => {
     setPorcentagemFinalFerramentas(
       calculaRecomendacao(porcentagemFinalFerramentas, conceitos)
@@ -165,13 +165,6 @@ const Card: React.FC<CardProps> = ({
   React.useEffect(() => {
     const fetchData = async () => {
       if (startRecomendation) {
-        /*        
-        // Encontrar o maior valor
-        const maxValue = Math.max(...porcentagemFinalFerramentas);
-        //Encontrar o índice do maior valor
-        const maxIndex = porcentagemFinalFerramentas.indexOf(maxValue) + 1;
-        console.log(`Maior valor: ${maxValue}, Posição: ${maxIndex}`);
-        */
         try {
           //Filtra a ordenação das ferramentas com maior probabilidade
           const indiceFerramentasAux = porcentagemFinalFerramentas

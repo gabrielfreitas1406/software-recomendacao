@@ -42,7 +42,7 @@ export const ContagemRecurso: DictionaryNumber<number> = {};
 export const ContagemFerramenta: DictionaryNumber<number> = {};
 
 // 1: Mentimeter, 2: Meet, 3: Jamboard, 4: Google Slides, no qual a soma de cada linha deve ser = 1.0
-export const matrizRecomendacao: number[][] = [
+export const matrizRecomendacaoFerramentas: number[][] = [
   [0.455, 0.545, 0.0, 0.0], //1 Mentimeter: 50%, Meet: 50%, Jamboard: 0%, Google Slides: 0%
   [0.4, 0.4, 0.1, 0.1], //2 Mentimeter: 40%, Meet: 40%, Jamboard: 10%, Google Slides: 10%
   [0.0, 0.0, 0.0, 0.0], //3 Mentimeter: 0%, Meet: 0%, Jamboard: 0%, Google Slides: 0%
@@ -67,3 +67,29 @@ export const matrizRecomendacao: number[][] = [
   [0.0, 1.0, 0.0, 0.0], //21 Mentimeter: 0%, Meet: 100%, Jamboard: 0%, Google Slides: 0%
   [0.333, 0.333, 0.0, 0.333], //22 Mentimeter: 33.3%, Meet: 33.3%, Jamboard: 0%, Google Slides: 33.3%
 ]; //no qual cada linha será um id de conceito e cada coluna um id de recurso
+
+const RecomendacaoRecursos = {
+  1: 0,
+  2: 0,
+  3: 0,
+  4: 0,
+  5: 0,
+  6: 0,
+  7: 0,
+  8: 0,
+  9: 0,
+  10: 0,
+  11: 0,
+  12: 0,
+  13: 0,
+  14: 0,
+  15: 0,
+  16: 0,
+  17: 0,
+  18: 0,
+  19: 0,
+  20: 0,
+  21: 0,
+  22: 0,
+  23: 0,
+};
