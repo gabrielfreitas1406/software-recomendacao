@@ -59,7 +59,6 @@ export const matrizRecomendacaoFerramentas: number[][] = [
   [1.0, 0.0, 0.0, 0.0], //14 Mentimeter: 100%, Meet: 0%, Jamboard: 0%, Google Slides: 0%
   [0.666, 0.333, 0.0, 0.0], //15 Mentimeter: 66.6%, Meet: 33.3%, Jamboard: 0%, Google Slides: 0%
   [0.4545, 0.3636, 0.0909, 0.0909], //16 Mentimeter: 66.6%, Meet: 36.36%, Jamboard: 9.09%, Google Slides: 9.09%
-
   [0.666, 0.0, 0.333, 0.0], //17 Mentimeter: 66.6%, Meet: 0%, Jamboard: 33.3%, Google Slides: 0%
   [0.333, 0.555, 0.111, 0.0], //18 Mentimeter: 33.3%, Meet: 55.5%, Jamboard: 11.1%, Google Slides: 0%
   [0.0, 0.0, 0.5, 0.5], //19 Mentimeter: 0%, Meet: 0%, Jamboard: 50%, Google Slides: 50%
@@ -68,7 +67,37 @@ export const matrizRecomendacaoFerramentas: number[][] = [
   [0.333, 0.333, 0.0, 0.333], //22 Mentimeter: 33.3%, Meet: 33.3%, Jamboard: 0%, Google Slides: 33.3%
 ]; //no qual cada linha será um id de conceito e cada coluna um id de recurso
 
-const RecomendacaoRecursos = {
+//Dados para relacionar os conceitos com os recursos para apoiar durante o calculo da recomendação dos recursos.
+//Cada chave é o idConceito e cada valor é uma lista de recusos associados com o conceito.
+export const relacionamentoConceitoRecurso: DictionaryNumber<number[]> = {
+  1: [1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+  2: [1, 3, 6, 7, 8, 9, 10, 12, 13, 15],
+  3: [],
+  4: [1, 3, 4, 5, 6, 7, 8, 10, 11, 13],
+  5: [1, 2, 3, 4, 5, 6, 8, 9, 10, 11, 12, 13, 15],
+  6: [10, 11],
+  7: [1, 3, 4, 5, 12],
+  8: [1, 3, 12, 15],
+  9: [4, 6],
+  10: [1, 3, 4, 5, 9],
+  11: [],
+  12: [],
+  13: [],
+  14: [3],
+  15: [4, 5, 13],
+  16: [1, 2, 4, 5, 6, 8, 9, 10, 11, 13, 15],
+  17: [1, 3, 13],
+  18: [3, 4, 5, 8, 9, 10, 11, 12, 13],
+  19: [13, 15],
+  20: [10],
+  21: [8],
+  22: [3, 13, 15],
+  23: [],
+};
+
+//interface para contar os recursos das ferramentas selecionadas na recomendação
+//São ao todo 15 recursos
+export const contagemRecomendacaoRecursos: DictionaryNumber<number> = {
   1: 0,
   2: 0,
   3: 0,
@@ -84,12 +113,4 @@ const RecomendacaoRecursos = {
   13: 0,
   14: 0,
   15: 0,
-  16: 0,
-  17: 0,
-  18: 0,
-  19: 0,
-  20: 0,
-  21: 0,
-  22: 0,
-  23: 0,
 };
