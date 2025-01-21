@@ -83,9 +83,9 @@ const Card: React.FC<CardProps> = ({
   const [porcentagemFinalFerramentas, setPorcentagemFinalFerramentas] =
     React.useState<number[]>([0.0, 0.0, 0.0, 0.0]); //Primeiro valor é a porcentagem do Mentimeter, segundo do Meet, terceiro do Jamboard e quarto do Google Slides
 
-  const [ferramentaFinal, setFerramentaFinal] = React.useState<Ferramenta[]>(
-    []
-  );
+  const [listaFerramentasFinais, setListaFerramentasFinais] = React.useState<
+    Ferramenta[]
+  >([]);
 
   const [recursosDaFerramentaFinal, setRecursosDaFerramentaFinal] =
     React.useState<Recurso[][] | [][]>([]);
@@ -194,7 +194,7 @@ const Card: React.FC<CardProps> = ({
             const ferramentaResponse = await api.get(`/ferramenta/${indice}`);
             ferramentasOrdenadas.push(ferramentaResponse.data as Ferramenta);
           }
-          setFerramentaFinal(ferramentasOrdenadas);
+          setListaFerramentasFinais(ferramentasOrdenadas);
         } catch (error) {
           console.error("Erro ao buscar ferramenta:", error);
         }
@@ -211,7 +211,7 @@ const Card: React.FC<CardProps> = ({
         try {
           let recusosDeCadaFerramentaAux: Recurso[][] = [];
 
-          for (const ferramenta of ferramentaFinal) {
+          for (const ferramenta of listaFerramentasFinais) {
             const recursosDaFerramentaResponse = await api.get(
               `/recurso/ferramenta/${ferramenta.id}`
             );
@@ -228,12 +228,12 @@ const Card: React.FC<CardProps> = ({
       }
     };
     fetchData();
-  }, [ferramentaFinal]);
+  }, [listaFerramentasFinais]);
 
   //Após setar todos os dados da recomendação, atualiza o context para ir passar para a página de resultado da recomendação
   React.useEffect(() => {
     if (finishedRecomendation && !isCardWord) {
-      setFerramentaContext(ferramentaFinal);
+      setFerramentaContext(listaFerramentasFinais);
       setRecursosContext(recursosDaFerramentaFinal);
       router.push("/recommendation/result");
     }
@@ -280,7 +280,7 @@ const Card: React.FC<CardProps> = ({
     console.log("Contagem Final das ferramentas:", porcentagemFinalFerramentas);
   }
 
-  console.log("Ferramenta final", ferramentaFinal);
+  console.log("Ferramenta final", listaFerramentasFinais);
   console.log("Recursos da ferramenta final", recursosDaFerramentaFinal);
   //console.log("Contagem Ferramenta GERAL: ", contagemFerramenta);
   //console.log("Ferramenta Selecionada ID FINAL:", idFerramentaSelecionada);
