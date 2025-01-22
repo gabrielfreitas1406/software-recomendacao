@@ -205,6 +205,9 @@ const Card: React.FC<CardProps> = ({
     fetchData();
   }, [porcentagemFinalFerramentas]);
 
+  //Seta os recursos de cada ferramenta com a maior contagem
+  React.useEffect(() => {}, [listaDeContagemRecursos]);
+
   //Seta os recursos da Ferramenta final
   React.useEffect(() => {
     const fetchData = async () => {
