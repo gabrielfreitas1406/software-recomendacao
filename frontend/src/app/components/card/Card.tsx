@@ -450,6 +450,12 @@ const Card: React.FC<CardProps> = ({
     return (
       <>
         <main className="card-questions">
+          <h1 className="title-result-recommendation">
+            RECOMENDAÇÃO DE SISTEMA
+          </h1>
+          <h2 className="sistema-retornado">
+            Seu sistema ideal é o {ferramentaContext[0].nome}
+          </h2>
           {ferramentaContext?.map((ferramenta, indexFerramenta) => (
             <div className="product-info" key={indexFerramenta}>
               {ferramenta && (
@@ -473,14 +479,6 @@ const Card: React.FC<CardProps> = ({
               <div className="features-section">
                 <h2 className="features-title">Ferramentas</h2>
                 <ul className="features-list">
-                  {/*recursosContext?.map((listaRecurso, listaRecursoIndex) =>
-                    listaRecurso?.map((recurso, recursoIndex) => (
-                      <ListRecursos
-                        key={`${listaRecursoIndex}-${recursoIndex}`}
-                        text={recurso.descricao}
-                      />
-                    ))
-                  )*/}
                   {/* Procura pelos recursos da ferramenta que está sendo renderizada */}
                   {recursosContext
                     .find(
