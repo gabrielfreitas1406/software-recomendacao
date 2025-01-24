@@ -207,10 +207,139 @@ const Card: React.FC<CardProps> = ({
 
   //Seta os recursos de cada ferramenta com a maior contagem
   React.useEffect(() => {
-    const fetchRecusosDaContagem = async () => {};
-  }, [listaDeContagemRecursos]);
+    const fetchRecusosDaContagem = async () => {
+      if (startRecomendation) {
+        try {
+          let recusosDeCadaFerramentaAux: Recurso[][] = [];
+          const LIMIAR = 2;
 
-  //Seta os recursos da Ferramenta final
+          // Mapear categorias de recursos para índices com base na ordem das ferramentas
+          const ferramentaMap = listaFerramentasFinais.reduce(
+            (map, ferramenta, index) => {
+              if (ferramenta.id === 1) map[1] = index; // Recursos com idRecurso <= 6
+              if (ferramenta.id === 2) map[2] = index; // Recursos com idRecurso 7-12
+              if (ferramenta.id === 3) map[3] = index; // Recursos com idRecurso 13-14
+              if (ferramenta.id === 4) map[4] = index; // Recursos com idRecurso 15
+              return map;
+            },
+            {} as Record<number, number>
+          );
+
+          for (const idRecurso in listaDeContagemRecursos) {
+            if (listaDeContagemRecursos[idRecurso] >= LIMIAR) {
+              const recursoResponse = await api.get(`/recurso/${idRecurso}`);
+              const recursoData: Recurso = recursoResponse.data;
+
+              const idRecursoNumber = parseInt(idRecurso, 10);
+              let index: number | undefined;
+
+              if (idRecursoNumber <= 6) {
+                index = ferramentaMap[1];
+              } else if (idRecursoNumber >= 7 && idRecursoNumber <= 12) {
+                index = ferramentaMap[2];
+              } else if (idRecursoNumber === 13 || idRecursoNumber === 14) {
+                index = ferramentaMap[3];
+              } else if (idRecursoNumber === 15) {
+                index = ferramentaMap[4];
+              }
+
+              if (index !== undefined) {
+                if (!recusosDeCadaFerramentaAux[index]) {
+                  recusosDeCadaFerramentaAux[index] = [];
+                }
+                recusosDeCadaFerramentaAux[index].push(recursoData);
+              }
+            }
+          }
+
+          // Atualizar os estados com os recursos organizados
+          setRecursosDaFerramentaFinal(recusosDeCadaFerramentaAux);
+          setFinishedRecomendation(true);
+        } catch (error) {
+          console.error(
+            "Erro ao pegar os recursos com a maior contagem!",
+            error
+          );
+        }
+      }
+    };
+
+    fetchRecusosDaContagem();
+  }, [listaFerramentasFinais]);
+
+  /*React.useEffect(() => {
+    const fetchRecusosDaContagem = async () => {
+      if (startRecomendation) {
+        try {
+          let recusosDeCadaFerramentaAux: Recurso[][] = [];
+          const LIMIAR = 2;
+          for (const idRecurso in listaDeContagemRecursos) {
+            if (listaDeContagemRecursos[idRecurso] >= LIMIAR) {
+              const recursoResponse = await api.get(`/recurso/${idRecurso}`);
+              const recursoData: Recurso = recursoResponse.data;
+
+              //inserir em uma posição diferente no recursosDeCadaFerramenta aqui
+              //Se idRecurso =< inserir no primeiro vetor
+              //Se idRecurso for 7 =< idRecurso =< 12, inserir no segundo vetor
+              //Se idRecurso == 13 ou idRecurso == 14, inserir no terceiro vetor
+              //Se idRecurso == 15 inserir no quarto vetor
+
+              const idRecursoNumber = parseInt(idRecurso, 10);
+
+              if (idRecursoNumber <= 6) {
+                // Adicionar no primeiro vetor
+                if (!recusosDeCadaFerramentaAux[0]) {
+                  recusosDeCadaFerramentaAux[0] = [];
+                }
+                recusosDeCadaFerramentaAux[0].push(recursoData);
+              } else if (idRecursoNumber >= 7 && idRecursoNumber <= 12) {
+                // Adicionar no segundo vetor
+                if (!recusosDeCadaFerramentaAux[1]) {
+                  recusosDeCadaFerramentaAux[1] = [];
+                }
+                recusosDeCadaFerramentaAux[1].push(recursoData);
+              } else if (idRecursoNumber === 13 || idRecursoNumber === 14) {
+                // Adicionar no terceiro vetor
+                if (!recusosDeCadaFerramentaAux[2]) {
+                  recusosDeCadaFerramentaAux[2] = [];
+                }
+                recusosDeCadaFerramentaAux[2].push(recursoData);
+              } else if (idRecursoNumber === 15) {
+                // Adicionar no quarto vetor
+                if (!recusosDeCadaFerramentaAux[3]) {
+                  recusosDeCadaFerramentaAux[3] = [];
+                }
+                recusosDeCadaFerramentaAux[3].push(recursoData);
+              }
+            }
+          }
+          setRecursosDaFerramentaFinal(recusosDeCadaFerramentaAux);
+          setFinishedRecomendation(true);
+        } catch (error) {
+          console.log(
+            "Erro ao pegar pelo axios os recusos com a maior contagem!"
+          );
+        }
+      }
+    };
+    fetchRecusosDaContagem();
+  }, [listaFerramentasFinais]);*/
+
+  //Ordena os recusos de acordo com a ordenação das ferramentas no resultado da recomendação
+  /*React.useEffect(() => {
+    const fetchFerramentas = async () => {
+      try {
+        for (const ferramenta of listaFerramentasFinais) {
+          //Tenho que ordenar agora os recursos aqui
+        }
+      } catch (error) {
+        console.log("Erro ao carregar ferramentas do axios, ", error);
+      }
+    };
+  }, [recursosDaFerramentaFinal]);*/
+
+  /*
+  //Seta os recursos de cada ferramenta com a maior contagem
   React.useEffect(() => {
     const fetchData = async () => {
       if (startRecomendation) {
@@ -234,7 +363,8 @@ const Card: React.FC<CardProps> = ({
       }
     };
     fetchData();
-  }, [listaFerramentasFinais]);
+  }, [listaFerramentasFinais]);  
+  */
 
   //Após setar todos os dados da recomendação, atualiza o context para ir passar para a página de resultado da recomendação
   React.useEffect(() => {
@@ -287,7 +417,7 @@ const Card: React.FC<CardProps> = ({
   }
 
   console.log("Ferramenta final", listaFerramentasFinais);
-  console.log("Recursos da ferramenta final", recursosDaFerramentaFinal);
+  //console.log("Recursos da ferramenta final", recursosDaFerramentaFinal);
   //console.log("Contagem Ferramenta GERAL: ", contagemFerramenta);
   //console.log("Ferramenta Selecionada ID FINAL:", idFerramentaSelecionada);
 
