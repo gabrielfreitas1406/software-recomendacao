@@ -477,7 +477,7 @@ const Card: React.FC<CardProps> = ({
               <p className="product-description">{ferramenta.descricao}</p>
 
               <div className="features-section">
-                <h2 className="features-title">Ferramentas</h2>
+                <h2 className="features-title">Ferramentas Indicadas</h2>
                 <ul className="features-list">
                   {/* Procura pelos recursos da ferramenta que está sendo renderizada */}
                   {recursosContext
