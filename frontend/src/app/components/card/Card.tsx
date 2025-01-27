@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import api from "@/app/sevices/api";
 import { FavoriteToolButton } from "./FavoriteTool/FavoriteToolButton";
 import { calculaRecomendacao } from "@/app/utils/CalculaRecomendacao";
+import { calcularMediaRecomendacaoRecursos } from "@/app/utils/calculaMediaRecursos";
 import { Questao, Resposta } from "@/app/types/QuestionTypes";
 import {
   QuestaoRespostaSelecionada,
@@ -211,7 +212,11 @@ const Card: React.FC<CardProps> = ({
       if (startRecomendation) {
         try {
           let recusosDeCadaFerramentaAux: Recurso[][] = [];
-          const LIMIAR = 2;
+
+          const LIMIAR = calcularMediaRecomendacaoRecursos(
+            listaDeContagemRecursos
+          );
+          console.log("LIMIAR: ", LIMIAR);
 
           // Mapear categorias de recursos para índices com base na ordem das ferramentas
           const ferramentaMap = listaFerramentasFinais.reduce(
