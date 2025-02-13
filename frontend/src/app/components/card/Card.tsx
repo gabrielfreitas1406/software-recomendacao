@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import api from "@/app/sevices/api";
 import { FavoriteToolButton } from "./FavoriteTool/FavoriteToolButton";
 import { calculaRecomendacao } from "@/app/utils/CalculaRecomendacao";
+import { calcularMediaRecomendacaoRecursos } from "@/app/utils/calculaMediaRecursos";
 import { Questao, Resposta } from "@/app/types/QuestionTypes";
 import {
   QuestaoRespostaSelecionada,
@@ -83,11 +84,16 @@ const Card: React.FC<CardProps> = ({
   const [porcentagemFinalFerramentas, setPorcentagemFinalFerramentas] =
     React.useState<number[]>([0.0, 0.0, 0.0, 0.0]); //Primeiro valor é a porcentagem do Mentimeter, segundo do Meet, terceiro do Jamboard e quarto do Google Slides
 
-  const [ferramentaFinal, setFerramentaFinal] =
-    React.useState<Ferramenta | null>(null);
+  const [listaFerramentasFinais, setListaFerramentasFinais] = React.useState<
+    Ferramenta[]
+  >([]);
 
   const [recursosDaFerramentaFinal, setRecursosDaFerramentaFinal] =
-    React.useState<Recurso[] | []>([]);
+    React.useState<Recurso[][] | [][]>([]);
+
+  const [listaDeContagemRecursos, setListaContagemRecursos] = React.useState<
+    Record<number, number>
+  >({});
 
   /*============================================= Funções das requisições ======================================= */
   const fetchData = async (id: number) => {
@@ -153,27 +159,44 @@ const Card: React.FC<CardProps> = ({
     }
   }, [idQuestaoAtual, router]);
 
-  //Calcula a recomendação
+  //Calcula a recomendação (ALTERAR PARA INCLUIR OS RECURSOS MAIS PROXIMOS DO RESULTADO DA RECOMENDAÇÃO DE CADA FERRAMENTA)
   React.useEffect(() => {
-    setPorcentagemFinalFerramentas(
-      calculaRecomendacao(porcentagemFinalFerramentas, conceitos)
+    const resultadoRecomendacao = calculaRecomendacao(
+      porcentagemFinalFerramentas,
+      conceitos
     );
+
+    setPorcentagemFinalFerramentas(resultadoRecomendacao[0]);
+    setListaContagemRecursos(resultadoRecomendacao[1]);
   }, [startRecomendation]);
 
-  //Seta a ferramenta com o maior valor de probabilidade
+  //Seta todas as ferramentas, na ordem da com maior probabilidade até a menor para o resultado da recomendação
   React.useEffect(() => {
     const fetchData = async () => {
       if (startRecomendation) {
-        // Encontrar o maior valor
-        const maxValue = Math.max(...porcentagemFinalFerramentas);
-        // Encontrar o índice do maior valor
-        const maxIndex = porcentagemFinalFerramentas.indexOf(maxValue) + 1;
-        console.log(`Maior valor: ${maxValue}, Posição: ${maxIndex}`);
-
         try {
-          const ferramentaResponse = await api.get(`/ferramenta/${maxIndex}`);
-          const ferramentaData = ferramentaResponse.data as Ferramenta;
-          setFerramentaFinal(ferramentaData);
+          //Filtra a ordenação das ferramentas com maior probabilidade
+          const indiceFerramentasAux = porcentagemFinalFerramentas
+            .map((value, index) => ({ value, index }))
+            .sort((a, b) => b.value - a.value)
+            .map((item) => item.index);
+          //Incrementa mais 1 para pegar as chaves para o banco de dados
+          const indicesFerramentasOrdenadas = indiceFerramentasAux.map(
+            (value) => value + 1
+          );
+
+          console.log(
+            "///////////////////INDICES FERRAMENTAS ORDENADAS: ",
+            indicesFerramentasOrdenadas
+          );
+
+          let ferramentasOrdenadas: Ferramenta[] = [];
+
+          for (const indice of indicesFerramentasOrdenadas) {
+            const ferramentaResponse = await api.get(`/ferramenta/${indice}`);
+            ferramentasOrdenadas.push(ferramentaResponse.data as Ferramenta);
+          }
+          setListaFerramentasFinais(ferramentasOrdenadas);
         } catch (error) {
           console.error("Erro ao buscar ferramenta:", error);
         }
@@ -183,17 +206,161 @@ const Card: React.FC<CardProps> = ({
     fetchData();
   }, [porcentagemFinalFerramentas]);
 
-  //Seta os recursos da Ferramenta final
+  //Seta os recursos de cada ferramenta com a maior contagem
+  React.useEffect(() => {
+    const fetchRecusosDaContagem = async () => {
+      if (startRecomendation) {
+        try {
+          let recusosDeCadaFerramentaAux: Recurso[][] = [];
+
+          const LIMIAR = calcularMediaRecomendacaoRecursos(
+            listaDeContagemRecursos
+          );
+          console.log("LIMIAR: ", LIMIAR);
+
+          // Mapear categorias de recursos para índices com base na ordem das ferramentas
+          const ferramentaMap = listaFerramentasFinais.reduce(
+            (map, ferramenta, index) => {
+              if (ferramenta.id === 1) map[1] = index; // Recursos com idRecurso <= 6
+              if (ferramenta.id === 2) map[2] = index; // Recursos com idRecurso 7-12
+              if (ferramenta.id === 3) map[3] = index; // Recursos com idRecurso 13-14
+              if (ferramenta.id === 4) map[4] = index; // Recursos com idRecurso 15
+              return map;
+            },
+            {} as Record<number, number>
+          );
+
+          for (const idRecurso in listaDeContagemRecursos) {
+            if (listaDeContagemRecursos[idRecurso] >= LIMIAR) {
+              const recursoResponse = await api.get(`/recurso/${idRecurso}`);
+              const recursoData: Recurso = recursoResponse.data;
+
+              const idRecursoNumber = parseInt(idRecurso, 10);
+              let index: number | undefined;
+
+              if (idRecursoNumber <= 6) {
+                index = ferramentaMap[1];
+              } else if (idRecursoNumber >= 7 && idRecursoNumber <= 12) {
+                index = ferramentaMap[2];
+              } else if (idRecursoNumber === 13 || idRecursoNumber === 14) {
+                index = ferramentaMap[3];
+              } else if (idRecursoNumber === 15) {
+                index = ferramentaMap[4];
+              }
+
+              if (index !== undefined) {
+                if (!recusosDeCadaFerramentaAux[index]) {
+                  recusosDeCadaFerramentaAux[index] = [];
+                }
+                recusosDeCadaFerramentaAux[index].push(recursoData);
+              }
+            }
+          }
+
+          // Atualizar os estados com os recursos organizados
+          setRecursosDaFerramentaFinal(recusosDeCadaFerramentaAux);
+          setFinishedRecomendation(true);
+        } catch (error) {
+          console.error(
+            "Erro ao pegar os recursos com a maior contagem!",
+            error
+          );
+        }
+      }
+    };
+
+    fetchRecusosDaContagem();
+  }, [listaFerramentasFinais]);
+
+  /*React.useEffect(() => {
+    const fetchRecusosDaContagem = async () => {
+      if (startRecomendation) {
+        try {
+          let recusosDeCadaFerramentaAux: Recurso[][] = [];
+          const LIMIAR = 2;
+          for (const idRecurso in listaDeContagemRecursos) {
+            if (listaDeContagemRecursos[idRecurso] >= LIMIAR) {
+              const recursoResponse = await api.get(`/recurso/${idRecurso}`);
+              const recursoData: Recurso = recursoResponse.data;
+
+              //inserir em uma posição diferente no recursosDeCadaFerramenta aqui
+              //Se idRecurso =< inserir no primeiro vetor
+              //Se idRecurso for 7 =< idRecurso =< 12, inserir no segundo vetor
+              //Se idRecurso == 13 ou idRecurso == 14, inserir no terceiro vetor
+              //Se idRecurso == 15 inserir no quarto vetor
+
+              const idRecursoNumber = parseInt(idRecurso, 10);
+
+              if (idRecursoNumber <= 6) {
+                // Adicionar no primeiro vetor
+                if (!recusosDeCadaFerramentaAux[0]) {
+                  recusosDeCadaFerramentaAux[0] = [];
+                }
+                recusosDeCadaFerramentaAux[0].push(recursoData);
+              } else if (idRecursoNumber >= 7 && idRecursoNumber <= 12) {
+                // Adicionar no segundo vetor
+                if (!recusosDeCadaFerramentaAux[1]) {
+                  recusosDeCadaFerramentaAux[1] = [];
+                }
+                recusosDeCadaFerramentaAux[1].push(recursoData);
+              } else if (idRecursoNumber === 13 || idRecursoNumber === 14) {
+                // Adicionar no terceiro vetor
+                if (!recusosDeCadaFerramentaAux[2]) {
+                  recusosDeCadaFerramentaAux[2] = [];
+                }
+                recusosDeCadaFerramentaAux[2].push(recursoData);
+              } else if (idRecursoNumber === 15) {
+                // Adicionar no quarto vetor
+                if (!recusosDeCadaFerramentaAux[3]) {
+                  recusosDeCadaFerramentaAux[3] = [];
+                }
+                recusosDeCadaFerramentaAux[3].push(recursoData);
+              }
+            }
+          }
+          setRecursosDaFerramentaFinal(recusosDeCadaFerramentaAux);
+          setFinishedRecomendation(true);
+        } catch (error) {
+          console.log(
+            "Erro ao pegar pelo axios os recusos com a maior contagem!"
+          );
+        }
+      }
+    };
+    fetchRecusosDaContagem();
+  }, [listaFerramentasFinais]);*/
+
+  //Ordena os recusos de acordo com a ordenação das ferramentas no resultado da recomendação
+  /*React.useEffect(() => {
+    const fetchFerramentas = async () => {
+      try {
+        for (const ferramenta of listaFerramentasFinais) {
+          //Tenho que ordenar agora os recursos aqui
+        }
+      } catch (error) {
+        console.log("Erro ao carregar ferramentas do axios, ", error);
+      }
+    };
+  }, [recursosDaFerramentaFinal]);*/
+
+  /*
+  //Seta os recursos de cada ferramenta com a maior contagem
   React.useEffect(() => {
     const fetchData = async () => {
       if (startRecomendation) {
         try {
-          const recursosDaFerramentaResponse = await api.get(
-            `/recurso/ferramenta/${ferramentaFinal?.id}`
-          );
-          const recursosDaFerramentaData =
-            recursosDaFerramentaResponse.data as Recurso[];
-          setRecursosDaFerramentaFinal(recursosDaFerramentaData);
+          let recusosDeCadaFerramentaAux: Recurso[][] = [];
+
+          for (const ferramenta of listaFerramentasFinais) {
+            const recursosDaFerramentaResponse = await api.get(
+              `/recurso/ferramenta/${ferramenta.id}`
+            );
+            recusosDeCadaFerramentaAux.push(
+              recursosDaFerramentaResponse.data as Recurso[]
+            ); //está inserindo cada lista de recursos de cada ferramenta na ordem da ferramenta final (resultado da recomendação)
+          }
+
+          setRecursosDaFerramentaFinal(recusosDeCadaFerramentaAux);
           setFinishedRecomendation(true);
         } catch (error) {
           console.error("Erro ao buscar ferramenta:", error);
@@ -201,12 +368,13 @@ const Card: React.FC<CardProps> = ({
       }
     };
     fetchData();
-  }, [ferramentaFinal]);
+  }, [listaFerramentasFinais]);  
+  */
 
   //Após setar todos os dados da recomendação, atualiza o context para ir passar para a página de resultado da recomendação
   React.useEffect(() => {
     if (finishedRecomendation && !isCardWord) {
-      setFerramentaContext(ferramentaFinal);
+      setFerramentaContext(listaFerramentasFinais);
       setRecursosContext(recursosDaFerramentaFinal);
       router.push("/recommendation/result");
     }
@@ -253,8 +421,8 @@ const Card: React.FC<CardProps> = ({
     console.log("Contagem Final das ferramentas:", porcentagemFinalFerramentas);
   }
 
-  console.log("Ferramenta final", ferramentaFinal);
-  console.log("Recursos da ferramenta final", recursosDaFerramentaFinal);
+  console.log("Ferramenta final", listaFerramentasFinais);
+  //console.log("Recursos da ferramenta final", recursosDaFerramentaFinal);
   //console.log("Contagem Ferramenta GERAL: ", contagemFerramenta);
   //console.log("Ferramenta Selecionada ID FINAL:", idFerramentaSelecionada);
 
@@ -277,55 +445,75 @@ const Card: React.FC<CardProps> = ({
       </div>
     );
   } else if (isResultCard) {
-    //if (startRecomendation) {
-    console.log("CONTEXO DA FERRAMENTA!!! ", ferramentaContext);
-    console.log("CONTEXTO DOS RECURSOS!!!! ", recursosContext);
-    //}
+    /* ================== Vai exibir o resultado da recomendação ============ */
+
+    console.log("CONTEXO DA FERRAMENTA: ", ferramentaContext);
+    console.log("CONTEXTO DOS RECURSOS: ", recursosContext);
+
+    console.log("Resultado dos recursos:  ", listaDeContagemRecursos);
+
     return (
       <>
         <main className="card-questions">
-          <div className="product-info">
-            {ferramentaContext && (
-              <div className="tools-section">
-                <img
-                  loading="lazy"
-                  src={
-                    imagensFerramentasDicionario[ferramentaContext.nome].logo
-                  }
-                  alt="Tools illustration"
-                  className="tools-image"
-                />
+          <h1 className="title-result-recommendation">
+            RECOMENDAÇÃO DE SISTEMA
+          </h1>
+          <h2 className="sistema-retornado">
+            Seu sistema ideal é o {ferramentaContext[0].nome}
+          </h2>
+          {ferramentaContext?.map((ferramenta, indexFerramenta) => (
+            <div className="product-info" key={indexFerramenta}>
+              {ferramenta && (
+                <div className="tools-section">
+                  <img
+                    loading="lazy"
+                    src={imagensFerramentasDicionario[ferramenta.nome].logo}
+                    alt="Tools illustration"
+                    className="tools-image"
+                  />
+                </div>
+              )}
+
+              <div className="product-header">
+                <h1 className="product-title">{ferramenta.nome}</h1>
+                <FavoriteToolButton onClick={handleFavoriteClick} />
               </div>
-            )}
-            <div className="product-header">
-              <h1 className="product-title">{ferramentaContext?.nome}</h1>
-              <FavoriteToolButton onClick={handleFavoriteClick} />
+
+              <p className="product-description">{ferramenta.descricao}</p>
+
+              <div className="features-section">
+                <h2 className="features-title">Ferramentas Indicadas</h2>
+                <ul className="features-list">
+                  {/* Procura pelos recursos da ferramenta que está sendo renderizada */}
+                  {recursosContext
+                    .find(
+                      (_, indexListaRecurso) =>
+                        indexListaRecurso === indexFerramenta
+                    )
+                    ?.map((recurso, indexRecurso) => (
+                      <ListRecursos key={indexRecurso} text={recurso.nome} />
+                    ))}
+                </ul>
+
+                {ferramenta && (
+                  <img
+                    loading="lazy"
+                    src={imagensFerramentasDicionario[ferramenta.nome].print}
+                    alt="Product screenshot"
+                    className="product-image"
+                  />
+                )}
+
+                <div
+                  className="link-ferramenta-button"
+                  role="button"
+                  tabIndex={0}
+                >
+                  {"Acesse o site" /*+ ferramentaContext?.link*/}
+                </div>
+              </div>
             </div>
-          </div>
-          <p className="product-description">{ferramentaContext?.descricao}</p>
-
-          <div className="features-section">
-            <h2 className="features-title">Ferramentas</h2>
-
-            <ul className="features-list">
-              {recursosContext.map((recurso, index) => (
-                <ListRecursos key={index} text={recurso.descricao} />
-              ))}
-            </ul>
-
-            {ferramentaContext && (
-              <img
-                loading="lazy"
-                src={imagensFerramentasDicionario[ferramentaContext.nome].print}
-                alt="Product screenshot"
-                className="product-image"
-              />
-            )}
-
-            <div className="link-ferramenta-button" role="button" tabIndex={0}>
-              {"Acesse o site" /*+ ferramentaContext?.link*/}
-            </div>
-          </div>
+          ))}
         </main>
       </>
     );

@@ -119,11 +119,39 @@
   grid-area: title;
 }
 
-.features-list {
+/*============== TÍTULOS DO RESULTADO DA RECOMENDAÇÃO ===========*/
+.title-result-recommendation {
   color: #000;
-  font: 400 18px Montserrat, sans-serif;
+  text-transform: uppercase;
+  font: 600 32px Montserrat, -apple-system, Roboto, Helvetica, sans-serif;
+}
+.sistema-retornado {
+  color: #000;
+  text-transform: uppercase;
+  margin: 37px 0 0 10px;
+  font: 600 18px Montserrat, -apple-system, Roboto, Helvetica, sans-serif;
+}
 
-  grid-area: list;
-  padding: 0;
-  margin: 0;
+/*============== CARD DOS RECURSOS NO FINAL DA RECOMENDAÇÃO =========*/
+.feature-card {
+  background-color: rgba(255, 255, 255, 1);
+  color: #000;
+  text-transform: uppercase;
+  font: 600 16px Montserrat, -apple-system, Roboto, Helvetica, sans-serif;
+
+  padding: 52px;
+  margin-top: 34px;
+  white-space: nowrap;
+}
+@media (max-width: 991px) {
+  .feature-card {
+    white-space: initial;
+    padding: 0 20px;
+  }
+}
+.feature-card.q&a {
+  margin-top: 40px;
+}
+.feature-card.quiz {
+  margin: 34px 0 -37px;
 }
