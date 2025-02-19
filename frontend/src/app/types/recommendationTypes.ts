@@ -8,6 +8,10 @@ export interface RespostaSelecionada {
   idConceito: number;
 }
 
+export interface LinearDeterminateProps {
+  progresso: number;
+}
+
 export interface Conceito {
   id: number;
   nome: string;
