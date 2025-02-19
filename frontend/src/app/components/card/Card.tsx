@@ -22,7 +22,7 @@ import { CardProps } from "@/app/types/cardTypes";
 import { useResultRecommendationContext } from "@/app/hooks/contexts/resultRecommendationContext";
 import { ListRecursos } from "./ListRecursos/ListRecursos";
 import { imagensFerramentasDicionario } from "@/app/types/resultRecommenTypes";
-import LinearDeterminate from "../line/LinearDeterminate";
+import { LinearDeterminate } from "../line/LinearDeterminate";
 
 const verificaSeConceitoJaExisteNaRespostaDoUsuario = (
   conceitoAVerificar: Conceito,
@@ -95,6 +95,9 @@ const Card: React.FC<CardProps> = ({
   const [listaDeContagemRecursos, setListaContagemRecursos] = React.useState<
     Record<number, number>
   >({});
+
+  //Para a barra de crescimento da quantidade de questões
+  const [progresso, setProgresso] = React.useState(0);
 
   /*============================================= Funções das requisições ======================================= */
   const fetchData = async (id: number) => {
@@ -273,105 +276,6 @@ const Card: React.FC<CardProps> = ({
     fetchRecusosDaContagem();
   }, [listaFerramentasFinais]);
 
-  /*React.useEffect(() => {
-    const fetchRecusosDaContagem = async () => {
-      if (startRecomendation) {
-        try {
-          let recusosDeCadaFerramentaAux: Recurso[][] = [];
-          const LIMIAR = 2;
-          for (const idRecurso in listaDeContagemRecursos) {
-            if (listaDeContagemRecursos[idRecurso] >= LIMIAR) {
-              const recursoResponse = await api.get(`/recurso/${idRecurso}`);
-              const recursoData: Recurso = recursoResponse.data;
-
-              //inserir em uma posição diferente no recursosDeCadaFerramenta aqui
-              //Se idRecurso =< inserir no primeiro vetor
-              //Se idRecurso for 7 =< idRecurso =< 12, inserir no segundo vetor
-              //Se idRecurso == 13 ou idRecurso == 14, inserir no terceiro vetor
-              //Se idRecurso == 15 inserir no quarto vetor
-
-              const idRecursoNumber = parseInt(idRecurso, 10);
-
-              if (idRecursoNumber <= 6) {
-                // Adicionar no primeiro vetor
-                if (!recusosDeCadaFerramentaAux[0]) {
-                  recusosDeCadaFerramentaAux[0] = [];
-                }
-                recusosDeCadaFerramentaAux[0].push(recursoData);
-              } else if (idRecursoNumber >= 7 && idRecursoNumber <= 12) {
-                // Adicionar no segundo vetor
-                if (!recusosDeCadaFerramentaAux[1]) {
-                  recusosDeCadaFerramentaAux[1] = [];
-                }
-                recusosDeCadaFerramentaAux[1].push(recursoData);
-              } else if (idRecursoNumber === 13 || idRecursoNumber === 14) {
-                // Adicionar no terceiro vetor
-                if (!recusosDeCadaFerramentaAux[2]) {
-                  recusosDeCadaFerramentaAux[2] = [];
-                }
-                recusosDeCadaFerramentaAux[2].push(recursoData);
-              } else if (idRecursoNumber === 15) {
-                // Adicionar no quarto vetor
-                if (!recusosDeCadaFerramentaAux[3]) {
-                  recusosDeCadaFerramentaAux[3] = [];
-                }
-                recusosDeCadaFerramentaAux[3].push(recursoData);
-              }
-            }
-          }
-          setRecursosDaFerramentaFinal(recusosDeCadaFerramentaAux);
-          setFinishedRecomendation(true);
-        } catch (error) {
-          console.log(
-            "Erro ao pegar pelo axios os recusos com a maior contagem!"
-          );
-        }
-      }
-    };
-    fetchRecusosDaContagem();
-  }, [listaFerramentasFinais]);*/
-
-  //Ordena os recusos de acordo com a ordenação das ferramentas no resultado da recomendação
-  /*React.useEffect(() => {
-    const fetchFerramentas = async () => {
-      try {
-        for (const ferramenta of listaFerramentasFinais) {
-          //Tenho que ordenar agora os recursos aqui
-        }
-      } catch (error) {
-        console.log("Erro ao carregar ferramentas do axios, ", error);
-      }
-    };
-  }, [recursosDaFerramentaFinal]);*/
-
-  /*
-  //Seta os recursos de cada ferramenta com a maior contagem
-  React.useEffect(() => {
-    const fetchData = async () => {
-      if (startRecomendation) {
-        try {
-          let recusosDeCadaFerramentaAux: Recurso[][] = [];
-
-          for (const ferramenta of listaFerramentasFinais) {
-            const recursosDaFerramentaResponse = await api.get(
-              `/recurso/ferramenta/${ferramenta.id}`
-            );
-            recusosDeCadaFerramentaAux.push(
-              recursosDaFerramentaResponse.data as Recurso[]
-            ); //está inserindo cada lista de recursos de cada ferramenta na ordem da ferramenta final (resultado da recomendação)
-          }
-
-          setRecursosDaFerramentaFinal(recusosDeCadaFerramentaAux);
-          setFinishedRecomendation(true);
-        } catch (error) {
-          console.error("Erro ao buscar ferramenta:", error);
-        }
-      }
-    };
-    fetchData();
-  }, [listaFerramentasFinais]);  
-  */
-
   //Após setar todos os dados da recomendação, atualiza o context para ir passar para a página de resultado da recomendação
   React.useEffect(() => {
     if (finishedRecomendation && !isCardWord) {
@@ -384,6 +288,7 @@ const Card: React.FC<CardProps> = ({
   /* ============================================= Funções dos botões =============================================*/
   const handleNextQuestion = () => {
     if (idSelectedOption !== null) {
+      setProgresso((prevProg) => prevProg + 12.5);
       setidQuestaoAtual((prevId) => prevId + 1);
       setIdSelectedOption(null); // Reinicia a seleção ao passar para a próxima questão
     }
@@ -407,6 +312,7 @@ const Card: React.FC<CardProps> = ({
   };
 
   const handlePreviousQuestion = () => {
+    setProgresso((prevProg) => (prevProg != 0 ? prevProg - 12.5 : 0));
     setidQuestaoAtual((prevId) => Math.max(1, prevId - 1)); // Evita voltar para ID menor que 1
   };
 
@@ -530,7 +436,7 @@ const Card: React.FC<CardProps> = ({
             onRespostaSelect={handleSetRespostaDoUsuario}
           />
 
-          <LinearDeterminate />
+          <LinearDeterminate progresso={progresso} />
           <nav className="navigation-questions">
             <BackButton onClick={handlePreviousQuestion} />
             <NextButton
