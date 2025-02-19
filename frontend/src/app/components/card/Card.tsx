@@ -22,6 +22,7 @@ import { CardProps } from "@/app/types/cardTypes";
 import { useResultRecommendationContext } from "@/app/hooks/contexts/resultRecommendationContext";
 import { ListRecursos } from "./ListRecursos/ListRecursos";
 import { imagensFerramentasDicionario } from "@/app/types/resultRecommenTypes";
+import LinearDeterminate from "../line/LinearDeterminate";
 
 const verificaSeConceitoJaExisteNaRespostaDoUsuario = (
   conceitoAVerificar: Conceito,
@@ -529,13 +530,7 @@ const Card: React.FC<CardProps> = ({
             onRespostaSelect={handleSetRespostaDoUsuario}
           />
 
-          <img
-            style={{ marginTop: "40px" }}
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/9eedec58608ae459b4f7f13c08439da952cb567d021ccfefb2762918b9dbdfc6?placeholderIfAbsent=true&apiKey=83976f5dcdaa41408687cac3bc676028"
-            alt="Quiz illustration"
-            className="quiz-image"
-            loading="lazy"
-          />
+          <LinearDeterminate />
           <nav className="navigation-questions">
             <BackButton onClick={handlePreviousQuestion} />
             <NextButton
