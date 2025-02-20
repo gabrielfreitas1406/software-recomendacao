@@ -319,7 +319,7 @@ const Card: React.FC<CardProps> = ({
   /* ============================================= Debug ============================================= */
   console.log("ID da questão atual: ", idQuestaoAtual);
   //console.log("Respostas do usuário: ", respostasDoUsuario);
-  //console.log("ID da resposta atual:", idSelectedOption); //tá dando como null
+  console.log("ID da resposta atual:", idSelectedOption); //tá dando como null
   //console.log("conceitos: ", conceitos);
   //console.log("matriz de recomendação:", matrizRecomendacao);
   //console.log("ConceitosRecursos", conceitosRecursos);
@@ -328,7 +328,7 @@ const Card: React.FC<CardProps> = ({
     console.log("Contagem Final das ferramentas:", porcentagemFinalFerramentas);
   }
 
-  console.log("Ferramenta final", listaFerramentasFinais);
+  //console.log("Ferramenta final", listaFerramentasFinais);
   //console.log("Recursos da ferramenta final", recursosDaFerramentaFinal);
   //console.log("Contagem Ferramenta GERAL: ", contagemFerramenta);
   //console.log("Ferramenta Selecionada ID FINAL:", idFerramentaSelecionada);
