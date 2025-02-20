@@ -32,7 +32,7 @@ const QuestionBox: React.FC<QuestionBoxProps> = ({
   //const [conceitoRespostaSeleciona, setConceitoRespostaSelecionada] =
   //  useState<RespostaSelecionada | null>(null);
 
-  //console.log("Opção selecionada QuestionBox: ", selectedOption);
+  console.log("Opção selecionada QuestionBox: ", selectedOption);
   //console.log("id da resposta selecionada pelo user", idSelectedOption);
   return (
     <section className="question-options">
@@ -41,7 +41,11 @@ const QuestionBox: React.FC<QuestionBoxProps> = ({
           key={resposta.id}
           letter={String.fromCharCode(65 + index)} // A, B, C, etc.
           text={resposta.conteudo}
-          isSelected={selectedOption === String.fromCharCode(65 + index)}
+          isSelected={
+            idSelectedOption == null
+              ? false
+              : selectedOption === String.fromCharCode(65 + index)
+          } //Será verdadeiro se a opção selecionada for igual ao sring gerado
           onSelect={() => {
             setSelectedOption(String.fromCharCode(65 + index));
             onRespostaSelect(
