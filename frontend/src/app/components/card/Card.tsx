@@ -318,8 +318,8 @@ const Card: React.FC<CardProps> = ({
 
   /* ============================================= Debug ============================================= */
   console.log("ID da questão atual: ", idQuestaoAtual);
-  //console.log("Respostas do usuário: ", respostasDoUsuario);
-  console.log("ID da resposta atual:", idSelectedOption); //tá dando como null
+  console.log("Respostas do usuário: ", respostasDoUsuario);
+  //console.log("ID da resposta atual:", idSelectedOption); //tá dando como null
   //console.log("conceitos: ", conceitos);
   //console.log("matriz de recomendação:", matrizRecomendacao);
   //console.log("ConceitosRecursos", conceitosRecursos);
