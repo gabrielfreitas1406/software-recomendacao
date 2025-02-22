@@ -1,11 +1,12 @@
 import React from "react";
 import InitRecommendationButton from "../buttons/InitRecommendationButton";
+import Button from "@mui/material/Button";
 
 const Hero: React.FC = () => {
   return (
     <section className="hero">
       <div className="hero-content">
-        <h2 className="hero-title">BEM VINDO AO TOOL 4 YOU</h2>
+        <h2 className="hero-title">BEM VINDO AO RECOMENDADOR</h2>
         <p className="hero-subtitle">
           DESCUBRA A FERRAMENTA IDEAL PARA SUAS ATIVIDADES
         </p>

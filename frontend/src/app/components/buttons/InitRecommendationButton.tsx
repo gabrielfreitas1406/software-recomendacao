@@ -11,7 +11,7 @@ const InitRecommendationButton: React.FC = () => {
   return (
     <>
       <button className="init-recommendation-button" onClick={handleClick}>
-        iniciar recomendação
+        iniciar
       </button>
     </>
   );
