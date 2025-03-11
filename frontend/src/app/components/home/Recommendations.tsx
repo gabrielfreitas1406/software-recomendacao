@@ -111,6 +111,7 @@ const Recommendations: React.FC = () => {
       <h3 className="recommendations-subtitle">
         Ferramentas de Colaboração Síncrona
       </h3>
+      {/* Para cada lista de ferramentas */}
       {toolSections.map((section, index) => (
         <ToolSection key={index} {...section} />
       ))}

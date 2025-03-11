@@ -1,5 +1,6 @@
 import React from "react";
 import ToolCard from "./ToolCard";
+import CardFerramentas from "./CardFerramentas";
 
 interface ToolSectionProps {
   title: string;
@@ -11,8 +12,9 @@ const ToolSection: React.FC<ToolSectionProps> = ({ title, tools }) => {
     <section className="tool-section">
       <h3 className="tool-section-title">{title}</h3>
       <div className="tool-grid">
+        
         {tools.map((tool, index) => (
-          <ToolCard key={index} {...tool} />
+          <ToolCard key={index}  {...tool} /> /* Imprime uma ferramenta da lista de ferramentas (tools)*/
         ))}
       </div>
     </section>
