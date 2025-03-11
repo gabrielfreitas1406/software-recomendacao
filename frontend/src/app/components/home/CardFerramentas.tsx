@@ -36,11 +36,18 @@ const CardFerramentas: React.FC<CardFerramentaProps> = ({ image, name }) => {
   };
 
   return (
-    <Card sx={{ maxWidth: "100%", backgroundColor: "#4A90E2"}}>
+    <Card sx={{ backgroundColor: "#4A90E2", width:"300px",}}>
       
 
-      <Box sx={{margin: "15px"}}>
-      <CardMedia sx={{backgroundColor: "#FFFFFF"}} component="img"  image={image} alt={name} />
+      <Box sx={{backgroundColor: "#f7f7f7",
+                borderRadius: "6px",
+                boxShadow: "0 0 4px rgba(0, 0, 0, 0.25)",
+                padding: "40px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                margin: "15px"}}>
+      <CardMedia sx={{ width: "60%"}} component="img"  image={image} alt={name} />
       </Box>
 
       <CardHeader sx={{color: "white", textAlign:"center"}}
