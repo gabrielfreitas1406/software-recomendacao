@@ -14,6 +14,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Box } from "@mui/material";
 
 interface CardFerramentaProps {
   image: string;
@@ -35,14 +36,16 @@ const CardFerramentas: React.FC<CardFerramentaProps> = ({ image, name }) => {
   };
 
   return (
-    <Card sx={{ maxWidth: "100%" }}>
-      <CardHeader
+    <Card sx={{ maxWidth: "100%", backgroundColor: "#4A90E2"}}>
+      
+
+      <Box sx={{margin: "15px"}}>
+      <CardMedia sx={{backgroundColor: "#FFFFFF"}} component="img"  image={image} alt={name} />
+      </Box>
+
+      <CardHeader sx={{color: "white", textAlign:"center"}}
         title={name}
       />
-      <CardMedia component="img"  image={image} alt={name} />
-      <CardContent>
-
-      </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />

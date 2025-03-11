@@ -14,7 +14,7 @@ const ToolSection: React.FC<ToolSectionProps> = ({ title, tools }) => {
       <div className="tool-grid">
         
         {tools.map((tool, index) => (
-          <ToolCard key={index}  {...tool} /> /* Imprime uma ferramenta da lista de ferramentas (tools)*/
+          <CardFerramentas key={index}  {...tool} /> /* Imprime uma ferramenta da lista de ferramentas (tools)*/
         ))}
       </div>
     </section>
