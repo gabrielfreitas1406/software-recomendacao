@@ -55,7 +55,8 @@
 .auth-buttons {
   display: flex;
   gap: 14px;
-  margin-right: 10%;
+  margin-right: 7.5%;
+  margin-left: 10%;
 }
 
 .header-actions {
@@ -70,6 +71,8 @@
   text-transform: uppercase;
   border: none;
   cursor: pointer;
+  width: 100px;
+  height: 30px;
 }
 
 .header-action.primary {
