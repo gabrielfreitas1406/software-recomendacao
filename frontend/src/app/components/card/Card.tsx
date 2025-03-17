@@ -338,22 +338,6 @@ const Card: React.FC<CardProps> = ({
     const isNextButton = buttonLabel === "Próxima";
     return (
       <>
-        {/*
-        <div className="card-categories-about">
-          <div className="content-wrapper-categories-card">
-            <div className="content-left-categories-card">
-              <h1 className="title-card">{title}</h1>
-              <p className="description-card">{description}</p>
-            </div>
-
-            <div className="content-right-categories-card">
-              <h2 className="title-card">{imageTitle}</h2>
-              <StartRecommendationButton />
-            </div>
-          </div>
-        </div>
-      */}
-
         <section className="card-categories-about">
           <div className="init-recommendation-card-box">
             <h1 className="title-card">
