@@ -6,7 +6,7 @@ import {
 } from "./hooks/contexts/resultRecommendationContext";
 
 export const metadata = {
-  title: "Tool 4 You",
+  title: "STARS Recomendador",
   description: "Discover the ideal tool for your activities",
   viewport: "width=device-width, initial-scale=1",
   icons: {
@@ -16,7 +16,7 @@ export const metadata = {
 
 const headerProps = {
   logo: "https://cdn.builder.io/api/v1/image/assets/TEMP/750f70d0592cc77ae275c551e6e667d01a9f31ff",
-  navItems: ["Encontrar recomendação", "Contato", "Sobre"],
+  navItems: [],
 };
 
 export default function RootLayout({

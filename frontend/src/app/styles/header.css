@@ -1,97 +1,62 @@
-/* Telas pequenas de até 480px (smartphones) */
-@media (max-width: 480px) {
-  .header {
-    padding: 10px 15px;
-  }
-  .main-nav {
-    flex-direction: column;
-    gap: 10px;
-  }
-}
-
-@media (max-width: 480px) {
-  .header {
-    padding: 15px;
-  }
-}
-
-@media (max-width: 991px) {
-  .header {
-    padding: 19px 20px;
-  }
-  .main-nav {
-    gap: 20px;
-  }
-}
-
 /*=========== HEADER ============*/
 
 .header {
-  padding: 1.5rem;
+  width: 100%;
+  height: 71px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  background-color: #e0eaf5;
+  position: relative;
 }
-.header {
+.header-container {
+  width: 100%;
+  height: 71px;
   background-color: #e0eaf5;
   display: flex;
-  width: 100%;
   align-items: center;
-  justify-content: space-around;
-  padding: 19px 29px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+  justify-content: space-between;
+  padding: 0 28px;
 }
 
+/*=========== NAVIGATION =========*/
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.mobile-menu-button {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+@media (max-width: 740px) {
+  .navigation {
+    display: none;
+  }
+  .mobile-menu-button {
+    display: block;
+  }
+}
 /*=========== LOGO ============*/
 .logo-container {
   display: flex;
   align-items: center;
   gap: 13px;
 }
-
 .logo {
-  width: 42px;
+  width: 147px;
   height: 42px;
-  object-fit: contain;
+  flex-shrink: 0;
 }
-
-/*=========== MAIN-NAV ============*/
-.main-nav {
-  display: flex;
-  gap: 58px;
-}
-
-.nav-item {
-  color: #333;
-  font: 400 14px Poppins, sans-serif;
-  text-decoration: none;
-}
-
-/*=========== SEARCH ============*/
-.search-container {
-  background-color: #fff;
-  border-radius: 6px;
-  padding: 4px;
-  width: 60vh;
-}
-
-.search-icon {
-  width: 24px;
-  height: 24px;
-}
-
 /*=========== AUTH ============*/
 .auth-buttons {
   display: flex;
   gap: 14px;
+  margin-right: 10%;
 }
-
-/*.register {
-  background-color: #fff;
-  color: #0d58b1;
-}
-
-.login {
-  background-color: #4a90e2;
-  color: #fff;
-}*/
 
 .header-actions {
   display: flex;
