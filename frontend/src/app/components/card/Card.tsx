@@ -337,19 +337,48 @@ const Card: React.FC<CardProps> = ({
   if (isInitCard) {
     const isNextButton = buttonLabel === "Próxima";
     return (
-      <div className="card-categories-about">
-        <div className="content-wrapper-categories-card">
-          <div className="content-left-categories-card">
-            <h1 className="title-card">{title}</h1>
-            <p className="description-card">{description}</p>
-          </div>
+      <>
+        {/*
+        <div className="card-categories-about">
+          <div className="content-wrapper-categories-card">
+            <div className="content-left-categories-card">
+              <h1 className="title-card">{title}</h1>
+              <p className="description-card">{description}</p>
+            </div>
 
-          <div className="content-right-categories-card">
-            <h2 className="title-card">{imageTitle}</h2>
-            <StartRecommendationButton />
+            <div className="content-right-categories-card">
+              <h2 className="title-card">{imageTitle}</h2>
+              <StartRecommendationButton />
+            </div>
           </div>
         </div>
-      </div>
+      */}
+
+        <section className="card-categories-about">
+          <div className="init-recommendation-card-box">
+            <h1 className="title-card">
+              <img
+                src="https://cdn.builder.io/api/v1/image/assets/TEMP/b31004ef922240cafc18bfdaeaf453601a66ccb8c0870f6738e6510da4e44c79?placeholderIfAbsent=true&apiKey=83976f5dcdaa41408687cac3bc676028"
+                className="title-icon"
+                alt="Recommendation icon"
+              />
+              {title}
+            </h1>
+            <div className="init-recommendation-card-description">
+              <div className="init-recommendation-card-description-grid">
+                <div className="init-recommendation-card-description-column">
+                  <p className="init-recommendation-card-description-text">
+                    {description}
+                  </p>
+                </div>
+                <div className="button-StartRecommendationButton-column">
+                  <StartRecommendationButton />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </>
     );
   } else if (isResultCard) {
     /* ================== Vai exibir o resultado da recomendação ============ */

@@ -1,18 +1,104 @@
-/*.card-categories-about {
-  border-radius: 33px;
-  background-color: rgba(255, 255, 255, 0.2);
-  box-shadow: 0 0 70px -22px rgba(0, 0, 0, 0.25);
-  display: flex;
-  min-height: 630px;
-  max-width: 895px;
-  margin: 35px auto;
-}
-*/
 .title-card {
-  font: 700 40px Montserrat, sans-serif;
-  margin-bottom: 55px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  border-radius: 0;
+  min-height: 381px;
+  padding: 62px 62px 97px;
+  font-family: Montserrat, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 32px;
+  color: #000;
+  font-weight: 600;
+  white-space: nowrap;
+  text-transform: uppercase;
+  margin: 0;
 }
 
+.title-icon {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.init-recommendation-card-box {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+/*===============DESCRIPTION===============*/
+
+.init-recommendation-card-description {
+  position: relative;
+  align-self: center;
+  z-index: 10;
+  margin-top: -70px;
+  width: 779px;
+  max-width: 100%;
+}
+
+.init-recommendation-card-description-grid {
+  gap: 20px;
+  display: flex;
+}
+
+.init-recommendation-card-description-column {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  line-height: normal;
+  width: 70%;
+  margin-left: 0px;
+}
+
+.init-recommendation-card-description-text {
+  color: #000;
+  font-family: Montserrat, -apple-system, Roboto, Helvetica, sans-serif;
+  font-size: 18px;
+  font-weight: 400;
+  position: relative;
+  margin: 0;
+}
+
+.button-StartRecommendationButton-column {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  line-height: normal;
+  width: 30%;
+  margin-left: 20px;
+}
+
+@media (max-width: 991px) {
+  .content-container {
+    max-width: 100%;
+    margin-top: 40px;
+  }
+
+  .title-card {
+    max-width: 100%;
+    padding: 100px 20px 110px;
+    white-space: initial;
+  }
+
+  .init-recommendation-card-description-grid {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0px;
+  }
+
+  .init-recommendation-card-description-column {
+    width: 100%;
+  }
+
+  .init-recommendation-card-description-text {
+    max-width: 100%;
+    margin-top: 40px;
+  }
+
+  .button-StartRecommendationButton-column {
+    width: 100%;
+    margin-left: 0;
+  }
+}
 /*==============================*/
 
 .btn {
@@ -29,19 +115,6 @@
   background-color: rgb(74, 144, 226);
   color: #fff;
   padding: 7px 29px;
-}
-
-.content-wrapper-categories-card {
-  display: flex;
-  gap: 50px;
-}
-
-.content-left-categories-card {
-  width: 68%;
-}
-
-.content-right-categories-card {
-  width: 32%;
 }
 
 .description-card {
@@ -69,15 +142,6 @@
   .main-content {
     margin-top: 40px;
     padding: 100px 20px 0;
-  }
-
-  .content-wrapper-categories-card {
-    flex-direction: column;
-  }
-
-  .content-left-categories-card,
-  .content-right-categories-card {
-    width: 100%;
   }
 
   .title {
