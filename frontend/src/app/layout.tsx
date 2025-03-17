@@ -15,7 +15,7 @@ export const metadata = {
 };
 
 const headerProps = {
-  logo: "https://cdn.builder.io/api/v1/image/assets/TEMP/d0e794bf66420096e920bd50e32de1115938e28c4c8628a18e959cf647782974?placeholderIfAbsent=true&apiKey=83976f5dcdaa41408687cac3bc676028",
+  logo: "https://cdn.builder.io/api/v1/image/assets/TEMP/750f70d0592cc77ae275c551e6e667d01a9f31ff",
   navItems: ["Encontrar recomendação", "Contato", "Sobre"],
 };
 

@@ -17,8 +17,6 @@ const Header: React.FC<HeaderProps> = ({ logo, navItems }) => {
           <img src={logo} alt="Company logo" className="logo" />
         </a>
         {/*<a href="/">*/}
-        <h1 className="company-name">NAME NAME</h1>
-        {/*</a>*/}
       </div>
       <nav className="main-nav">
         {navItems.map((item, index) => (
