@@ -91,6 +91,7 @@
 .hero {
   position: relative;
   padding: 131px 0 0 0px;
+  /*background-image: url("../../../../public/imagem_main.jpeg");*/
 }
 
 .hero > * {
