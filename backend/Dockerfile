@@ -13,6 +13,10 @@ COPY ./prisma ./prisma
 
 RUN npx prisma generate
 
+RUN npx prisma db seed
+
+#RUN npm run seed
+
 EXPOSE 4000 
 
 CMD ["npm", "run", "dev"]
